@@ -6,6 +6,7 @@ use App\Filament\Resources\Shop\CategoryResource\Pages;
 use App\Filament\Resources\Shop\CategoryResource\RelationManagers;
 use App\Models\Shop\Category;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Awcodes\Curator\PathGenerators\DatePathGenerator;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -67,9 +68,6 @@ class CategoryResource extends Resource
 
                         Forms\Components\MarkdownEditor::make('description')
                             ->label('Description'),
-
-                        CuratorPicker::make('filename')
-                            ->label('Image')
                     ])
                     ->columnSpan(['lg' => fn (?Category $record) => $record === null ? 3 : 2]),
                 Forms\Components\Section::make()

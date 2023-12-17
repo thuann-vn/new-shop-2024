@@ -8,11 +8,12 @@ use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasAuthorAttributeTrait;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasDefaultContentBlocksTrait;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasHeroImageAttributesTrait;
-use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasIntroAttributeTrait;
-use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasOverviewAttributesTrait;
-use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasPageAttributesTrait;
-use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasSEOAttributesTrait;
-use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasSlugAttributeTrait;
+use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasTranslatedContentBlocksTrait;
+use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasTranslatedIntroAttributeTrait;
+use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasTranslatedOverviewAttributesTrait;
+use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasTranslatedPageAttributesTrait;
+use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasTranslatedSEOAttributesTrait;
+use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasTranslatedSlugAttributeTrait;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasHeroImageAttributes;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasIntroAttribute;
@@ -28,11 +29,12 @@ class Page extends Model implements HasContentBlocks, HasHeroImageAttributes, Ha
     use HasDefaultContentBlocksTrait;
     use HasFactory;
     use HasHeroImageAttributesTrait;
-    use HasIntroAttributeTrait;
-    use HasOverviewAttributesTrait;
-    use HasPageAttributesTrait;
-    use HasSEOAttributesTrait;
-    use HasSlugAttributeTrait;
+    use HasTranslatedContentBlocksTrait;
+    use HasTranslatedIntroAttributeTrait;
+    use HasTranslatedOverviewAttributesTrait;
+    use HasTranslatedPageAttributesTrait;
+    use HasTranslatedSEOAttributesTrait;
+    use HasTranslatedSlugAttributeTrait;
 
     public function getViewUrl(?string $locale = null): string
     {

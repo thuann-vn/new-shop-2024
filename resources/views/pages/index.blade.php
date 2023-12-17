@@ -1,11 +1,13 @@
 @php
-    /* @var \App\Models\Page $page */
+    /* @var \App\Models\FlexiblePage $page */
 @endphp
 
-<x-layouts.base title="{{ $page->title }}" wide="true">
+<x-layouts.flexible title="{{ $page->title }}" wide="true">
+
     <x-flexible-hero :page="$page" />
 
-    <div class="prose content">
-        <x-flexible-content-blocks :page="$page"/>
+    <div>
+        <x-flexible-content-blocks :page="$page">
+        </x-flexible-content-blocks>
     </div>
-</x-layouts.base>
+</x-layouts.flexible>

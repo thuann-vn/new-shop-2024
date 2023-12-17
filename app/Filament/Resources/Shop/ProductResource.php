@@ -25,6 +25,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 
 class ProductResource extends Resource
 {
@@ -282,6 +283,7 @@ class ProductResource extends Resource
     {
         return [
             RelationManagers\CommentsRelationManager::class,
+
         ];
     }
 

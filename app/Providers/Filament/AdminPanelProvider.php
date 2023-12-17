@@ -2,9 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
+use App\Filament\Resources\Blog\PostResource;
+use App\Filament\Resources\Shop\ProductResource;
 use App\Http\Middleware\Authenticate;
+use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
@@ -20,6 +24,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
+use Tapp\FilamentAuthenticationLog\Resources\AuthenticationLogResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -28,6 +33,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
+            ->path('admin')
             ->login(Login::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -61,13 +67,13 @@ class AdminPanelProvider extends PanelProvider
                 FilamentAuthenticationLogPlugin::make(),
                 \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
                 SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'vi']),
-                \Awcodes\Curator\CuratorPlugin::make()
-                    ->label('Media')
-                    ->pluralLabel('Media')
-                    ->navigationIcon('heroicon-o-photo')
-                    ->navigationGroup('Content')
-                    ->navigationSort(3)
-                    ->navigationCountBadge()
+                new \RickDBCN\FilamentEmail\FilamentEmail(),
+                QuickCreatePlugin::make()->includes([
+                    ProductResource::class,
+                    PostResource::class
+                ]),
+                \FilipFonal\FilamentLogManager\FilamentLogManager::make(),
+                FilamentSpatieRolesPermissionsPlugin::make()
             ]);
     }
 }

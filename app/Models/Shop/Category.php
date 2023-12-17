@@ -30,6 +30,7 @@ class Category extends Model implements HasMedia
     ];
 
     public $translatable = [
+        'description'
     ];
 
     public function children(): HasMany
