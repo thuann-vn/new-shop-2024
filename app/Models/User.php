@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasTenants, MustVerifyEmail
 {
@@ -20,6 +21,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     use HasFactory;
     use Notifiable;
     use AuthenticationLoggable;
+    use HasRoles;
 
     /**
      * @var array<int, string>

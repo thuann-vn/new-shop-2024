@@ -37,7 +37,7 @@ class PageResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return trans('merchants.content.group');
+        return trans('Settings');
     }
 
     public static function form(Form $form): Form

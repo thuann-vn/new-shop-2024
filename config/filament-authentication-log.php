@@ -14,6 +14,7 @@ return [
         'authentication-log' => [
             'sort' => 1,
             'icon' => 'heroicon-o-shield-check',
+            'group' => 'Security',
         ],
     ],
 

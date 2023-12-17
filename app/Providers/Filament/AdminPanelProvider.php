@@ -23,6 +23,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Phpsa\FilamentAuthentication\FilamentAuthentication;
+use Phpsa\FilamentAuthentication\Widgets\LatestUsersWidget;
 use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 use Tapp\FilamentAuthenticationLog\Resources\AuthenticationLogResource;
 
@@ -43,11 +45,13 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+//                Widgets\FilamentInfoWidget::class,
+                LatestUsersWidget::make(['limit' => 5, 'paginate' => true])
             ])
             ->navigationGroups([
                 'Shop',
                 'Blog',
+                'Settings',
             ])
             ->databaseNotifications()
             ->middleware([
@@ -73,7 +77,8 @@ class AdminPanelProvider extends PanelProvider
                     PostResource::class
                 ]),
                 \FilipFonal\FilamentLogManager\FilamentLogManager::make(),
-                FilamentSpatieRolesPermissionsPlugin::make()
-            ]);
+            ])->resources(
+                FilamentAuthentication::resources()
+            );
     }
 }

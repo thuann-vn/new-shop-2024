@@ -19,6 +19,9 @@ class Settings extends SettingsPage
 
     protected static string $settings = GeneralSettings::class;
 
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationLabel = 'General Settings';
+
     public static function sidebar(): FilamentPageSidebar
     {
         return FilamentPageSidebar::make()

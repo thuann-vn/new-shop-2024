@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b63619c8850a272222112f2b43636087",
+    "content-hash": "4abb9f2913fe7bd2f8dcece6f1f182a1",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3396,6 +3396,67 @@
             "time": "2023-08-14T23:57:54+00:00"
         },
         {
+            "name": "guava/filament-nested-resources",
+            "version": "1.0.0-alpha.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GuavaCZ/filament-nested-resources.git",
+                "reference": "38000451bdc0a4e881253d190638d4af5ffd02c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GuavaCZ/filament-nested-resources/zipball/38000451bdc0a4e881253d190638d4af5ffd02c2",
+                "reference": "38000451bdc0a4e881253d190638d4af5ffd02c2",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0.0",
+                "livewire/livewire": "^3.0",
+                "spatie/laravel-package-tools": "^1.15"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.11",
+                "orchestra/testbench": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Guava\\Filament\\NestedResources\\NestedResourcesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Guava\\Filament\\NestedResources\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Frey",
+                    "email": "lukas.frey@guava.cz"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/GuavaCZ/filament-nested-resources/issues",
+                "source": "https://github.com/GuavaCZ/filament-nested-resources/tree/1.0.0-alpha.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GuavaCZ",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-18T18:55:56+00:00"
+        },
+        {
             "name": "guzzlehttp/guzzle",
             "version": "7.8.1",
             "source": {
@@ -3807,6 +3868,87 @@
             "time": "2023-12-03T19:50:20+00:00"
         },
         {
+            "name": "icetalker/filament-table-repeater",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/icetalker/filament-table-repeater.git",
+                "reference": "b930aeeb40bbafc2101978ac608588b8b2cb23ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/icetalker/filament-table-repeater/zipball/b930aeeb40bbafc2101978ac608588b8b2cb23ba",
+                "reference": "b930aeeb40bbafc2101978ac608588b8b2cb23ba",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^3.0",
+                "illuminate/contracts": "^8.6|^9.0|^10.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "nunomaduro/collision": "^6.0",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^7.0",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Icetalker\\FilamentTableRepeater\\FilamentTableRepeaterServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentTableRepeater": "Icetalker\\FilamentTableRepeater\\Facades\\FilamentTableRepeater"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Icetalker\\FilamentTableRepeater\\": "src",
+                    "Icetalker\\FilamentTableRepeater\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Hwang",
+                    "email": "martin.hwang@outlook.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This is a package for Filament form component. Extends form Repeater, but shows in Table Layout.",
+            "homepage": "https://github.com/icetalker/filament-table-repeater",
+            "keywords": [
+                "filament",
+                "filament-table-repeater",
+                "icetalker",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/icetalker/filament-table-repeater/issues",
+                "source": "https://github.com/icetalker/filament-table-repeater/tree/v1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/termlong",
+                    "type": "custom"
+                }
+            ],
+            "time": "2023-09-28T12:49:28+00:00"
+        },
+        {
             "name": "inertiajs/inertia-laravel",
             "version": "v0.6.11",
             "source": {
@@ -4170,6 +4312,74 @@
                 "source": "https://github.com/kirschbaum-development/eloquent-power-joins/tree/3.3.3"
             },
             "time": "2023-10-31T18:01:18+00:00"
+        },
+        {
+            "name": "lab404/laravel-impersonate",
+            "version": "1.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/404labfr/laravel-impersonate.git",
+                "reference": "d8ab69f05daab4117b313e11ca007fbf3199a1ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/404labfr/laravel-impersonate/zipball/d8ab69f05daab4117b313e11ca007fbf3199a1ab",
+                "reference": "d8ab69f05daab4117b313e11ca007fbf3199a1ab",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0",
+                "php": "^7.2 | ^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.3",
+                "orchestra/database": "^4.0 | ^5.0 | ^6.0 | ^7.0 | ^8.0",
+                "orchestra/testbench": "^4.0 | ^5.0 | ^6.0 | ^7.0 | ^8.0",
+                "phpunit/phpunit": "^7.5 | ^8.0 | ^9.0 | ^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lab404\\Impersonate\\ImpersonateServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Lab404\\Impersonate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marceau Casals",
+                    "email": "marceau@casals.fr"
+                }
+            ],
+            "description": "Laravel Impersonate is a plugin that allows to you to authenticate as your users.",
+            "keywords": [
+                "auth",
+                "impersonate",
+                "impersonation",
+                "laravel",
+                "laravel-package",
+                "laravel-plugin",
+                "package",
+                "plugin",
+                "user"
+            ],
+            "support": {
+                "issues": "https://github.com/404labfr/laravel-impersonate/issues",
+                "source": "https://github.com/404labfr/laravel-impersonate/tree/1.7.4"
+            },
+            "time": "2023-01-25T16:56:05+00:00"
         },
         {
             "name": "laravel/framework",
@@ -6485,6 +6695,75 @@
                 }
             ],
             "time": "2023-11-12T21:59:55+00:00"
+        },
+        {
+            "name": "phpsa/filament-authentication",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpsa/filament-authentication.git",
+                "reference": "1801ddf5140bd5c287e90c8704523d095fb38e21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpsa/filament-authentication/zipball/1801ddf5140bd5c287e90c8704523d095fb38e21",
+                "reference": "1801ddf5140bd5c287e90c8704523d095fb38e21",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "lab404/laravel-impersonate": "^1.7",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.13",
+                "spatie/laravel-permission": "^5.5|^6.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Phpsa\\FilamentAuthentication\\FilamentAuthenticationProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Phpsa\\FilamentAuthentication\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Craig G Smith",
+                    "email": "vxdhost@gmail.com"
+                }
+            ],
+            "description": "User & Role (via Spatie Roles/Permissions) Manager Resource For Filament Admin",
+            "homepage": "https://cgs4k.nz",
+            "keywords": [
+                "cli",
+                "filament",
+                "laravel",
+                "resource",
+                "ui",
+                "user"
+            ],
+            "support": {
+                "issues": "https://github.com/phpsa/filament-authentication/issues",
+                "source": "https://github.com/phpsa/filament-authentication/tree/v3.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/phpsa",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-30T20:00:13+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -15518,7 +15797,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "guava/filament-nested-resources": 15
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

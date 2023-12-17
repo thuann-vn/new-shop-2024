@@ -24,4 +24,9 @@ class ActivityLog extends ListActivities
          return __('filament-activity-log::activities.title');
      }
 
+     public static function getNavigationGroup(): ?string
+     {
+         return __('System');
+     }
+
 }
