@@ -155,17 +155,47 @@ class ProductResource extends Resource
                                         Forms\Components\Repeater::make('attributes')
                                             ->hiddenLabel()
                                             ->label('Select attributes to create variants:')
-                                            ->simple(Forms\Components\Select::make('attribute_id')
-                                                ->label('Attribute')
-                                                ->options([
-                                                    1 => 'Size',
-                                                    2 => 'Color',
-                                                ])->createOptionForm([
-                                                    Forms\Components\TextInput::make('name')
-                                                        ->required(),
-                                                ])
-                                                ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                                                ->required())
+                                            ->schema([
+                                                Forms\Components\Select::make('attribute_id')
+                                                    ->label('Attribute')
+                                                    ->options([
+                                                        1 => 'Size',
+                                                        2 => 'Color',
+                                                    ])->createOptionForm([
+                                                        Forms\Components\TextInput::make('name')
+                                                            ->required(),
+                                                    ])
+                                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                                    ->required()
+                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
+                                                        \Illuminate\Support\Facades\Log::debug(json_encode($get('../../attributes')));
+                                                        $set('../../variants',ProductResource::generateVariations( array_values($get('../../attributes'))));
+                                                    }),
+                                                Forms\Components\TagsInput::make('values')
+                                                    ->label('Values')
+//                                                    ->suggestions(function (Forms\Get $get){
+//                                                        $attribute = $get('attribute_id');
+//                                                        if($attribute == 1){
+//                                                            return ['S', 'M', 'L', 'XL'];
+//                                                        }elseif($attribute == 2){
+//                                                            return ['Red', 'Green', 'Blue', 'Yellow'];
+//                                                        }
+//                                                        return [];
+//                                                    })
+                                                    ->reorderable()
+                                                    ->placeholder('Add values like S, M, L, XL')
+                                                    ->required()
+                                                    ->debounce(600)
+                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
+                                                        \Illuminate\Support\Facades\Log::debug('asdasdasd');
+                                                        \Illuminate\Support\Facades\Log::debug(json_encode($get('../../attributes')));
+                                                        $set('../../variants',ProductResource::generateVariations(array_values($get('../../attributes'))));
+                                                    })
+                                            ])
+                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
+                                                $set('variants',$state);
+                                            })
+                                            ->columns(2)
                                             ->addActionLabel('Add options like size or color')
                                             ->reorderable()
                                             ->columnSpan('full')
@@ -325,9 +355,13 @@ class ProductResource extends Resource
     {
         return [
 //            RelationManagers\CommentsRelationManager::class,
+            \App\Filament\Resources\ProductVariantResource\RelationManagers\ProductsRelationManager::class
         ];
     }
-
+    public function hasCombinedRelationManagerTabsWithForm(): bool
+    {
+        return true;
+    }
     public static function getWidgets(): array
     {
         return [
@@ -366,5 +400,29 @@ class ProductResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::$model::whereColumn('qty', '<', 'security_stock')->count();
+    }
+
+    public static function generateVariations($attributes, $index = 0, $currentCombination = []): array
+    {
+        $combinations = [];
+
+        if ($index == count($attributes)) {
+            // If we have reached the end of the attributes, add the current combination
+            $combinations[] = $currentCombination;
+            return $combinations;
+        }
+
+        foreach ($attributes[$index]['values'] as $value) {
+            // Recursively generate combinations for the next attribute
+            $newCombination = $currentCombination;
+            $newCombination[$attributes[$index]['attribute_id']] = $value;
+
+            $combinations = array_merge(
+                $combinations,
+                ProductResource::generateVariations($attributes, $index + 1, $newCombination)
+            );
+        }
+
+        return $combinations;
     }
 }
