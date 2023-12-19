@@ -5,16 +5,16 @@ namespace App\Filament\Resources\Shop;
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\Shop\BrandResource\RelationManagers\ProductsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Pages;
-use App\Filament\Resources\Shop\ProductResource\RelationManagers;
 use App\Filament\Resources\Shop\ProductResource\Widgets\ProductStats;
-use App\Forms\Components\VariantsForm;
+use App\Models\Shop\Attribute;
 use App\Models\Shop\Product;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\Page;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder;
@@ -23,12 +23,10 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use GPBMetadata\Google\Api\Log;
-use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Filament\Forms\Components\Tabs;
 
 class ProductResource extends Resource
 {
@@ -152,66 +150,57 @@ class ProductResource extends Resource
                                     ]),
                                 Tabs\Tab::make('Variants')
                                     ->schema([
-                                        Forms\Components\Repeater::make('attributes')
+                                        Forms\Components\Repeater::make('productAttributes')
+                                            ->relationship('productAttributes')
                                             ->hiddenLabel()
                                             ->label('Select attributes to create variants:')
                                             ->schema([
-                                                Forms\Components\Select::make('attribute_id')
+                                                Forms\Components\Select::make('shop_attribute_id')
                                                     ->label('Attribute')
-                                                    ->options([
-                                                        1 => 'Size',
-                                                        2 => 'Color',
-                                                    ])->createOptionForm([
+                                                    ->options(Attribute::all()->pluck('name', 'id'))
+                                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                                    ->required()
+                                                    ->createOptionForm([
                                                         Forms\Components\TextInput::make('name')
                                                             ->required(),
                                                     ])
-                                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                                                    ->required()
-                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
-                                                        \Illuminate\Support\Facades\Log::debug(json_encode($get('../../attributes')));
-                                                        $set('../../variants',ProductResource::generateVariations( array_values($get('../../attributes'))));
+                                                    ->createOptionUsing(function ($data)  {
+                                                        $attribute = Attribute::create([
+                                                            'name' => $data['name'],
+                                                        ]);
+
+                                                        return [
+                                                            'id' => $attribute->id,
+                                                            'name' => $data['name'],
+                                                        ];
                                                     }),
-                                                Forms\Components\TagsInput::make('values')
-                                                    ->label('Values')
-//                                                    ->suggestions(function (Forms\Get $get){
-//                                                        $attribute = $get('attribute_id');
-//                                                        if($attribute == 1){
-//                                                            return ['S', 'M', 'L', 'XL'];
-//                                                        }elseif($attribute == 2){
-//                                                            return ['Red', 'Green', 'Blue', 'Yellow'];
-//                                                        }
-//                                                        return [];
-//                                                    })
-                                                    ->reorderable()
-                                                    ->placeholder('Add values like S, M, L, XL')
-                                                    ->required()
-                                                    ->debounce(600)
-                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
-                                                        \Illuminate\Support\Facades\Log::debug('asdasdasd');
-                                                        \Illuminate\Support\Facades\Log::debug(json_encode($get('../../attributes')));
-                                                        $set('../../variants',ProductResource::generateVariations(array_values($get('../../attributes'))));
-                                                    })
                                             ])
-                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
-                                                $set('variants',$state);
+                                            ->mutateRelationshipDataBeforeSaveUsing(function ($data, Model $record) {
+                                                $data['shop_product_id'] = $record->id;
+                                                return $data;
                                             })
-                                            ->columns(2)
                                             ->addActionLabel('Add options like size or color')
                                             ->reorderable()
                                             ->columnSpan('full')
                                             ->deleteAction(
                                                 fn (Forms\Components\Actions\Action $action) => $action->requiresConfirmation(),
                                             )->addable(function (Forms\Get $get) {
-                                                $attributes = $get('attributes');
+                                                $attributes = $get('productAttributes');
                                                 $isValid = true;
                                                 foreach ($attributes as $attribute){
-                                                    if($attribute['attribute_id'] == null){
+                                                    if(@$attribute['shop_attribute_id'] == null){
                                                         $isValid = false;
                                                     }
                                                 }
                                                 return $isValid;
+                                            })->saveRelationshipsUsing(function (Model $record, Forms\Get $get) {
+                                                $data = $get('productAttributes');
+                                                $ids = array_map(function ($item) {
+                                                    return $item['shop_attribute_id'];
+                                                }, $data);
+                                                $record->productAttributes()->sync($ids);
                                             }),
-                                        VariantsForm::make('variants'),
+//                                        VariantsForm::make('variants'),
                                     ]),
                             ])
                             ->persistTabInQueryString()
@@ -242,8 +231,10 @@ class ProductResource extends Resource
 
                                 SelectTree::make('categories')
                                     ->relationship('categories', 'name', 'parent_id')
+                                    ->independent(true)
+                                    ->enableBranchNode()
+                                    ->emptyLabel(__('Oops, no results have been found!'))
                                     ->withCount()
-                                    ->expandSelected(true)
                                     ->searchable()
                                     ->required(),
                             ]),
@@ -338,7 +329,7 @@ class ProductResource extends Resource
                     ->constraintPickerColumns(2),
             ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
             ])
             ->groupedBulkActions([
                 Tables\Actions\DeleteBulkAction::make()
@@ -354,8 +345,9 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-//            RelationManagers\CommentsRelationManager::class,
-            \App\Filament\Resources\ProductVariantResource\RelationManagers\ProductsRelationManager::class
+            RelationGroup::make('Variants', [
+                ProductVariantResource\RelationManagers\ProductsRelationManager::class
+            ]),
         ];
     }
     public function hasCombinedRelationManagerTabsWithForm(): bool
@@ -402,27 +394,4 @@ class ProductResource extends Resource
         return static::$model::whereColumn('qty', '<', 'security_stock')->count();
     }
 
-    public static function generateVariations($attributes, $index = 0, $currentCombination = []): array
-    {
-        $combinations = [];
-
-        if ($index == count($attributes)) {
-            // If we have reached the end of the attributes, add the current combination
-            $combinations[] = $currentCombination;
-            return $combinations;
-        }
-
-        foreach ($attributes[$index]['values'] as $value) {
-            // Recursively generate combinations for the next attribute
-            $newCombination = $currentCombination;
-            $newCombination[$attributes[$index]['attribute_id']] = $value;
-
-            $combinations = array_merge(
-                $combinations,
-                ProductResource::generateVariations($attributes, $index + 1, $newCombination)
-            );
-        }
-
-        return $combinations;
-    }
 }

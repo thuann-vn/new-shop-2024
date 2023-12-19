@@ -11,38 +11,56 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shop_attributes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->boolean('is_filterable')->default(false);
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('shop_attributes')) {
+            Schema::create('shop_attributes', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->boolean('is_filterable')->default(false);
+                $table->timestamps();
+            });
+        }
 
-        Schema::create('shop_attribute_options', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('shop_attribute_id')->constrained();
-            $table->string('value');
-            $table->timestamps();
-        });
+        if(!Schema::hasTable('shop_attribute_options')) {
+            Schema::create('shop_attribute_options', function (Blueprint $table) {
+                $table->id();
+                $table->integer('shop_attribute_id');
+                $table->string('value');
+                $table->timestamps();
+            });
+        }
 
-        Schema::create('shop_product_attributes', function (Blueprint $table) {
-            $table->foreignId('shop_product_id')->constrained();
-            $table->foreignId('shop_attribute_id')->constrained();
-        });
 
-        Schema::create('shop_product_variants', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('shop_product_id')->constrained();
-            $table->decimal('price')->default(0);
-            $table->integer('stock')->default(0);
-            $table->string('sku')->nullable();
-        });
+        if(!Schema::hasTable('shop_product_attributes')) {
+            Schema::create('shop_product_attributes', function (Blueprint $table) {
+                $table->integer('shop_product_id');
+                $table->integer('shop_attribute_id');
+            });
+        }
 
-        Schema::create('shop_product_variant_attribute_options', function (Blueprint $table) {
-            $table->foreignId('shop_product_variant_id')->constrained();
-            $table->foreignId('shop_attribute_id')->constrained();
-            $table->foreignId('shop_attribute_option_id')->constrained();
-        });
+
+        if(!Schema::hasTable('shop_product_variants')) {
+            Schema::create('shop_product_variants', function (Blueprint $table) {
+                $table->id();
+                $table->text('name');
+                $table->integer('shop_product_id');
+                $table->string('code');
+                $table->decimal('price')->default(0);
+                $table->integer('qty')->default(0);
+                $table->string('sku')->nullable();
+                $table->string('barcode')->nullable();
+                $table->timestamps();
+            });
+
+        }
+
+
+        if(!Schema::hasTable('shop_product_variant_attribute_options')) {
+            Schema::create('shop_product_variant_attribute_options', function (Blueprint $table) {
+                $table->integer('shop_product_variant_id');
+                $table->integer('shop_attribute_id');
+                $table->integer('shop_attribute_option_id');
+            });
+        }
     }
 
     /**

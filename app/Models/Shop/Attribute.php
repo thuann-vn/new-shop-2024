@@ -19,4 +19,6 @@ class Attribute extends Model
      */
     protected $casts = [
     ];
+
+    protected $guarded  = [];
 }

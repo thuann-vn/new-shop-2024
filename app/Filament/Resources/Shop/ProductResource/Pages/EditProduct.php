@@ -18,4 +18,9 @@ class EditProduct extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        unset($data['categories']);
+        return $data;
+    }
 }
