@@ -6,11 +6,13 @@ import Hero from "@/Components/Home/Hero";
 import HomeBlog from "@/Components/Home/HomeBlog";
 import HomeTestimonials from "@/Components/Home/HomeTestimonials";
 import HomeCollections from "@/Components/Home/HomeCollections";
+import HomeBanner from "@/Components/Home/HomeBanner";
 
 export default function Home({ auth }: PageProps) {
     return (
         <Authenticated user={auth.user}>
             <Head title="Welcome" />
+            <HomeBanner/>
             <Hero/>
             <HomeCollections/>
             <HomeTestimonials/>

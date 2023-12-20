@@ -3,7 +3,8 @@ import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {classNames} from "@/Utils/Helper";
 import MobileMenu from "@/Components/Layout/MobileMenu";
-import {Link} from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
+import {GeneralSettings} from "@/types";
 
 const navigation = {
     categories: [
@@ -130,7 +131,7 @@ const navigation = {
 
 export default function Header() {
     const [open, setOpen] = useState(false)
-
+    const { general_settings } = usePage().props;
     return (
         <div className="bg-transparent relative z-20">
             {/* Mobile menu */}
@@ -159,7 +160,7 @@ export default function Header() {
                                 <span className="sr-only">Your Company</span>
                                 <img
                                     className="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                    src={general_settings.site_logo}
                                     alt=""
                                 />
                             </Link>

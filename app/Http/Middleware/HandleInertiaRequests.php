@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Settings\GeneralSettings;
+use App\Settings\ShopSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -30,8 +32,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $generalSettings = $this->getGeneralSettings();
+        $shopSettings = app(ShopSettings::class);
         return [
             ...parent::share($request),
+            'general_settings' => $generalSettings,
+            'shop' => $shopSettings->toArray(),
             'auth' => [
                 'user' => $request->user(),
             ],
@@ -45,5 +51,13 @@ class HandleInertiaRequests extends Middleware
                 'count' => fn() => Cart::count(),
             ]
         ];
+    }
+
+    public function getGeneralSettings(){
+        $generalSettings = app(GeneralSettings::class);
+        $settingArr = $generalSettings->toArray();
+        $settingArr['site_logo'] = !empty($generalSettings->site_logo) ? asset('storage/' . $generalSettings->site_logo) : null;
+        $settingArr['site_favicon'] = !empty($generalSettings->site_favicon) ? asset('storage/' .$generalSettings->site_favicon) : null;
+        return$settingArr ;
     }
 }
