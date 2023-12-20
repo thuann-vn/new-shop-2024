@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import Authenticated from "@/Layouts/AuthenticatedLayout";
+import Authenticated from "@/Layouts/MasterLayout";
 import ProductList from "@/Components/Products/ProductList";
 
 const sortOptions = [

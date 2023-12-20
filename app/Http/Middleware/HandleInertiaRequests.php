@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
-
+use Gloudemans\Shoppingcart\Facades\Cart;
 class HandleInertiaRequests extends Middleware
 {
     /**
@@ -39,6 +39,11 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'cart' => [
+                'items' => fn() => Cart::content(),
+                'total' => fn() => Cart::total(),
+                'count' => fn() => Cart::count(),
+            ]
         ];
     }
 }

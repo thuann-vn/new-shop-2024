@@ -1,10 +1,10 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import MasterLayout from '@/Layouts/MasterLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 
 export default function Dashboard({ auth }: PageProps) {
     return (
-        <AuthenticatedLayout
+        <MasterLayout
             user={auth.user}
         >
             <Head title="Dashboard" />
@@ -16,6 +16,6 @@ export default function Dashboard({ auth }: PageProps) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </MasterLayout>
     );
 }

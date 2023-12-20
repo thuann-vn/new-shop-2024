@@ -10,11 +10,11 @@ use AymanAlhattami\FilamentPageWithSidebar\Traits\HasPageSidebar;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
+use Joshembling\ImageOptimizer\Components\SpatieMediaLibraryFileUpload;
 use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 
 class Settings extends SettingsPage
 {
-    use HasPageSidebar;
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 
     protected static string $settings = GeneralSettings::class;
@@ -22,56 +22,82 @@ class Settings extends SettingsPage
     protected static ?string $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'General Settings';
 
-    public static function sidebar(): FilamentPageSidebar
-    {
-        return FilamentPageSidebar::make()
-            ->setTitle('Application Settings')
-            ->setDescription('general, admin, website, sms, payments, notifications, shipping')
-            ->setNavigationItems([
-                PageNavigationItem::make('General Settings')
-                    ->translateLabel()
-                    ->url(ProductResource::getUrl())
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->isActiveWhen(function () {
-                        return request()->routeIs(ProductResource::getRouteBaseName());
-                    })
-                    ->visible(true),
-                PageNavigationItem::make('Admin Panel Settings')
-                    ->translateLabel()
-                    ->url(ProductResource::getUrl())
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->isActiveWhen(function () {
-                        return request()->routeIs(ProductResource::getRouteBaseName());
-                    })
-                    ->visible(true),
-                PageNavigationItem::make('Web Settings')
-                    ->translateLabel()
-                    ->url(ProductResource::getUrl())
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->isActiveWhen(function () {
-                        return request()->routeIs(ProductResource::getRouteBaseName());
-                    })
-                    ->visible(true),
-                // ...
-            ]);
-    }
-
-
+    protected static ?string $title = 'General Settings';
+    protected ?string $subheading = 'Manage your general settings';
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('copyright')
-                    ->label('Copyright notice')
-                    ->required(),
-                CodeEditor::make('custom_css'),
-                Forms\Components\Repeater::make('links')
-                    ->schema([
-                        Forms\Components\TextInput::make('label')->required(),
-                        Forms\Components\TextInput::make('url')
-                            ->url()
-                            ->required(),
-                    ]),
-            ]);
+                Forms\Components\Tabs::make('Tabs')->tabs([
+                    Forms\Components\Tabs\Tab::make('Website Settings')
+                        ->schema([
+                            Forms\Components\FileUpload::make('site_logo')
+                                ->label('Site logo (256x256)')
+                                ->required()
+                                ->previewable()
+                                ->image()
+                                ->imageEditor()
+                                ->avatar()
+                                ->imageEditorAspectRatios([
+                                    null,
+                                    '1:1',
+                                ])
+                                ->preserveFilenames()
+                                ->required(),
+                            Forms\Components\FileUpload::make('site_favicon')
+                                ->label('Site favicon (56x56)')
+                                ->required()
+                                ->previewable()
+                                ->imagePreviewHeight('76')
+                                ->avatar()
+                                ->preserveFilenames()
+                                ->required(),
+                            Forms\Components\TextInput::make('site_name')
+                                ->label('Site name')
+                                ->required(),
+                            Forms\Components\TextInput::make('site_description')
+                                ->label('Site description')
+                                ->required(),
+                            Forms\Components\TextInput::make('site_keywords')
+                                ->label('Site keywords'),
+                            Forms\Components\TextInput::make('site_phone')
+                                ->label('Site phone'),
+                            Forms\Components\TextInput::make('site_email')
+                                ->label('Site email'),
+                            Forms\Components\TextInput::make('site_address')
+                                ->label('Site address'),
+                            Forms\Components\TextInput::make('site_footer')
+                                ->label('Site footer'),
+                            Forms\Components\TextInput::make('copyright')
+                                ->label('Copyright notice'),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('Social Media')
+                        ->schema([
+                            Forms\Components\TextInput::make('site_facebook')
+                                ->label('Site facebook')
+                                ->prefixIcon('heroicon-o-link'),
+                            Forms\Components\TextInput::make('site_twitter')
+                                ->label('Site twitter')
+                                ->prefixIcon('heroicon-o-link'),
+                            Forms\Components\TextInput::make('site_instagram')
+                                ->label('Site instagram')
+                                ->prefixIcon('heroicon-o-link'),
+                            Forms\Components\TextInput::make('site_youtube')
+                                ->label('Site youtube')
+                                ->prefixIcon('heroicon-o-link'),
+                            Forms\Components\TextInput::make('site_linkedin')
+                                ->label('Site linkedin')
+                                ->prefixIcon('heroicon-o-link'),
+                            Forms\Components\TextInput::make('site_google')
+                                ->label('Site google')
+                                ->prefixIcon('heroicon-o-link'),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('Custom JS/CSS')
+                        ->schema([
+                            CodeEditor::make('custom_css'),
+                            CodeEditor::make('custom_js'),
+                        ]),
+                ])
+            ])->columns(1);
     }
 }

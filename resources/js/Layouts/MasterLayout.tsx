@@ -4,7 +4,7 @@ import SubcribeForm from "@/Components/Layout/SubcribeForm";
 import CartModal from "@/Components/Layout/CartModal";
 import Header from "@/Components/Layout/Header";
 
-export default function Authenticated({ user, children }: PropsWithChildren<{ user: User }>) {
+export default function MasterLayout({ user, children }: PropsWithChildren<{ user: User }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
