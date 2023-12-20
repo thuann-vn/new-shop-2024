@@ -26,5 +26,9 @@
         "tippy.js": "^6.3.7",
         "typescript": "^5.0.2",
         "vite": "^3.0.0"
+    },
+    "dependencies": {
+        "@heroicons/react": "^2.1.1",
+        "@tailwindcss/aspect-ratio": "^0.4.2"
     }
 }

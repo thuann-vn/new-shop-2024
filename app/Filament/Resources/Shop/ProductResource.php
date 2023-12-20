@@ -6,6 +6,7 @@ use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\Shop\BrandResource\RelationManagers\ProductsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Pages;
 use App\Filament\Resources\Shop\ProductResource\Widgets\ProductStats;
+use App\Forms\Components\VariantsForm;
 use App\Models\Shop\Attribute;
 use App\Models\Shop\Product;
 use CodeWithDennis\FilamentSelectTree\SelectTree;

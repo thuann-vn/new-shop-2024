@@ -2,38 +2,5 @@
     :component="$getFieldWrapperView()"
     :field="$field"
 >
-    <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
-        <table class="table ">
-            <thead>
-                <tr>
-                    <th>Variant</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($field->generateVariants() as $variant)
-                    <tr>
-                        <td>{{$variant['name']}}</td>
-                        <td>
-                            <input
-                                type="number"
-                                min="0"
-                                step="0.01"
-                                x-model="state.{{$variant['id']}}.price"
-                            />
-                        </td>
-                        <td>
-                            <input
-                                type="number"
-                                min="0"
-                                step="1"
-                                x-model="state.{{$variant['id']}}.stock"
-                            />
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+
 </x-dynamic-component>

@@ -16,7 +16,7 @@ use Inertia\Inertia;
 |
 */
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -33,5 +33,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/products/:slug', function () {
+    return Inertia::render('Product/Detail');
+})->name('beach');
+
+Route::get('/products', function () {
+    return Inertia::render('Product/Category');
+})->name('products');
 
 require __DIR__.'/auth.php';
