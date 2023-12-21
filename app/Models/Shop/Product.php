@@ -44,6 +44,11 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Category::class, 'shop_category_product', 'shop_product_id', 'shop_category_id')->withTimestamps();
     }
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class, 'shop_collection_product', 'shop_product_id', 'shop_collection_id')->withTimestamps();
+    }
+
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');

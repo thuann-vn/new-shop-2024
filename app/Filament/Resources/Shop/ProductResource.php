@@ -54,6 +54,7 @@ class ProductResource extends Resource
                         Tabs::make('Tabs')
                             ->tabs([
                                 Tabs\Tab::make('General Information')
+                                    ->icon('heroicon-o-information-circle')
                                     ->schema([
                                         Forms\Components\Section::make()
                                             ->schema([
@@ -140,6 +141,7 @@ class ProductResource extends Resource
                                             ->columns(2),
                                     ]),
                                 Tabs\Tab::make('Images')
+                                    ->icon('heroicon-o-photo')
                                     ->schema([
                                         SpatieMediaLibraryFileUpload::make('media')
                                             ->collection('product-images')
@@ -150,6 +152,7 @@ class ProductResource extends Resource
                                             ->hiddenLabel(),
                                     ]),
                                 Tabs\Tab::make('Variants')
+                                    ->icon('heroicon-o-swatch')
                                     ->schema([
                                         Forms\Components\Repeater::make('productAttributes')
                                             ->relationship('productAttributes')
@@ -228,6 +231,7 @@ class ProductResource extends Resource
                                 Forms\Components\Select::make('shop_brand_id')
                                     ->relationship('brand', 'name')
                                     ->searchable()
+                                    ->preload()
                                     ->hiddenOn(ProductsRelationManager::class),
 
                                 SelectTree::make('categories')
@@ -238,6 +242,11 @@ class ProductResource extends Resource
                                     ->withCount()
                                     ->searchable()
                                     ->required(),
+                                Forms\Components\Select::make('collections')
+                                    ->relationship('collections', 'name')
+                                    ->preload()
+                                    ->searchable()
+                                    ->multiple(),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),

@@ -5,8 +5,6 @@ namespace App\Filament\Resources\Shop;
 use App\Filament\Resources\Shop\CategoryResource\Pages;
 use App\Filament\Resources\Shop\CategoryResource\RelationManagers;
 use App\Models\Shop\Category;
-use Awcodes\Curator\Components\Forms\CuratorPicker;
-use Awcodes\Curator\PathGenerators\DatePathGenerator;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;

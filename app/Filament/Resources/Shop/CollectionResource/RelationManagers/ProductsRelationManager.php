@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Shop\BrandResource\RelationManagers;
+namespace App\Filament\Resources\Shop\CollectionResource\RelationManagers;
 
 use App\Filament\Resources\Shop\ProductResource;
 use Filament\Forms\Form;
@@ -27,10 +27,11 @@ class ProductsRelationManager extends RelationManager
                 Tables\Actions\AttachAction::make()
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DetachAction::make(),
             ])
             ->groupedBulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DetachBulkAction::make(),
             ]);
     }
 }

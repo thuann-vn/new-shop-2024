@@ -13,7 +13,7 @@ export default function Home({ homeSlider}: PageProps<{ homeSlider:object }>) {
         <Authenticated>
             <Head title="Welcome" />
             <HomeBanner slides={homeSlider?.items}/>
-            <Hero/>
+            {/*<Hero/>*/}
             <HomeCollections/>
             <HomeTestimonials/>
             <HomeBlog/>
