@@ -9,6 +9,7 @@ use App\Filament\Resources\Blog\PostResource;
 use App\Filament\Resources\Shop\ProductResource;
 use App\Http\Middleware\Authenticate;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -82,6 +83,7 @@ class AdminPanelProvider extends PanelProvider
                 \FilipFonal\FilamentLogManager\FilamentLogManager::make(),
                 FilamentNavigation::make()->withExtraFields([
                     TextInput::make('classes'),
+                    FileUpload::make('icon')->image()->imageEditor()->avatar(),
                 ]),
             ])->resources(
                 FilamentAuthentication::resources()
