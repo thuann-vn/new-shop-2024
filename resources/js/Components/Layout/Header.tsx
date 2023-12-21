@@ -1,10 +1,11 @@
-import { Fragment, useState } from 'react'
+import {Fragment, useContext, useState} from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {classNames} from "@/Utils/Helper";
 import MobileMenu from "@/Components/Layout/MobileMenu";
 import {Link, usePage} from "@inertiajs/react";
 import {GeneralSettings} from "@/types";
+import {CartContext} from "@/Contexts/CartContext";
 
 const navigation = {
     categories: [
@@ -132,6 +133,8 @@ const navigation = {
 export default function Header() {
     const [open, setOpen] = useState(false)
     const { general_settings } = usePage().props;
+    const {openCart} = useContext(CartContext);
+
     return (
         <div className="bg-transparent relative z-20">
             {/* Mobile menu */}
@@ -299,7 +302,7 @@ export default function Header() {
 
                             {/* Cart */}
                             <div className="ml-4 flow-root lg:ml-6">
-                                <a href="#" className="group -m-2 flex items-center p-2">
+                                <a onClick={()=>openCart()} href="#" className="group -m-2 flex items-center p-2">
                                     <ShoppingBagIcon
                                         className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                         aria-hidden="true"

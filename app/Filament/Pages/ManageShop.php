@@ -9,10 +9,11 @@ use Filament\Pages\SettingsPage;
 
 class ManageShop extends SettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
     protected static string $settings = ShopSettings::class;
     protected static ?string $navigationGroup = 'Settings';
+    protected static ?int $navigationSort = 1;
 
     public function form(Form $form): Form
     {

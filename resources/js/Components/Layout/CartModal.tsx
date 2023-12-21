@@ -1,6 +1,7 @@
-import { Fragment, useState } from 'react'
+import {Fragment, useContext, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import {CartContext} from "@/Contexts/CartContext";
 
 const products = [
     {
@@ -28,11 +29,11 @@ const products = [
 ]
 
 export default function CartModal() {
-    const [open, setOpen] = useState(false)
+    const {isOpen, closeCart} = useContext(CartContext);
 
     return (
-        <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={setOpen}>
+        <Transition.Root show={isOpen} as={Fragment}>
+            <Dialog as="div" className="relative z-20" onClose={()=>closeCart()}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-in-out duration-500"
@@ -66,7 +67,7 @@ export default function CartModal() {
                                                     <button
                                                         type="button"
                                                         className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-                                                        onClick={() => setOpen(false)}
+                                                        onClick={() => closeCart()}
                                                     >
                                                         <span className="absolute -inset-0.5" />
                                                         <span className="sr-only">Close panel</span>
@@ -126,7 +127,7 @@ export default function CartModal() {
                                             <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                             <div className="mt-6">
                                                 <a
-                                                    href="#"
+                                                    href={route('checkout')}
                                                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                                                 >
                                                     Checkout
@@ -134,11 +135,11 @@ export default function CartModal() {
                                             </div>
                                             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                                                 <p>
-                                                    or
+                                                    or{' '}
                                                     <button
                                                         type="button"
                                                         className="font-medium text-indigo-600 hover:text-indigo-500"
-                                                        onClick={() => setOpen(false)}
+                                                        onClick={() => closeCart()}
                                                     >
                                                         Continue Shopping
                                                         <span aria-hidden="true"> &rarr;</span>

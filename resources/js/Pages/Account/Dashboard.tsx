@@ -2,11 +2,9 @@ import MasterLayout from '@/Layouts/MasterLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({  }: PageProps) {
     return (
-        <MasterLayout
-            user={auth.user}
-        >
+        <MasterLayout>
             <Head title="Dashboard" />
 
             <div className="py-12">

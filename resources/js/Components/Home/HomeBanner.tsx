@@ -2,19 +2,14 @@ import * as React from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import {imageStorageUrl} from "@/Utils/Helper";
 
-const photos = [
-    'https://images.pexels.com/photos/7469387/pexels-photo-7469387.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/7469289/pexels-photo-7469289.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/6213729/pexels-photo-6213729.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    'https://images.pexels.com/photos/6213739/pexels-photo-6213739.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-];
-
-export default function HomeBanner() {
+export default function HomeBanner({slides} : {slides: any[]}) {
     return (
         <section className="bg-white">
             <Swiper
                 modules={[Navigation, Pagination]}
+                navigation={true}
                 loop={true}
                 spaceBetween={0}
                 slidesPerView={1}
@@ -27,10 +22,20 @@ export default function HomeBanner() {
                 grabCursor={true}
                 autoplay={true}
             >
-                {photos.map((p, index) => {
+                {slides.map((slide, index) => {
                     return (
                         <SwiperSlide key={index}>
-                            <img src={p} alt="" className="w-full"/>
+                            <div className={"w-full relative"}>
+                                <img src={imageStorageUrl(slide.image)} alt="" className="w-full"/>
+                                <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center">
+                                    <div className={"container"}>
+                                        <div className="max-w-sm">
+                                            <h2 className="text-5xl font-bold">{slide.title}</h2>
+                                            <p className="text-lg mt-3">{slide.subtitle}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </SwiperSlide>
                     );
                 })}

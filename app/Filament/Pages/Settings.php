@@ -15,7 +15,7 @@ use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 
 class Settings extends SettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     protected static string $settings = GeneralSettings::class;
 
@@ -24,6 +24,8 @@ class Settings extends SettingsPage
 
     protected static ?string $title = 'General Settings';
     protected ?string $subheading = 'Manage your general settings';
+
+    protected static ?int $navigationSort = 1;
     public function form(Form $form): Form
     {
         return $form

@@ -61,11 +61,11 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Category({auth}) {
+export default function Category({}) {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
     return (
-        <Authenticated user={auth.user}>
+        <Authenticated>
             <div className="bg-white">
                 <div>
                     {/* Mobile filter dialog */}

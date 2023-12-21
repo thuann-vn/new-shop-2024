@@ -15,16 +15,19 @@ import 'swiper/css/mousewheel';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-fade';
 import 'swiper/css/grid';
+import {CartProvider} from "@/Contexts/CartContext";
 
-export default function MasterLayout({ user, children }: PropsWithChildren<{ user: User }>) {
+export default function MasterLayout({ children }: PropsWithChildren<{  }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <Header />
-            <main>{children}</main>
-            <SubcribeForm/>
-            <CartModal/>
+            <CartProvider>
+                <Header />
+                <main>{children}</main>
+                <SubcribeForm/>
+                <CartModal/>
+            </CartProvider>
         </div>
     );
 }

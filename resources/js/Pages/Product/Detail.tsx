@@ -88,7 +88,7 @@ export default function ProductDetail({ auth }: PageProps) {
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 
     return (
-        <Authenticated user={auth.user}>
+        <Authenticated>
             <div className="bg-white">
                 <div className="pt-6">
                     <nav aria-label="Breadcrumb">

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Blog\PageResource\Pages;
+namespace App\Filament\Resources\Website\PageResource\Pages;
 
-use App\Filament\Resources\Blog\PageResource;
+use App\Filament\Resources\Website\PageResource;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\Translatable;
 

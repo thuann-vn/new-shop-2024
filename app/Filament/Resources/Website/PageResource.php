@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Blog;
+namespace App\Filament\Resources\Website;
 
 use App\Filament\Resources\Blog\PageResource\Pages;
 use App\Models\Page;
@@ -33,7 +33,7 @@ class PageResource extends Resource
 
     protected static ?string $model = Page::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function getNavigationGroup(): string
     {
@@ -105,9 +105,9 @@ class PageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPages::route('/'),
-            'create' => Pages\CreatePage::route('/create'),
-            'edit' => Pages\EditPage::route('/{record}/edit'),
+            'index' => \App\Filament\Resources\Website\PageResource\Pages\ListPages::route('/'),
+            'create' => \App\Filament\Resources\Website\PageResource\Pages\CreatePage::route('/create'),
+            'edit' => \App\Filament\Resources\Website\PageResource\Pages\EditPage::route('/{record}/edit'),
         ];
     }
 }

@@ -54,7 +54,7 @@ return [
      | (visit: https://filamentphp.com/docs/3.x/panels/navigation#sorting-navigation-items)
      |
      */
-    'navigation_sort' => null,
+    'navigation_sort' => 6,
 
     /*
      |--------------------------------------------------------------------------

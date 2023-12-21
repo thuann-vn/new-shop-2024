@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Blog\PageResource\Pages;
+namespace App\Filament\Resources\Website\PageResource\Pages;
 
-use App\Filament\Resources\Blog\PageResource;
+use App\Filament\Resources\Website\PageResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;

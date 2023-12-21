@@ -9,6 +9,7 @@ use App\Filament\Resources\Blog\PostResource;
 use App\Filament\Resources\Shop\ProductResource;
 use App\Http\Middleware\Authenticate;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
+use Filament\Forms\Components\TextInput;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
@@ -25,6 +26,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Phpsa\FilamentAuthentication\FilamentAuthentication;
 use Phpsa\FilamentAuthentication\Widgets\LatestUsersWidget;
+use RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource;
+use RyanChandler\FilamentNavigation\FilamentNavigation;
 use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 use Tapp\FilamentAuthenticationLog\Resources\AuthenticationLogResource;
 
@@ -77,8 +80,15 @@ class AdminPanelProvider extends PanelProvider
                     PostResource::class
                 ]),
                 \FilipFonal\FilamentLogManager\FilamentLogManager::make(),
+                FilamentNavigation::make()->withExtraFields([
+                    TextInput::make('classes'),
+                ]),
             ])->resources(
                 FilamentAuthentication::resources()
             );
     }
 }
+
+NavigationResource::navigationGroup('Settings');
+NavigationResource::navigationIcon('heroicon-o-queue-list');
+NavigationResource::navigationSort(3);

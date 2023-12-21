@@ -21,11 +21,12 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'homeSlider' => \App\Models\Slider::with('items')->where('code', 'home-slider')->first()->toArray(),
     ]);
 })->name('home');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Account/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -41,5 +42,13 @@ Route::get('/products/:slug', function () {
 Route::get('/products', function () {
     return Inertia::render('Product/Category');
 })->name('products');
+
+Route::get('/cart', function () {
+    return Inertia::render('Cart');
+})->name('cart');
+
+Route::get('/checkout', function () {
+    return Inertia::render('Checkout');
+})->name('checkout');
 
 require __DIR__.'/auth.php';
