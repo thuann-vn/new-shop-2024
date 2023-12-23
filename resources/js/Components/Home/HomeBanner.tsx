@@ -33,7 +33,7 @@ export default function HomeBanner({slides} : {slides: any[]}) {
                             <div className={"w-full relative"}>
                                 <img src={imageStorageUrl(slide.image)} alt="" className="w-full"/>
                                 <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center"  data-swiper-parallax="-1000">
-                                    <div className={"container"}>
+                                    <div className={"container  mx-auto"}>
                                         <div className="max-w-sm">
                                             <h2 className="text-5xl font-bold">{slide.title}</h2>
                                             <p className="text-lg mt-3">{slide.subtitle}</p>

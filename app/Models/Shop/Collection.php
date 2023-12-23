@@ -16,8 +16,17 @@ class Collection extends Model
         'is_visible' => 'boolean',
     ];
 
+    protected $appends = [
+        'home_products',
+    ];
+
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'shop_collection_product', 'shop_collection_id', 'shop_product_id');
+    }
+
+    public function getHomeProductsAttribute($limit = 10)
+    {
+        return $this->products->take($limit);
     }
 }

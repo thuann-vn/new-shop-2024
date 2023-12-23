@@ -115,7 +115,6 @@ class CartController extends Controller
         $rowId = $request->rowId;
         $qty = $request->input('qty', 1);
         \Cart::update($rowId, $qty);
-        $shippingFee = Setting::get('shipping_fee', 20);
         return response()->json([
             'view' => view('partials.cart.cart-content')->render(),
             'count' => \Cart::count()

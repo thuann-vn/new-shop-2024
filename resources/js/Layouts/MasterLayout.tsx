@@ -21,7 +21,7 @@ export default function MasterLayout({ children }: PropsWithChildren<{  }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen">
             <CartProvider>
                 <Header />
                 <main>{children}</main>
