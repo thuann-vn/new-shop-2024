@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\CartController;
+use \App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,9 +34,7 @@ Route::group(['prefix' => 'products'], function () {
         return Inertia::render('Product/Category');
     })->name('category');
 
-    Route::get('/{slug}', function () {
-        return Inertia::render('Product/Detail');
-    })->name('products.detail');
+    Route::get('/{slug}', [ProductController::class, 'detail'])->name('products.detail');
 });
 
 Route::group(['prefix' => 'cart'], function () {

@@ -18,8 +18,6 @@ import 'swiper/css/grid';
 import {CartProvider} from "@/Contexts/CartContext";
 
 export default function MasterLayout({ children }: PropsWithChildren<{  }>) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
     return (
         <div className="min-h-screen">
             <CartProvider>
