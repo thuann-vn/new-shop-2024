@@ -10,4 +10,11 @@ class CreateProduct extends CreateRecord
 {
     use LogCreateRecord;
     protected static string $resource = ProductResource::class;
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        unset($data['categories']);
+        return $data;
+    }
+
+
 }

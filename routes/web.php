@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
+use \App\Http\Controllers\CartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,13 +28,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/products/:slug', function () {
-    return Inertia::render('Product/Detail');
-})->name('beach');
+Route::group(['prefix' => 'products'], function () {
+    Route::get('/', function () {
+        return Inertia::render('Product/Category');
+    })->name('category');
 
-Route::get('/products', function () {
-    return Inertia::render('Product/Category');
-})->name('products');
+    Route::get('/{slug}', function () {
+        return Inertia::render('Product/Detail');
+    })->name('products.detail');
+});
+
+Route::group(['prefix' => 'cart'], function () {
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add-to-cart');
+    Route::delete('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove-from-cart');
+});
 
 Route::get('/cart', function () {
     return Inertia::render('Cart');

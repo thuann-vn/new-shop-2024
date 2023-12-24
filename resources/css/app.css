@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* variables */
+:root {
+    --color-primary: #233a95;
+    --color-secondary: #2bbef9;
+}
+
 /* Custom */
 .product-slider{
     .swiper-button-prev, .swiper-button-next{
@@ -31,5 +37,60 @@
 
     .swiper-button-next{
         right: -20px;
+    }
+}
+
+.product-card{
+    .product-buttons{
+        display: flex;
+        flex-direction: column;
+
+        > a{
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            margin-bottom: 6px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #efefef;
+            -webkit-box-shadow: 0 3px 5px rgba(0,0,0,.1);
+            box-shadow: 0 3px 5px rgba(0,0,0,.1);
+            opacity: 0;
+            -webkit-transform: translateX(10px);
+            transform: translateX(10px);
+            -webkit-transition: opacity 0.25s cubic-bezier(.17,.62,.44,.99),-webkit-transform 0.25s cubic-bezier(.17,.62,.44,.99);
+            transition: opacity 0.25s cubic-bezier(.17,.62,.44,.99),-webkit-transform 0.25s cubic-bezier(.17,.62,.44,.99);
+            transition: opacity 0.25s cubic-bezier(.17,.62,.44,.99),transform 0.25s cubic-bezier(.17,.62,.44,.99);
+            transition: opacity 0.25s cubic-bezier(.17,.62,.44,.99),transform 0.25s cubic-bezier(.17,.62,.44,.99),-webkit-transform 0.25s cubic-bezier(.17,.62,.44,.99);
+
+            &:hover{
+                color: #fff;
+                background-color: var(--color-primary, #233a95);
+                border-color: transparent;
+
+                svg{
+                    fill: #fff;
+                }
+            }
+        }
+    }
+
+    &:hover{
+        .product-buttons{
+            > a{
+                opacity: 1;
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+            }
+        }
     }
 }

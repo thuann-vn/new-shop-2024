@@ -3,25 +3,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\OrderRequest;
-use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\Postcode;
-use App\Models\Product;
-use App\Models\ProductVariation;
-use App\Models\Setting;
-use App\Models\UserAddress;
-use App\Models\UserPoint;
-use App\Services\MonoovaService;
+use App\Models\Shop\Product;
 use App\Services\ShippingFeeService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use function App\Http\Controllers\Client\getMoneyFromPoints;
-use function App\Http\Controllers\Client\renderAddress;
 
 class CartController extends Controller
 {
@@ -59,7 +47,7 @@ class CartController extends Controller
         $product = Product::findOrFail($request->id);
 
         //Check if product is in stock
-        if ($product->stock < $qty) {
+        if ($product->qty < $qty) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Product is out of stock!'
@@ -67,34 +55,29 @@ class CartController extends Controller
         }
 
         //Check if product have any variation
-        if ($product->has_variation) {
-            $variation_id = $request->variation_id;
-            if (empty($variation_id)) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Please select variation!'
-                ]);
+        if ($product->has_variants) {
+            $variant_id = $request->variant_id;
+            if (empty($variant_id)) {
+                $variant_id = $product->variants()->first()->id;
             }
-            $variation = $product->variations()->where('id', $variation_id)->first();
-            $product->price = $variation->price;
+            $variant = $product->variants()->where('id', $variant_id)->first();
+            $product->price = $variant->price;
             \Cart::add($product, $qty, [
-                'image' => $product->image,
-                'type' => 'product',
-                'brand_name' => !empty($product->brand) ? $product->brand->name : '',
-                'variation' => $variation,
-                'variation_description' => $variation->description
+                'image' => $product->featured_image_url,
+                'href' => route('products.detail', ['slug' => $product->slug]),
+                'type' => 'variant',
+                'variant' => $variant,
+                'variant_description' => $variant->description
             ]);
         } else {
             \Cart::add($product, $qty, [
-                'image' => $product->image,
-                'type' => 'product',
-                'brand_name' => !empty($product->brand) ? $product->brand->name : '',
+                'image' => $product->featured_image_url,
+                'href' => route('products.detail', ['slug' => $product->slug]),
             ]);
         }
 
         return response()->json([
-            'view' => view('partials.cart.cart-content')->render(),
-            'count' => \Cart::count()
+            'status' => 'success',
         ]);
     }
 
@@ -105,8 +88,7 @@ class CartController extends Controller
             \Cart::remove($id);
         }
         return response()->json([
-            'count' => \Cart::count(),
-            'view' => view('partials.cart.cart-content')->render()
+            'status' => 'success',
         ]);
     }
 
@@ -116,8 +98,7 @@ class CartController extends Controller
         $qty = $request->input('qty', 1);
         \Cart::update($rowId, $qty);
         return response()->json([
-            'view' => view('partials.cart.cart-content')->render(),
-            'count' => \Cart::count()
+            'status' => 'success',
         ]);
     }
 

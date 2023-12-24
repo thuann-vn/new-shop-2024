@@ -8,7 +8,6 @@ use App\Settings\GeneralSettings;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
 {
@@ -23,7 +22,9 @@ class HomeController extends Controller
         SEOMeta::setKeywords($generalSettings->site_keywords);
 
         $homeSlider = \App\Models\Slider::with('items')->where('code', 'home-slider')->first()->toArray();
-        $collections = Collection::whereIsVisible(true)->get()->toArray();
+        $collections = Collection::whereIsVisible(true)->whereHas('products', function ($productsQuery){
+            $productsQuery->where('is_visible', true);
+        })->get();
         return Inertia::render('Home', compact('homeSlider', 'collections'));
     }
 }

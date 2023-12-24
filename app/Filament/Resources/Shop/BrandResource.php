@@ -24,7 +24,6 @@ class BrandResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
 
     protected static ?string $navigationIcon = 'heroicon-o-bookmark-square';
-
     protected static ?string $navigationParentItem = 'Products';
 
     protected static ?int $navigationSort = 4;

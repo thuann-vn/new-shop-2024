@@ -4,14 +4,14 @@ namespace App\Filament\Resources\Shop;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\Shop\BrandResource\RelationManagers\ProductsRelationManager;
+use App\Filament\Resources\Shop\CategoryResource\Pages\CreateCategory;
 use App\Filament\Resources\Shop\ProductResource\Pages;
+use App\Filament\Resources\Shop\ProductResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Widgets\ProductStats;
-use App\Forms\Components\VariantsForm;
 use App\Models\Shop\Attribute;
 use App\Models\Shop\Product;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -26,8 +26,8 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class ProductResource extends Resource
 {
@@ -144,11 +144,11 @@ class ProductResource extends Resource
                                     ->icon('heroicon-o-photo')
                                     ->schema([
                                         SpatieMediaLibraryFileUpload::make('media')
+                                            ->image()
                                             ->collection('product-images')
                                             ->multiple()
                                             ->maxFiles(5)
                                             ->reorderable()
-                                            ->responsiveImages()
                                             ->hiddenLabel(),
                                     ]),
                                 Tabs\Tab::make('Variants')
@@ -157,6 +157,7 @@ class ProductResource extends Resource
                                         Forms\Components\Repeater::make('productAttributes')
                                             ->relationship('productAttributes')
                                             ->hiddenLabel()
+                                            ->defaultItems(0)
                                             ->label('Select attributes to create variants:')
                                             ->schema([
                                                 Forms\Components\Select::make('shop_attribute_id')
@@ -232,7 +233,12 @@ class ProductResource extends Resource
                                     ->relationship('brand', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->hiddenOn(ProductsRelationManager::class),
+                                    ->hiddenOn(ProductsRelationManager::class)
+                                    ->createOptionForm([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+                                    ])
+                                ,
 
                                 SelectTree::make('categories')
                                     ->relationship('categories', 'name', 'parent_id')
@@ -246,7 +252,11 @@ class ProductResource extends Resource
                                     ->relationship('collections', 'name')
                                     ->preload()
                                     ->searchable()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->createOptionForm([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+                                    ]),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -357,6 +367,9 @@ class ProductResource extends Resource
         return [
             RelationGroup::make('Variants', [
                 ProductVariantResource\RelationManagers\ProductsRelationManager::class
+            ]),
+            RelationGroup::make('Comments', [
+                CommentsRelationManager::class
             ]),
         ];
     }
