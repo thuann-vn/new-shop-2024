@@ -1,11 +1,18 @@
 import {Swiper, SwiperSlide} from 'swiper/react';
-import {Autoplay, Controller, Lazy, Navigation, Thumbs} from 'swiper/modules';
-import {imageStorageUrl} from "@/Utils/Helper";
+import {Navigation, Thumbs} from 'swiper/modules';
 import * as React from "react";
-import ProductCard from "@/Components/Products/ProductCard";
 import {useState} from "react";
 import {Swiper as SwiperClass} from "swiper/types";
+import LightGallery from 'lightgallery/react';
 
+// import styles
+import 'lightgallery/css/lightgallery.css';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-thumbnail.css';
+
+// import plugins if you need
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgZoom from 'lightgallery/plugins/zoom';
 interface ProductSliderProps {
     images: object[]
 }
@@ -16,21 +23,29 @@ export default function ProductGallery({images}: ProductSliderProps) {
 
     return (
         <div className={"relative product-gallery"}>
-            <Swiper
-                modules={[Navigation, Thumbs]}
-                thumbs={{ swiper: thumbsSwiper }}
-                slidesPerView={1}
-                effect={"creative"}
-                grabCursor={true}
+            <LightGallery
+                speed={500}
+                plugins={[lgThumbnail, lgZoom]}
+                selector={"a"}
             >
-                {images.map((image, index) => {
-                    return (
-                        <SwiperSlide key={"image_" + index} className={"w-full"}>
-                            <img src={image.original_url} alt={image.name} className="w-full"/>
-                        </SwiperSlide>
-                    );
-                })}
-            </Swiper>
+                <Swiper
+                    modules={[Navigation, Thumbs]}
+                    thumbs={{ swiper: thumbsSwiper }}
+                    slidesPerView={1}
+                    effect={"creative"}
+                    grabCursor={true}
+                >
+                    {images.map((image, index) => {
+                        return (
+                            <SwiperSlide key={"image_" + index} className={"w-full"}>
+                                <a href={image.original_url} data-src={image.original_url}>
+                                    <img src={image.original_url} alt={image.name} className="w-full"/>
+                                </a>
+                            </SwiperSlide>
+                        );
+                    })}
+                </Swiper>
+            </LightGallery>
 
             <Swiper
                 modules={[Thumbs]}

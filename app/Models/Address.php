@@ -13,12 +13,12 @@ class Address extends Model
 
     protected $table = 'addresses';
 
-    public function customers()
+    public function customers(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Customer::class, 'addressable');
     }
 
-    public function brands()
+    public function brands(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphedByMany(Brand::class, 'addressable');
     }

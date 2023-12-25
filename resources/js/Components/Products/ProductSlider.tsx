@@ -5,13 +5,23 @@ import * as React from "react";
 import ProductCard from "@/Components/Products/ProductCard";
 
 interface ProductSliderProps {
-    products: object[]
+    products: object[],
+    title?: string,
+    className?: string
 }
 
-export default function ProductSlider({products}: ProductSliderProps) {
+export default function ProductSlider({products, title, className = ''}: ProductSliderProps) {
     const randomId = Math.floor(Math.random() * 1000);
     return (
-        <div className={"relative product-slider"}>
+        <div className={"relative product-slider " + className}>
+            {
+                title ? (
+                    <div className={"flex items-center justify-between mb-3"}>
+                        <h2 className={"text-2xl font-bold uppercase"}>{title}</h2>
+                        <a href={"#"} className={"text-sm text-gray-500"}>See all</a>
+                    </div>
+                ) : ''
+            }
             <Swiper
                 modules={[Navigation]}
                 navigation={{
@@ -21,7 +31,7 @@ export default function ProductSlider({products}: ProductSliderProps) {
                 slidesPerView={5}
                 effect={"creative"}
                 grabCursor={true}
-                className={"pt-5 border border-gray-150 border-r-0 rounded-lg"}
+                className={"pt-5 border border-gray-150 rounded-lg  bg-white"}
                 slideActiveClass={'slide-active'}
                 breakpoints={{
                     // when window width is >= 640px

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\CartController;
 use \App\Http\Controllers\ProductController;
+use \App\Http\Controllers\CheckoutController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,12 +43,16 @@ Route::group(['prefix' => 'cart'], function () {
     Route::delete('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove-from-cart');
 });
 
-Route::get('/cart', function () {
-    return Inertia::render('Cart');
-})->name('cart');
+Route::group(['prefix' => 'checkout'], function () {
+  Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
+  Route::post('/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
+  Route::get('/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
-Route::get('/checkout', function () {
-    return Inertia::render('Checkout');
-})->name('checkout');
+  //Address
+  Route::get('/provinces', [CheckoutController::class, 'getProvinces'])->name('checkout.get-provinces');
+  Route::get('/districts', [CheckoutController::class, 'getDistricts'])->name('checkout.get-districts');
+  Route::get('/wards', [CheckoutController::class, 'getWards'])->name('checkout.get-wards');
+
+});
 
 require __DIR__.'/auth.php';

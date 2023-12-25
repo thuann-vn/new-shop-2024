@@ -8,8 +8,9 @@ import ProductTabs from "@/Components/Products/ProductTabs";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
 import ProductCartForm from "@/Components/Products/ProductCartForm";
+import ProductSlider from "@/Components/Products/ProductSlider";
 
-export default function ProductDetail({product, images}: PageProps) {
+export default function ProductDetail({product, images, relatedProducts}: { product: any, images: any, relatedProducts: any }) {
     const breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
         {id: 2, name: 'Products', href: '#'},
@@ -18,7 +19,7 @@ export default function ProductDetail({product, images}: PageProps) {
     return (
         <MasterLayout>
             <Head title={product.name}/>
-            <div className="bg-gray-100">
+            <div className="bg-gray-100 pb-10">
                 <div className="pt-6">
                     <div className={'container mx-auto px-4 sm:px-6 lg:px-8'}>
                         <nav aria-label="Breadcrumb">
@@ -67,7 +68,7 @@ export default function ProductDetail({product, images}: PageProps) {
 
                             {/* Product info */}
                             <div
-                                className="pb-16 pt-10 lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:pb-24 lg:pt-16">
+                                className="lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
                                 {/* Product gallery */}
                                 <ProductGallery images={images}/>
 
@@ -82,9 +83,12 @@ export default function ProductDetail({product, images}: PageProps) {
                                         }
                                         <CustomCurrencyFormat value={product.price} />
                                     </p>
-                                    <span className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-green-100 px-2 py-0 text-green-600 leading-6">
+                                    <p className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-green-100 px-2 py-0 text-green-600 leading-6">
                                         In stock
-                                    </span>
+                                    </p>
+
+                                    {/*Description*/}
+                                    <p className="text-base text-gray-500 mt-3">{product.description}</p>
 
                                     {/*Add to cart*/}
                                     <ProductCartForm product={product}/>
@@ -92,9 +96,12 @@ export default function ProductDetail({product, images}: PageProps) {
                             </div>
                         </div>
 
-                        <ProductTabs />
-                    </div>
+                        {/* Product tabs */}
+                        <ProductTabs product={product}/>
 
+                        {/* Related products */}
+                        <ProductSlider products={relatedProducts} title={"Related Products"} className={"mt-7"}/>
+                    </div>
                 </div>
             </div>
         </MasterLayout>

@@ -39,6 +39,7 @@ class Product extends Model implements HasMedia, Buyable
         'published_at' => 'date',
         'price' => 'float',
         'old_price' => 'float',
+      'specifications' => 'array',
     ];
 
     protected $appends = [

@@ -77,7 +77,11 @@ class ProductResource extends Resource
                                                     ->maxLength(255)
                                                     ->unique(Product::class, 'slug', ignoreRecord: true),
 
-                                                TinyEditor::make('description')
+                                                Forms\Components\Textarea::make('description')
+                                                    ->rows(3)
+                                                    ->columnSpan('full'),
+
+                                                TinyEditor::make('content')
                                                     ->columnSpan('full'),
                                             ])
                                             ->columns(2),
@@ -150,6 +154,21 @@ class ProductResource extends Resource
                                             ->maxFiles(5)
                                             ->reorderable()
                                             ->hiddenLabel(),
+                                    ]),
+                                Tabs\Tab::make('Specifications')
+                                    ->icon('heroicon-o-table-cells')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('specifications')
+                                            ->label('Specifications')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('value')
+                                                    ->required(),
+                                            ])
+                                            ->reorderable()
+                                            ->columns(2)
+                                            ->columnSpan('full'),
                                     ]),
                                 Tabs\Tab::make('Variants')
                                     ->icon('heroicon-o-swatch')
