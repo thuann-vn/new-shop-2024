@@ -45,35 +45,6 @@ class CheckoutController extends Controller
     return Inertia::render('Checkout/Checkout', compact('items', 'subtotal', 'total', 'tax', 'shippingFee', 'shippingMethods', 'paymentMethods'));
   }
 
-  public function getProvinces()
-  {
-    $provinces = Province::orderBy('full_name', 'asc')->get();
-    return response()->json([
-        'status' => 'success',
-        'data' => $provinces
-    ]);
-  }
-
-  public function getDistricts(Request $request)
-  {
-    $province_id = $request->input('province_id');
-    $districts = Province::findOrFail($province_id)->districts()->orderBy('display_order', 'asc')->orderBy('full_name', 'asc')->get();
-    return response()->json([
-        'status' => 'success',
-        'data' => $districts
-    ]);
-  }
-
-  public function getWards(Request $request)
-  {
-    $district_id = $request->input('district_id');
-    $wards = District::findOrFail($district_id)->wards()->orderBy('full_name', 'asc')->get();
-    return response()->json([
-        'status' => 'success',
-        'data' => $wards
-    ]);
-  }
-
   /**
    * @param OrderRequest $request
    * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
@@ -177,5 +148,34 @@ class CheckoutController extends Controller
       DB::rollBack();
       throw $e;
     }
+  }
+
+  public function getProvinces()
+  {
+    $provinces = Province::orderBy('full_name', 'asc')->get();
+    return response()->json([
+        'status' => 'success',
+        'data' => $provinces
+    ]);
+  }
+
+  public function getDistricts(Request $request)
+  {
+    $province_id = $request->input('province_id');
+    $districts = Province::findOrFail($province_id)->districts()->orderBy('display_order', 'asc')->orderBy('full_name', 'asc')->get();
+    return response()->json([
+        'status' => 'success',
+        'data' => $districts
+    ]);
+  }
+
+  public function getWards(Request $request)
+  {
+    $district_id = $request->input('district_id');
+    $wards = District::findOrFail($district_id)->wards()->orderBy('full_name', 'asc')->get();
+    return response()->json([
+        'status' => 'success',
+        'data' => $wards
+    ]);
   }
 }

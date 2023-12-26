@@ -19,7 +19,7 @@ export default function ProductTabs({product}) {
                     </Tab.Panel>
                     <Tab.Panel className={"px-5 py-5"}>
                         {
-                            product.specifications.map((spec, idx) => {
+                            (product.specifications || []).map((spec, idx) => {
                                 return (
                                     <div key={"spec_" + idx} className={"flex flex-row"}>
                                         <div className={"w-1/3"}>{spec.name}</div>

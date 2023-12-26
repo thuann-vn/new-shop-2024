@@ -12,8 +12,8 @@ import PaymentMethods from "@/Components/Checkout/PaymentMethods";
 import CheckoutSteps from "@/Components/Checkout/CheckoutSteps";
 import Alert from "@/Components/Form/Alert";
 
-export default function Checkout({items, subtotal, total, shippingFee, tax, shippingMethods, paymentMethods}:
-                                     { items: any, subtotal: number, total: number, shippingFee: number, tax: number, shippingMethods: object[], paymentMethods: object[] }) {
+export default function Checkout({items, subtotal, total, tax, shippingMethods, paymentMethods}:
+                                     { items: any, subtotal: number , total: number, tax: number, shippingMethods: object[], paymentMethods: object[] }) {
     const breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
         {id: 2, name: 'Checkout', href: '#'},
@@ -33,6 +33,7 @@ export default function Checkout({items, subtotal, total, shippingFee, tax, ship
         notes: ''
     })
     const [errors, setErrors] = React.useState(null);
+    const [shippingFee, setShippingFee] = React.useState(0)
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -75,8 +76,9 @@ export default function Checkout({items, subtotal, total, shippingFee, tax, ship
                                         <ShippingMethods methods={shippingMethods} onChange={(value: any) => {
                                             setFormData({
                                                 ...formData,
-                                                shipping_method: value
+                                                shipping_method: value.code
                                             })
+                                            setShippingFee(value.price)
                                         }}/>
 
                                         <PaymentMethods methods={paymentMethods} onChange={(value: any) => {
@@ -102,17 +104,21 @@ export default function Checkout({items, subtotal, total, shippingFee, tax, ship
                                                 <CustomCurrencyFormat value={shippingFee ?? 0}/>
                                             </p>
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                            <p className="text-sm font-medium text-gray-900">Tax</p>
-                                            <p className="font-semibold text-gray-900">
-                                                <CustomCurrencyFormat value={tax ?? 0}/>
-                                            </p>
-                                        </div>
+                                        {
+                                            tax > 0 ? (
+                                                <div className="flex items-center justify-between">
+                                                    <p className="text-sm font-medium text-gray-900">Tax</p>
+                                                    <p className="font-semibold text-gray-900">
+                                                        <CustomCurrencyFormat value={tax ?? 0}/>
+                                                    </p>
+                                                </div>
+                                            ) : null
+                                        }
                                     </div>
                                     <div className="mt-6 flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-900">Total</p>
                                         <p className="text-2xl font-semibold text-gray-900">
-                                            <CustomCurrencyFormat value={total}/>
+                                            <CustomCurrencyFormat value={parseFloat(String(total)) + parseFloat(String(shippingFee))}/>
                                         </p>
                                     </div>
                                     <PrimaryButton type={"submit"}

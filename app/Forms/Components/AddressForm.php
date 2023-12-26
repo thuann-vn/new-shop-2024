@@ -2,6 +2,9 @@
 
 namespace App\Forms\Components;
 
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Ward;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Model;
 use Squire\Models\Country;
@@ -25,6 +28,8 @@ class AddressForm extends Forms\Components\Field
         $record = $this->getRecord();
         $relationship = $record?->{$this->getRelationship()}();
 
+        unset($state['pivot']);
+
         if ($relationship === null) {
             return;
         } elseif ($address = $relationship->first()) {
@@ -32,33 +37,43 @@ class AddressForm extends Forms\Components\Field
         } else {
             $relationship->updateOrCreate($state);
         }
-
         $record->touch();
     }
 
     public function getChildComponents(): array
     {
         return [
-            Forms\Components\Grid::make()
-                ->schema([
-                    Forms\Components\Select::make('country')
-                        ->searchable()
-                        ->getSearchResultsUsing(fn (string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
-                        ->getOptionLabelUsing(fn ($value): ?string => Country::find($value)?->getAttribute('name')),
-                ]),
             Forms\Components\TextInput::make('street')
                 ->label('Street address')
                 ->maxLength(255),
             Forms\Components\Grid::make(3)
                 ->schema([
-                    Forms\Components\TextInput::make('city')
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('state')
-                        ->label('State / Province')
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('zip')
-                        ->label('Zip / Postal code')
-                        ->maxLength(255),
+                    Forms\Components\Select::make('province_code')
+                        ->label('Province/City')
+                        ->live()
+                        ->options(Province::all()->pluck('full_name', 'code')->toArray())
+                        ->afterStateUpdated(function (Forms\Set $set) {
+                            $set('district_code', null);
+                            $set('ward_code', null);
+                        })
+                        ->required()
+                    ,
+                    Forms\Components\Select::make('district_code')
+                        ->options(function (Forms\Get $get): array {
+                            return District::where('province_code', $get('province_code'))->orderBy('display_order')->orderBy('name')->pluck('full_name', 'code')->toArray();
+                        })
+                        ->afterStateUpdated(function (Forms\Set $set) {
+                          $set('ward_code', null);
+                        })
+                        ->live()
+                        ->label('District')
+                        ->required(),
+                    Forms\Components\Select::make('ward_code')
+                        ->options(function (Forms\Get $get): array {
+                            return Ward::where('district_code', $get('district_code'))->orderBy('name')->pluck('full_name', 'code')->toArray();
+                        })
+                        ->live()
+                        ->label('Ward'),
                 ]),
         ];
     }
@@ -68,7 +83,7 @@ class AddressForm extends Forms\Components\Field
         parent::setUp();
 
         $this->afterStateHydrated(function (AddressForm $component, ?Model $record) {
-            $address = $record?->getRelationValue($this->getRelationship());
+            $address = $record?->getRelationValue($this->getRelationship())->first();
 
             $component->state($address ? $address->toArray() : [
                 'country' => null,

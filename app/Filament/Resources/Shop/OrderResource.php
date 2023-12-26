@@ -237,7 +237,6 @@ class OrderResource extends Resource
             Forms\Components\Select::make('shop_customer_id')
                 ->relationship('customer', 'name')
                 ->searchable()
-                ->required()
                 ->createOptionForm([
                     Forms\Components\TextInput::make('name')
                         ->required()

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Shop\OrderResource\RelationManagers;
 
 use Akaunting\Money\Currency;
+use App\Settings\ShopSettings;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -30,12 +31,14 @@ class PaymentsRelationManager extends RelationManager
                     ->required(),
 
                 Forms\Components\Select::make('currency')
-                    ->options(collect(Currency::getCurrencies())->mapWithKeys(fn ($item, $key) => [$key => data_get($item, 'name')]))
+                    ->options(collect(Currency::getCurrencies())->mapWithKeys(fn ($item, $key) => [$key => $item['symbol'] . ' - '  . $item['name']]))
                     ->searchable()
+                    ->default(fn () => app(ShopSettings::class)->shop_currency)
                     ->required(),
 
                 Forms\Components\Select::make('provider')
                     ->options([
+                        'cash' => 'Cash',
                         'stripe' => 'Stripe',
                         'paypal' => 'PayPal',
                     ])
@@ -43,11 +46,7 @@ class PaymentsRelationManager extends RelationManager
                     ->native(false),
 
                 Forms\Components\Select::make('method')
-                    ->options([
-                        'credit_card' => 'Credit card',
-                        'bank_transfer' => 'Bank transfer',
-                        'paypal' => 'PayPal',
-                    ])
+                    ->options(array_map(fn ($method) => $method['name'], array_filter(app(ShopSettings::class)->payment_methods, fn ($method) => $method['enabled'])))
                     ->required()
                     ->native(false),
             ]);
