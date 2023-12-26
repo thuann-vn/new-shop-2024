@@ -81,17 +81,40 @@ class ProductController extends Controller
         }, $brands->toArray()),
     ];
 
-    $products = $products->paginate(1)->appends($request->all());
-    return Inertia::render('Product/Category', compact('products', 'category', 'allCategories', 'collections', 'filters'));
+    //Sort
+    $sort = $request->get('sort', 'newest');
+    if(!empty($sort)){
+      switch ($sort) {
+        case 'price_asc':
+          $products = $products->orderBy('price', 'asc');
+          break;
+        case 'price_desc':
+          $products = $products->orderBy('price', 'desc');
+          break;
+        case 'name_asc':
+          $products = $products->orderBy('name', 'asc');
+          break;
+        case 'name_desc':
+          $products = $products->orderBy('name', 'desc');
+          break;
+        default:
+          $products = $products->orderBy('created_at', 'desc');
+          break;
+      }
+    }
+
+    $products = $products->paginate(12)->appends($request->all());
+    return Inertia::render('Product/Category', compact('products', 'category', 'allCategories', 'collections', 'filters', 'sort'));
   }
 
   public function detail($slug)
   {
     $product = \App\Models\Shop\Product::with(['brand'])->where('slug', $slug)->firstOrFail();
+    $firstCategory = $product->categories()->first();
     $images = $product->media()->get();
 
     //Related products
     $relatedProducts = \App\Models\Shop\Product::where('shop_brand_id', $product->shop_brand_id)->where('id', '!=', $product->id)->limit(4)->get();
-    return Inertia::render('Product/Detail', compact('product', 'images', 'relatedProducts'));
+    return Inertia::render('Product/Detail', compact('product', 'images', 'relatedProducts', 'firstCategory'));
   }
 }

@@ -6,6 +6,7 @@ use App\Settings\GeneralSettings;
 use App\Settings\ShopSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use RyanChandler\FilamentNavigation\Models\Navigation;
 use Tightenco\Ziggy\Ziggy;
 use Gloudemans\Shoppingcart\Facades\Cart;
 class HandleInertiaRequests extends Middleware
@@ -34,6 +35,7 @@ class HandleInertiaRequests extends Middleware
     {
         $generalSettings = $this->getGeneralSettings();
         $shopSettings = $this->getShopSettings();
+        $navigation = Navigation::whereHandle('main')->first();
         return [
             ...parent::share($request),
             'general_settings' => $generalSettings,
@@ -49,7 +51,8 @@ class HandleInertiaRequests extends Middleware
                 'items' => fn() => Cart::content(),
                 'total' => fn() => Cart::subtotalFloat(),
                 'count' => fn() => Cart::count(),
-            ]
+            ],
+            'navigation' => $navigation->toArray(),
         ];
     }
 

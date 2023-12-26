@@ -10,14 +10,14 @@ import {Head, Link, router} from "@inertiajs/react";
 import {classNames} from "@/Utils/Helper";
 
 const sortOptions = [
-    {name: 'Most Popular', href: '#', current: true},
-    {name: 'Best Rating', href: '#', current: false},
-    {name: 'Newest', href: '#', current: false},
-    {name: 'Price: Low to High', href: '#', current: false},
-    {name: 'Price: High to Low', href: '#', current: false},
+    {name: 'Newest', code: 'newest', current: false},
+    {name: 'Price: Low to High', code: 'price_asc', current: false},
+    {name: 'Price: High to Low', code: 'price_desc', current: false},
+    {name: 'Name: A-Z', code: 'name_asc', current: false},
+    {name: 'Name: Z-A', code: 'name_desc', current: false},
 ]
 
-export default function Category({category, allCategories, products, filters}: { category, allCategories, products: any[], filters: any[] }) {
+export default function Category({category, allCategories, products, filters, sort}: { category: any, allCategories: any, products: any[], filters: any[], sort: string }) {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
@@ -46,6 +46,15 @@ export default function Category({category, allCategories, products, filters}: {
             }
             url.searchParams.set('page', '1');
         });
+        router.visit(url.toString());
+    }
+
+    const onSortClick = (sortOption: any) => {
+        console.log('filter clicked', sortOption);
+        //Generate url
+        var url = new URL(window.location.href);
+        url.searchParams.set('sort', sortOption.code);
+        url.searchParams.set('page', '1');
         router.visit(url.toString());
     }
 
@@ -97,11 +106,16 @@ export default function Category({category, allCategories, products, filters}: {
                                         <form className="mt-4 border-t border-gray-200">
                                             <h3 className="sr-only">Categories</h3>
                                             <ul role="list" className="px-2 py-3 font-medium text-gray-900">
+                                                <li >
+                                                    <Link href={route('shop.index')} className="block px-2 py-3">
+                                                        All
+                                                    </Link>
+                                                </li>
                                                 {allCategories.map((cat:any) => (
                                                     <li key={cat.name}>
-                                                        <a href={cat.href} className="block px-2 py-3">
+                                                        <Link href={cat.href} className="block px-2 py-3">
                                                             {cat.name}
-                                                        </a>
+                                                        </Link>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -171,7 +185,9 @@ export default function Category({category, allCategories, products, filters}: {
                                     <div>
                                         <Menu.Button
                                             className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                            Sort
+                                            {
+                                                sortOptions.filter((option) => option.code == sort)[0]?.name
+                                            }
                                             <ChevronDownIcon
                                                 className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
@@ -196,10 +212,14 @@ export default function Category({category, allCategories, products, filters}: {
                                                         {({active}) => (
                                                             <a
                                                                 href={option.href}
+                                                                onClick={(event) => {
+                                                                    event.preventDefault();
+                                                                    onSortClick(option);
+                                                                }}
                                                                 className={classNames(
                                                                     option.current ? 'font-medium text-gray-900' : 'text-gray-500',
                                                                     active ? 'bg-gray-100' : '',
-                                                                    'block px-4 py-2 text-sm'
+                                                                    'block px-4 py-2 text-sm cursor-pointer'
                                                                 )}
                                                             >
                                                                 {option.name}
@@ -212,11 +232,11 @@ export default function Category({category, allCategories, products, filters}: {
                                     </Transition>
                                 </Menu>
 
-                                <button type="button"
-                                        className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-                                    <span className="sr-only">View grid</span>
-                                    <Squares2X2Icon className="h-5 w-5" aria-hidden="true"/>
-                                </button>
+                                {/*<button type="button"*/}
+                                {/*        className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">*/}
+                                {/*    <span className="sr-only">View grid</span>*/}
+                                {/*    <Squares2X2Icon className="h-5 w-5" aria-hidden="true"/>*/}
+                                {/*</button>*/}
                                 <button
                                     type="button"
                                     className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -239,10 +259,16 @@ export default function Category({category, allCategories, products, filters}: {
                                     <h3 className="sr-only">Categories</h3>
                                     <ul role="list"
                                         className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                                        <li >
+                                            <Link href={route('shop.index')} className={classNames("capitalize", !category?.id ? 'font-bold text-main-900' : '')}>
+                                                All
+                                            </Link>
+                                        </li>
+
                                         {allCategories.map((cat: { name: Key | null | undefined; slug: any; id: any; }) => (
                                             <li key={cat.name}>
                                                 <Link
-                                                    href={route('shop.category', {slug: cat.slug})}
+                                                    href={route('shop.category', {slug: cat.slug, sort})}
                                                     className={classNames("capitalize", cat.id == category?.id ? 'font-bold text-main-900' : '')}>{cat.name.toLowerCase()}</Link>
                                             </li>
                                         ))}

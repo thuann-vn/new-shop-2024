@@ -11,12 +11,15 @@ import ProductCartForm from "@/Components/Products/ProductCartForm";
 import ProductSlider from "@/Components/Products/ProductSlider";
 import Breadcrumb from "@/Components/Other/Breadcrumb";
 
-export default function ProductDetail({product, images, relatedProducts}: { product: any, images: any, relatedProducts: any }) {
-    const breadcrumbs = [
+export default function ProductDetail({product, images, relatedProducts, firstCategory}: { product: any, images: any, relatedProducts: any, firstCategory: any }) {
+    let breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
-        {id: 2, name: 'Products', href: '#'},
-        {id: 3, name: product.name},
     ]
+    if (firstCategory) {
+        breadcrumbs.push({id: 2, name: firstCategory.name, href: route('shop.category', {slug: firstCategory.slug})})
+    }
+    breadcrumbs.push({id: 3, name: product.name})
+
     return (
         <MasterLayout>
             <Head title={product.name}/>

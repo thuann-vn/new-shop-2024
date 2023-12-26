@@ -14,8 +14,8 @@ export default function Pagination({data}: { data: any }) {
             <div className="flex flex-col content-center items-center">
                 <div className={"mt-3 mb-3"}>
                     <p className="text-sm text-gray-500">
-                        Showing <span className="font-medium">{data.current_page * data.per_page}</span> to <span
-                        className="font-medium">{data.current_page * data.per_page + data.per_page}</span> of{' '}
+                        Showing <span className="font-medium">{(data.current_page - 1) * data.per_page + 1}</span> to <span
+                        className="font-medium">{Math.min(data.current_page * data.per_page + data.per_page, data.total)}</span> of{' '}
                         <span className="font-medium">{data.total}</span> results
                     </p>
                 </div>
