@@ -5,17 +5,25 @@ import {CartContext} from "@/Contexts/CartContext";
 import {Link, router, usePage} from "@inertiajs/react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import axios from "axios";
+import CounterInput from "@/Components/Other/CounterInput";
 
 export default function CartModal() {
     const {isOpen, closeCart} = useContext(CartContext);
     const { cart } = usePage().props;
-    const items = Object.values(cart.items);
+    const [items, setItems] = useState(Object.values(cart.items));
     const removeCartItem = (event, product: any) => {
         event.preventDefault();
         axios.delete(route('cart.remove-from-cart', {id: product.rowId})).then((response) => {
             router.reload({only: ['cart']})
         });
     }
+
+    const updateCartItem = (product: any) => {
+        axios.put(route('cart.update-cart-item'), {qty: product.qty, rowId: product.rowId}).then((response) => {
+            router.reload({only: ['cart']})
+        });
+    }
+
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-20" onClose={()=>closeCart()}>
@@ -64,7 +72,7 @@ export default function CartModal() {
                                             <div className="mt-8">
                                                 <div className="flow-root">
                                                     <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                        {items.map((product) => (
+                                                        {items.map((product, index) => (
                                                             <li key={"cart_product_" + product.rowId} className="flex py-6">
                                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                                                     <img
@@ -86,13 +94,17 @@ export default function CartModal() {
                                                                         </div>
                                                                         <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                                                     </div>
-                                                                    <div className="flex flex-1 items-end justify-between text-sm">
-                                                                        <p className="text-gray-500">Qty {product.qty}</p>
+                                                                    <div className="flex flex-1 items-center justify-between text-sm">
+                                                                        <CounterInput size={"sm"} value={product.qty} onValueChange={(qty)=>{
+                                                                            product.qty = qty;
+                                                                            setItems([...items]);
+                                                                            updateCartItem(product);
+                                                                        }} />
 
                                                                         <div className="flex">
                                                                             <button
                                                                                 type="button"
-                                                                                className="font-medium text-indigo-600 hover:text-indigo-500"
+                                                                                className="font-medium text-red-600 hover:text-red-500"
                                                                                 onClick={(event) => removeCartItem(event, product)}
                                                                             >
                                                                                 Remove

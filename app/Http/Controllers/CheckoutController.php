@@ -85,10 +85,13 @@ class CheckoutController extends Controller
 
       $params = $request->all();
 
+      //Get shipping fee
+      $shippingPrice = $this->shippingFeeService->calculateShippingFee($params['province_code'], $params['district_code'], $params['shipping_method']);
+
       //Create order first
       $order = Order::create([
           'number' => Carbon::now()->format('YmdHis'),
-          'shipping_price' => 0,
+          'shipping_price' => $shippingPrice,
           'shipping_method' => $params['shipping_method'],
           'currency' => $this->shopSettings->shop_currency,
           'tax' => \Cart::taxFloat(),
@@ -109,6 +112,7 @@ class CheckoutController extends Controller
         $index++;
       }
 
+      //Create address
       $order->address()->create([
           'name' => $params['full_name'],
           'phone' => $params['phone'],

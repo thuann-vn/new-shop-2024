@@ -21,26 +21,25 @@ use Inertia\Inertia;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', function () {
-    return Inertia::render('Account/Dashboard');
+  return Inertia::render('Account/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+  Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+  Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+  Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::group(['prefix' => 'products'], function () {
-    Route::get('/', function () {
-        return Inertia::render('Product/Category');
-    })->name('category');
-
-    Route::get('/{slug}', [ProductController::class, 'detail'])->name('products.detail');
+Route::group(['prefix' => 'shop'], function () {
+  Route::get('/', [ProductController::class, 'index'])->name('shop.index');
+  Route::get('/{slug}', [ProductController::class, 'index'])->name('shop.category');
+  Route::get('/product/{slug}', [ProductController::class, 'detail'])->name('products.detail');
 });
 
 Route::group(['prefix' => 'cart'], function () {
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add-to-cart');
-    Route::delete('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove-from-cart');
+  Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add-to-cart');
+  Route::delete('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove-from-cart');
+  Route::put('/update-cart-item', [CartController::class, 'updateCart'])->name('cart.update-cart-item');
 });
 
 Route::group(['prefix' => 'checkout'], function () {
@@ -55,4 +54,4 @@ Route::group(['prefix' => 'checkout'], function () {
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

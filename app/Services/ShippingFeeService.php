@@ -18,22 +18,19 @@ class ShippingFeeService
     {
         $this->shopSettings = $shopSettings;
     }
-    public function calculateShippingFee(Address $address, $cartContents)
+    public function calculateShippingFee($provinceCode, $districtCode, $shippingMethod)
     {
         //Get shipping fee from settings
-        $shippingFee = $this->shopSettings->shop_default_shipping_fee;
+        $defaultShippingFee = $this->shopSettings->shop_default_shipping_fee;
 
-        //Check if shipping fee by suburb
-        $shippingFeeSetting = ShippingFeeSetting::where('ssc_code', $address->state)->first();
-        if (!empty($shippingFeeSetting)) {
-            return $shippingFeeSetting->amount;
-        }
+        //Get by shipping method
+        $shippingMethods = array_filter($this->shopSettings->shipping_methods, function ($method) {
+          return $method['enabled'];
+        });
+        $shippingMethod = array_filter($shippingMethods, function ($method) use ($shippingMethod) {
+          return $method['code'] == $shippingMethod;
+        });
 
-        //Get by state code
-        $shippingFeeSetting = ShippingFeeSetting::where('state_code', $address->city)->first();
-        if (!empty($shippingFeeSetting)) {
-            return $shippingFeeSetting->amount;
-        }
-        return $shippingFee;
+        return $shippingMethod['price'] ?? $defaultShippingFee;
     }
 }

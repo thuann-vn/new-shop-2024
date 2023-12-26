@@ -9,9 +9,9 @@
 }
 
 /* Custom */
-.product-slider{
+.product-slider, .home-slider{
     .swiper-button-prev, .swiper-button-next{
-        top: 30%;
+        top: 50%;
         color: #202435;
         border: 1px solid #efefef;
         border-radius: 50%;
@@ -31,12 +31,18 @@
         }
     }
 
-    .swiper-button-prev{
-        left: -20px;
-    }
+    &.product-slider{
+        .swiper-button-prev, .swiper-button-next{
+            top: 30%;
+        }
 
-    .swiper-button-next{
-        right: -20px;
+        .swiper-button-prev{
+            left: -20px;
+        }
+
+        .swiper-button-next{
+            right: -20px;
+        }
     }
 }
 

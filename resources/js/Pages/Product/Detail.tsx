@@ -9,49 +9,21 @@ import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
 import ProductCartForm from "@/Components/Products/ProductCartForm";
 import ProductSlider from "@/Components/Products/ProductSlider";
+import Breadcrumb from "@/Components/Other/Breadcrumb";
 
 export default function ProductDetail({product, images, relatedProducts}: { product: any, images: any, relatedProducts: any }) {
     const breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
         {id: 2, name: 'Products', href: '#'},
+        {id: 3, name: product.name},
     ]
-
     return (
         <MasterLayout>
             <Head title={product.name}/>
             <div className="bg-gray-100 pb-10">
                 <div className="pt-6">
                     <div className={'container mx-auto px-4 sm:px-6 lg:px-8'}>
-                        <nav aria-label="Breadcrumb">
-                            <ol role="list"
-                                className="mx-auto flex items-center space-x-2">
-                                {breadcrumbs.map((breadcrumb) => (
-                                    <li key={breadcrumb.id}>
-                                        <div className="flex items-center">
-                                            <Link href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                                                {breadcrumb.name}
-                                            </Link>
-                                            <svg
-                                                width={16}
-                                                height={20}
-                                                viewBox="0 0 16 20"
-                                                fill="currentColor"
-                                                aria-hidden="true"
-                                                className="h-5 w-4 text-gray-300"
-                                            >
-                                                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z"/>
-                                            </svg>
-                                        </div>
-                                    </li>
-                                ))}
-                                <li className="text-sm">
-                                    <a href={product.href} aria-current="page"
-                                       className="font-medium text-gray-500 hover:text-gray-600">
-                                        {product.name}
-                                    </a>
-                                </li>
-                            </ol>
-                        </nav>
+                        <Breadcrumb breadcrumbs={breadcrumbs}/>
 
                         <div className="bg-white p-4 mt-5 rounded-lg">
                             {/* Product name */}

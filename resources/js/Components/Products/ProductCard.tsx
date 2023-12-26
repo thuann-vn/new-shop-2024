@@ -4,8 +4,9 @@ import {Link, router} from "@inertiajs/react";
 import axios from "axios";
 import {CartContext} from "@/Contexts/CartContext";
 import {useContext} from "react";
+import {classNames} from "@/Utils/Helper";
 
-export default function ProductCard({product}: { product: any }) {
+export default function ProductCard({product, className=''}: { product: any, className?: string }) {
     const {openCart} = useContext(CartContext);
     const addProductToCart = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -17,7 +18,7 @@ export default function ProductCard({product}: { product: any }) {
         });
     }
     return (
-        <div className="product-card bg-white border border-transparent border-r-gray-200">
+        <div className={classNames("product-card bg-white border border-transparent border-r-gray-200", className)}>
             <div className={"relative d-flex flex-column justify-content-center align-items-center"}>
                 <div className={"relative p-[20px]"}>
                     <Link href={route('products.detail', {slug: product.slug})} className={"block"}>

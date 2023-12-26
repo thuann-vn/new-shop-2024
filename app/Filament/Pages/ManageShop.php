@@ -31,9 +31,9 @@ class ManageShop extends SettingsPage
                             ->label('Tax rate (%)')
                             ->required(),
                       //Shop default shipping fee
-                        Forms\Components\TextInput::make('shop_default_shipping_fee')
-                            ->label('Default shipping fee')
-                            ->required(),
+//                        Forms\Components\TextInput::make('shop_default_shipping_fee')
+//                            ->label('Default shipping fee')
+//                            ->required(),
                     ]),
                 Forms\Components\Tabs\Tab::make('Format')
                     ->icon('heroicon-o-currency-dollar')
