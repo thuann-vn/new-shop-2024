@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useState, useEffect} from 'react'
 import {Combobox, Transition} from '@headlessui/react'
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
 
@@ -15,6 +15,10 @@ export default function Select({className = '', options, value, onChange, placeh
     const [selected, setSelected] = useState(options.find((option) => option.value === value) ?? null)
     const [query, setQuery] = useState('')
 
+    useEffect(() => {
+        setSelected(options.find((option) => option.value === value) ?? null)
+    }, [value])
+
     const filteredOptions =
         query === ''
             ? options
@@ -27,7 +31,10 @@ export default function Select({className = '', options, value, onChange, placeh
 
     return (
         <Combobox value={selected}
-                  onChange={setSelected}
+                  onChange={(value)=>{
+                      onChange(value.value)
+                      setSelected(value)
+                  }}
                   className={className}
         >
             <div className="relative">
@@ -42,6 +49,7 @@ export default function Select({className = '', options, value, onChange, placeh
                             //Select all text on focus
                             event.target.select()
                         }}
+                        autoComplete="off"
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                         <ChevronUpDownIcon
@@ -68,7 +76,7 @@ export default function Select({className = '', options, value, onChange, placeh
                                 <Combobox.Option
                                     key={option.value}
                                     className={({active}) =>
-                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                        `relative cursor-default select-none py-2 pl-4 pr-4 ${
                                             active ? 'bg-main-600 text-white' : 'text-gray-900'
                                         }`
                                     }
@@ -83,15 +91,6 @@ export default function Select({className = '', options, value, onChange, placeh
                                             >
                                               {option.label}
                                             </span>
-                                            {selected ? (
-                                                <span
-                                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                                        active ? 'text-white' : 'text-teal-600'
-                                                    }`}
-                                                >
-                                                <CheckIcon className="h-5 w-5" aria-hidden="true"/>
-                                              </span>
-                                            ) : null}
                                         </>
                                     )}
                                 </Combobox.Option>

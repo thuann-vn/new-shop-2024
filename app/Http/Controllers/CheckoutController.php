@@ -7,33 +7,38 @@ use App\Models\District;
 use App\Models\Province;
 use App\Models\Shop\Product;
 use App\Services\ShippingFeeService;
+use App\Settings\ShopSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class CheckoutController extends Controller
 {
     private ShippingFeeService $shippingFeeService;
+    private ShopSettings $shopSettings;
 
-    public function __construct(ShippingFeeService $shippingFeeService)
+    public function __construct(ShippingFeeService $shippingFeeService, ShopSettings $shopSettings)
     {
         $this->shippingFeeService = $shippingFeeService;
+        $this->shopSettings = $shopSettings;
     }
 
     public function index(){
+      \Cart::setGlobalTax($this->shopSettings->shop_tax);
       $items = array_values(\Cart::content()->toArray());
       $subtotal = \Cart::subtotal();
       $tax = \Cart::tax();
       $shippingFee = 0;
       $total = \Cart::total();
-      return Inertia::render('Checkout/Checkout', compact('items', 'subtotal', 'total', 'tax', 'shippingFee'));
+      $shippingMethods = $this->shopSettings->shipping_methods;
+      $paymentMethods = $this->shopSettings->payment_methods;
+      return Inertia::render('Checkout/Checkout', compact('items', 'subtotal', 'total', 'tax', 'shippingFee', 'shippingMethods'));
     }
 
     public function getProvinces(){
-      $provinces = Province::orderBy('name', 'asc')->get();
+      $provinces = Province::orderBy('full_name', 'asc')->get();
       return response()->json([
         'status' => 'success',
         'data' => $provinces
@@ -42,7 +47,7 @@ class CheckoutController extends Controller
 
     public function getDistricts(Request $request){
       $province_id = $request->input('province_id');
-      $districts = Province::findOrFail($province_id)->districts()->orderBy('display_order', 'asc')->orderBy('name', 'asc')->get();
+      $districts = Province::findOrFail($province_id)->districts()->orderBy('display_order', 'asc')->orderBy('full_name', 'asc')->get();
       return response()->json([
         'status' => 'success',
         'data' => $districts
@@ -51,7 +56,7 @@ class CheckoutController extends Controller
 
     public function getWards(Request $request){
       $district_id = $request->input('district_id');
-      $wards = District::where($district_id)->wards()->orderBy('name', 'asc')->get();
+      $wards = District::findOrFail($district_id)->wards()->orderBy('full_name', 'asc')->get();
       return response()->json([
         'status' => 'success',
         'data' => $wards

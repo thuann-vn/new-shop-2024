@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdcd46bcaffe4ffa1f4a9e38f19f65f3",
+    "content-hash": "b0615b8f8b2f3e8691259f7867bf722b",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -5779,75 +5779,6 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.8.1"
             },
             "time": "2023-05-10T11:58:31+00:00"
-        },
-        {
-            "name": "mindscms/laravelshoppingcart",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mindscms/laravelshoppingcart.git",
-                "reference": "0ef2daf867c1699f23966f282db342630c3f9d00"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mindscms/laravelshoppingcart/zipball/0ef2daf867c1699f23966f282db342630c3f9d00",
-                "reference": "0ef2daf867c1699f23966f282db342630c3f9d00",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/events": "^7|^8|^9|^10",
-                "illuminate/session": "^7|^8|^9|^10",
-                "illuminate/support": "^7|^8|^9|^10"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1",
-                "orchestra/testbench": "^7",
-                "phpunit/phpunit": "^10"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider"
-                    ],
-                    "aliases": {
-                        "Cart": "Gloudemans\\Shoppingcart\\Facades\\Cart"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Gloudemans\\Shoppingcart\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rob Gloudemans",
-                    "email": "info@robgloudemans.nl"
-                },
-                {
-                    "name": "Michael V.",
-                    "email": "michael@michaelbelgium.me"
-                },
-                {
-                    "name": "Sami Mansour",
-                    "email": "mindscms@gmail.com"
-                }
-            ],
-            "description": "Laravel Shopping cart",
-            "keywords": [
-                "laravel",
-                "shoppingcart"
-            ],
-            "support": {
-                "issues": "https://github.com/mindscms/laravelshoppingcart/issues",
-                "source": "https://github.com/mindscms/laravelshoppingcart/tree/v2.1.0"
-            },
-            "time": "2023-03-07T08:56:27+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -12377,6 +12308,76 @@
                 "source": "https://github.com/TappNetwork/filament-authentication-log"
             },
             "time": "2023-08-16T22:01:19+00:00"
+        },
+        {
+            "name": "thuann-vn/shoppingcart",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thuann-vn/LaravelShoppingcart.git",
+                "reference": "213b3cd7868c322f243ff4dc3897108b59ec1be0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thuann-vn/LaravelShoppingcart/zipball/213b3cd7868c322f243ff4dc3897108b59ec1be0",
+                "reference": "213b3cd7868c322f243ff4dc3897108b59ec1be0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/events": "5.4.*||5.5.*||5.6.*||5.7.*||5.8.*||^6.0||^7.0||^8.0||^9.0||^10.0",
+                "illuminate/session": "5.4.*||5.5.*||5.6.*||5.7.*||5.8.*||^6.0||^7.0||^8.0||^9.0||^10.0",
+                "illuminate/support": "5.4.*||5.5.*||5.6.*||5.7.*||5.8.*||^6.0||^7.0||^8.0||^9.0||^10.0",
+                "nesbot/carbon": "~1.20||^1.26.3||^2.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "~5.0||~6.0||~7.0||~8.0||~9.0||^10.0"
+            },
+            "suggest": {
+                "gloudemans/notify": "Simple flash notifications for Laravel"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Gloudemans\\Shoppingcart\\ShoppingcartServiceProvider"
+                    ],
+                    "aliases": {
+                        "Cart": "Gloudemans\\Shoppingcart\\Facades\\Cart"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gloudemans\\Shoppingcart\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Gloudemans",
+                    "email": "info@robgloudemans.nl",
+                    "homepage": "http://robgloudemans.nl/"
+                },
+                {
+                    "name": "Patrick Henninger",
+                    "email": "privat@skyraptor.eu",
+                    "homepage": "https://skyraptor.eu/"
+                }
+            ],
+            "description": "Laravel Shoppingcart",
+            "keywords": [
+                "laravel",
+                "shoppingcart"
+            ],
+            "support": {
+                "source": "https://github.com/thuann-vn/LaravelShoppingcart/tree/v1.0.0"
+            },
+            "time": "2023-12-26T03:52:59+00:00"
         },
         {
             "name": "tightenco/ziggy",

@@ -33,7 +33,6 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "mindscms/laravelshoppingcart": "^2.1",
         "noxoua/filament-activity-log": "^2.1",
         "phpsa/filament-authentication": "^3.1",
         "rickdbcn/filament-email": "^1.0",
@@ -44,6 +43,7 @@
         "statikbe/laravel-filament-flexible-content-blocks": "^0.2.9",
         "tapp/filament-auditing": "3.0",
         "tapp/filament-authentication-log": "3.0",
+        "thuann-vn/shoppingcart": "^1.0",
         "tightenco/ziggy": "^1.0",
         "torann/geoip": "^3.0",
         "wiebenieuwenhuis/filament-code-editor": "^1.0"

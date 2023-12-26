@@ -2,22 +2,17 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Resources\Shop\ProductResource;
-use App\Settings\GeneralSettings;
-use AymanAlhattami\FilamentPageWithSidebar\FilamentPageSidebar;
-use AymanAlhattami\FilamentPageWithSidebar\PageNavigationItem;
-use AymanAlhattami\FilamentPageWithSidebar\Traits\HasPageSidebar;
+use App\Settings\GeneralSettings as GeneralSettingsModel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
-use Joshembling\ImageOptimizer\Components\SpatieMediaLibraryFileUpload;
 use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 
-class Settings extends SettingsPage
+class GeneralSettings extends SettingsPage
 {
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
-    protected static string $settings = GeneralSettings::class;
+    protected static string $settings = GeneralSettingsModel::class;
 
     protected static ?string $navigationGroup = 'Settings';
     protected static ?string $navigationLabel = 'General Settings';

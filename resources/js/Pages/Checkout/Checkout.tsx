@@ -52,7 +52,7 @@ export default function Checkout({items, subtotal, total, shippingFee, tax}: { i
                     </div>
                 </div>
                 <div className="grid lg:grid-cols-2">
-                    <div className="px-4 pt-8">
+                    <div className="pt-8">
                         <CheckoutItems items={items}/>
                         <ShippingMethods items={items}/>
                     </div>

@@ -21,6 +21,7 @@ export default function CheckoutForm({subtotal, total, shippingFee, tax}: { subt
         loadProvinces()
     }, []);
 
+    // Load provinces
     const loadProvinces = () => {
         axios.get(route('checkout.get-provinces'))
             .then(response => {
@@ -29,6 +30,35 @@ export default function CheckoutForm({subtotal, total, shippingFee, tax}: { subt
                     return {
                         value: province.code,
                         label: province.full_name
+                    }
+                }))
+            })
+    }
+
+    //Load districts
+    const loadDistricts = (provinceCode: string) => {
+        setSelectedDistrict(null)
+        setSelectedWard(null)
+        axios.get(route('checkout.get-districts', {province_id: provinceCode}))
+            .then(response => {
+                setDistricts(response.data.data.map((district: { code: any; full_name: any; }) => {
+                    return {
+                        value: district.code,
+                        label: district.full_name
+                    }
+                }))
+            })
+    }
+
+    //Load wards
+    const loadWards = (districtCode: string) => {
+        setSelectedWard(null)
+        axios.get(route('checkout.get-wards', {district_id: districtCode}))
+            .then(response => {
+                setWards(response.data.data.map((ward: { code: any; full_name: any; }) => {
+                    return {
+                        value: ward.code,
+                        label: ward.full_name
                     }
                 }))
             })
@@ -71,7 +101,7 @@ export default function CheckoutForm({subtotal, total, shippingFee, tax}: { subt
 
                 <label htmlFor="billing-address" className="mt-4 mb-2 block text-sm font-medium">Billing Address</label>
                 <div className="flex flex-col sm:flex-row">
-                    <div className="relative w-full">
+                    <div className="relative w-full me-2">
                         <input type="text" id="billing-address" name="billing-address" className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="Street Address" />
                         <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 text-gray-400">
@@ -79,39 +109,35 @@ export default function CheckoutForm({subtotal, total, shippingFee, tax}: { subt
                             </svg>
                         </div>
                     </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row mt-4 ">
                     <Select value={selectedProvince}
-                            onChange={setSelectedProvince}
+                            onChange={(value: string) => {
+                                setSelectedProvince(value)
+                                loadDistricts(value)
+                            }}
                             options={provinces}
                             className={'w-full'}
                             placeholder={'Select province'}
                     />
 
-                    <Select value={selectedProvince}
-                            onChange={setSelectedProvince}
-                            options={provinces}
-                            className={'w-full mx-2'}
+                </div>
+
+                <div className="flex flex-col sm:flex-row mt-4 ">
+                    <Select value={selectedDistrict}
+                            onChange={(value: string) => {
+                                setSelectedDistrict(value)
+                                loadWards(value)
+                            }}
+                            options={districts}
+                            className={'w-full me-2'}
                             placeholder={'Select district'}
                     />
 
-                    <Select value={selectedProvince}
-                            onChange={setSelectedProvince}
-                            options={provinces}
+                    <Select value={selectedWard}
+                            onChange={setSelectedWard}
+                            options={wards}
                             className={'w-full'}
                             placeholder={'Select ward'}
                     />
-                    {/*<Select value={selectedPerson}*/}
-                    {/*        onChange={setSelectedPerson}*/}
-                    {/*        options={people}*/}
-                    {/*        className={'w-full mx-2'}*/}
-                    {/*/>*/}
-                    {/*<Select value={selectedPerson}*/}
-                    {/*        onChange={setSelectedPerson}*/}
-                    {/*        options={people}*/}
-                    {/*        className={'w-full'}*/}
-                    {/*/>*/}
                 </div>
 
                 <div className="mt-6 border-t border-b py-2">
@@ -124,7 +150,7 @@ export default function CheckoutForm({subtotal, total, shippingFee, tax}: { subt
                     <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-gray-900">Shipping</p>
                         <p className="font-semibold text-gray-900">
-                            <CustomCurrencyFormat value={shippingFee}/>
+                            <CustomCurrencyFormat value={shippingFee ?? 0}/>
                         </p>
                     </div>
                     <div className="flex items-center justify-between">
