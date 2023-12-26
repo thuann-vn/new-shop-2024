@@ -3,11 +3,13 @@
 namespace App\Models\Shop;
 
 use App\Enums\OrderStatus;
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -37,9 +39,9 @@ class Order extends Model
         'status' => OrderStatus::class,
     ];
 
-    public function address(): MorphOne
+    public function address(): MorphToMany
     {
-        return $this->morphOne(OrderAddress::class, 'addressable');
+      return $this->morphToMany(Address::class, 'addressable', 'addressables');
     }
 
     public function customer(): BelongsTo

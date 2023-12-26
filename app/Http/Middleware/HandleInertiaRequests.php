@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'cart' => [
                 'items' => fn() => Cart::content(),
-                'total' => fn() => Cart::total(),
+                'total' => fn() => Cart::subtotalFloat(),
                 'count' => fn() => Cart::count(),
             ]
         ];

@@ -50,7 +50,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
 //                Widgets\FilamentInfoWidget::class,
-                LatestUsersWidget::make(['limit' => 5, 'paginate' => true])
+//                LatestUsersWidget::make(['limit' => 5, 'paginate' => true])
             ])
             ->navigationGroups([
                 'Shop',

@@ -2,9 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use Akaunting\Money\Currency;
 use App\Settings\ShopSettings;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
+use Illuminate\Support\Facades\Log;
 use Wiebenieuwenhuis\FilamentCodeEditor\Components\CodeEditor;
 use Filament\Forms;
 
@@ -37,7 +39,28 @@ class ManageShop extends SettingsPage
                     ->icon('heroicon-o-currency-dollar')
                     ->schema([
                       //Shop currency
-                        Forms\Components\TextInput::make('shop_currency')
+                        Forms\Components\Select::make('shop_currency')
+                            ->options(function (){
+                              $options = [];
+                              foreach (Currency::getCurrencies() as $key => $currency) {
+                                $options[$key] = $currency['symbol'] . ' - ' . $currency['name'];
+                              }
+                              return $options;
+                            })
+                            ->live()
+                            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set) {
+                              $currency = $get('shop_currency');
+                              $selectedCurrency = Currency::getCurrencies()[$currency] ?? null;
+                              if(!empty($selectedCurrency)){
+                                $set('shop_currency_symbol', $selectedCurrency['symbol']);
+                                $set('shop_currency_symbol_position', $selectedCurrency['symbol_first'] ? 'left' : 'right');
+                                $set('shop_currency_thousand_separator', $selectedCurrency['thousands_separator']);
+                                $set('shop_currency_decimal_separator', $selectedCurrency['decimal_mark']);
+                                $set('shop_currency_decimal_number', $selectedCurrency['precision']);
+                              }
+                            })
+                            ->searchable()
+                            ->default('USD')
                             ->label('Currency')
                             ->required(),
                       //Shop currency symbol
@@ -74,6 +97,9 @@ class ManageShop extends SettingsPage
                             ->hiddenLabel(true)
                             ->addActionLabel('Add shipping method')
                             ->schema([
+                                Forms\Components\TextInput::make('code')
+                                    ->label('Code')
+                                    ->required(),
                                 Forms\Components\TextInput::make('name')
                                     ->label('Name')
                                     ->required(),

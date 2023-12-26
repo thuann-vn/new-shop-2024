@@ -19,7 +19,7 @@ class Customer extends Model
     /**
      * @var string
      */
-    protected $table = 'shop_customers';
+    protected $table = 'users';
 
     /**
      * @var array<string, string>

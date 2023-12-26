@@ -2,27 +2,18 @@ import {Fragment, useState, useEffect} from 'react'
 import {Combobox, Transition} from '@headlessui/react'
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
 
-const people = [
-    {id: 1, name: 'Wade Cooper'},
-    {id: 2, name: 'Arlene Mccoy'},
-    {id: 3, name: 'Devon Webb'},
-    {id: 4, name: 'Tom Cook'},
-    {id: 5, name: 'Tanya Fox'},
-    {id: 6, name: 'Hellen Schmidt'},
-]
-
-export default function Select({className = '', options, value, onChange, placeholder = ''}) {
-    const [selected, setSelected] = useState(options.find((option) => option.value === value) ?? null)
+export default function Select({className = '', name, options, value, onChange, placeholder = '', required = false}) {
+    const [selected, setSelected] = useState(options.find((option: { value: any }) => option.value === value) ?? null)
     const [query, setQuery] = useState('')
 
     useEffect(() => {
-        setSelected(options.find((option) => option.value === value) ?? null)
+        setSelected(options.find((option: { value: any }) => option.value === value) ?? null)
     }, [value])
 
     const filteredOptions =
         query === ''
             ? options
-            : options.filter((option) =>
+            : options.filter((option: { label: string }) =>
                 option.label
                     .toLowerCase()
                     .replace(/\s+/g, '')
@@ -50,6 +41,8 @@ export default function Select({className = '', options, value, onChange, placeh
                             event.target.select()
                         }}
                         autoComplete="off"
+                        required={required}
+                        name={name}
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                         <ChevronUpDownIcon
@@ -66,7 +59,7 @@ export default function Select({className = '', options, value, onChange, placeh
                     afterLeave={() => setQuery('')}
                 >
                     <Combobox.Options
-                        className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                        className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
                         {filteredOptions.length === 0 && query !== '' ? (
                             <div className="relative cursor-default select-none py-2 text-gray-700">
                                 Nothing found.

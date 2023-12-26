@@ -15,6 +15,7 @@ return new class extends Migration
             //
           $table->string('name')->nullable()->after('id');
           $table->string('phone')->nullable()->after('name');
+          $table->string('email')->nullable()->after('phone');
           $table->string('ward')->nullable()->after('state');
           $table->string('district')->nullable()->after('ward');
           $table->string('province')->nullable()->after('district');
