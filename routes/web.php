@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\CartController;
 use \App\Http\Controllers\ProductController;
 use \App\Http\Controllers\CheckoutController;
-use Illuminate\Foundation\Application;
+use \App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -51,7 +51,12 @@ Route::group(['prefix' => 'checkout'], function () {
   Route::get('/provinces', [CheckoutController::class, 'getProvinces'])->name('checkout.get-provinces');
   Route::get('/districts', [CheckoutController::class, 'getDistricts'])->name('checkout.get-districts');
   Route::get('/wards', [CheckoutController::class, 'getWards'])->name('checkout.get-wards');
+});
 
+
+Route::group(['prefix' => 'blog'], function () {
+  Route::get('/', [BlogController::class, 'index'])->name('blog');
+  Route::get('/{slug}', [BlogController::class, 'show'])->name('blog.detail');
 });
 
 require __DIR__ . '/auth.php';

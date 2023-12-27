@@ -1,7 +1,8 @@
 import ProductCard from "@/Components/Products/ProductCard";
 import { Key } from "react";
+import {ProductCollection} from "@/types";
 
-export default function ProductList({products}: { products: {data: any[]} }) {
+export default function ProductList({products}: { products: ProductCollection }) {
     return (
         <div className="grid
             grid-cols-1

@@ -61,7 +61,7 @@ export default function Header() {
                                             key={key}
                                             href={page.data.url}
                                             className={
-                                                classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-3 py-3 rounded-full",
+                                                classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-2 py-3 rounded-full",
                                                     page.data.classes ?? '',
                                                     isCurrentPage(page.data.url) ? 'bg-main-100 text-main-500' : ''
                                                 )
@@ -81,7 +81,7 @@ export default function Header() {
 
                         <div className="ml-auto flex items-center">
                             <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                <Link href={route('login')} className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                <Link href={route('login')} className="text-sm font-medium text-gray-700 hover:text-gray-800 uppercase">
                                     Sign in
                                 </Link>
                             </div>

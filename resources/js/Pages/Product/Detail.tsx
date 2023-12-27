@@ -2,7 +2,6 @@ import {useContext, useEffect, useState} from 'react'
 import MasterLayout from "@/Layouts/MasterLayout";
 import {PageProps} from "@/types";
 import ProductGallery from "@/Components/Products/ProductGallery";
-import {Head, Link} from "@inertiajs/react";
 import StarRating from "@/Components/Other/StarRating";
 import ProductTabs from "@/Components/Products/ProductTabs";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
@@ -10,6 +9,7 @@ import * as React from "react";
 import ProductCartForm from "@/Components/Products/ProductCartForm";
 import ProductSlider from "@/Components/Products/ProductSlider";
 import Breadcrumb from "@/Components/Other/Breadcrumb";
+import AppHead from "@/Components/Layout/AppHead";
 
 export default function ProductDetail({product, images, relatedProducts, firstCategory}: { product: any, images: any, relatedProducts: any, firstCategory: any }) {
     let breadcrumbs = [
@@ -22,7 +22,7 @@ export default function ProductDetail({product, images, relatedProducts, firstCa
 
     return (
         <MasterLayout>
-            <Head title={product.name}/>
+            <AppHead title={product.name}/>
             <div className="bg-gray-100 pb-10">
                 <div className="pt-6">
                     <div className={'container mx-auto px-4 sm:px-6 lg:px-8'}>

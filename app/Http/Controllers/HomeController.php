@@ -2,29 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog\Post;
 use App\Models\Page;
 use App\Models\Shop\Collection;
-use App\Settings\GeneralSettings;
-use Artesaos\SEOTools\Facades\SEOMeta;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Inertia\Inertia;
 
 class HomeController extends Controller
 {
     public function index(Page $page)
     {
-        $generalSettings = app(GeneralSettings::class);
-        SEOTools::setTitle($generalSettings->site_name);
-        SEOTools::setDescription($generalSettings->site_description);
-        //TODO: SEO Image
-//        SEOTools::jsonLd()->addImage($page->getSEOImageUrl());
-//        SEOTools::opengraph()->addImage($page->getSEOImageUrl());
-        SEOMeta::setKeywords($generalSettings->site_keywords);
-
-        $homeSlider = \App\Models\Slider::with('items')->where('code', 'home-slider')->first()->toArray();
+        $homeSlider = \App\Models\Slider::with('items')->where('code', 'home-slider')->first();
+        $homeSaleSlider1 = \App\Models\Slider::with('items')->where('code', 'home-sale-1')->first();
+        $homeSaleSlider2 = \App\Models\Slider::with('items')->where('code', 'home-sale-2')->first();
         $collections = Collection::whereIsVisible(true)->whereHas('products', function ($productsQuery){
             $productsQuery->where('is_visible', true);
         })->get();
-        return Inertia::render('Home', compact('homeSlider', 'collections'));
+        $homePosts = Post::with(['author', 'category', 'tags'])->where('published_at', '<=', date('Y-m-d'))->orderBy('created_at', 'desc')->take(3)->get();
+        return Inertia::render('Home', compact('homeSlider', 'collections', 'homeSaleSlider1', 'homeSaleSlider2', 'homePosts'));
     }
 }

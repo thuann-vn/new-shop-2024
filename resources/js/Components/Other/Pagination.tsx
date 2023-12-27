@@ -8,7 +8,6 @@ const items = [
 ]
 
 export default function Pagination({data}: { data: any }) {
-    console.log(data)
     return (
         <div className="bg-white px-4 py-3 sm:px-6">
             <div className="flex flex-col content-center items-center">

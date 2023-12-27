@@ -29,12 +29,11 @@ class GeneralSettings extends SettingsPage
                     Forms\Components\Tabs\Tab::make('Website Settings')
                         ->schema([
                             Forms\Components\FileUpload::make('site_logo')
-                                ->label('Site logo (256x256)')
+                                ->label('Site logo (min height 56px)')
                                 ->required()
                                 ->previewable()
                                 ->image()
                                 ->imageEditor()
-                                ->avatar()
                                 ->imageEditorAspectRatios([
                                     null,
                                     '1:1',
