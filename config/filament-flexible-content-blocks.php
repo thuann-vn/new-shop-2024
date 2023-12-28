@@ -25,7 +25,6 @@ return [
     |
     */
     'supported_locales' => [
-        'nl',
         'en',
     ],
 
@@ -43,8 +42,8 @@ return [
         ImageBlock::class,
         HtmlBlock::class,
         TextImageBlock::class,
-        OverviewBlock::class,
-        QuoteBlock::class,
+//        OverviewBlock::class,
+//        QuoteBlock::class,
         CallToActionBlock::class,
         CardsBlock::class,
         TemplateBlock::class,
@@ -371,7 +370,8 @@ return [
     | The list consists of the name of the Blade template as key and the translation key that will be shown in the dropdown.
     */
     'templates' => [
-        'partials.footer-nav' => 'filament-flexible-content-blocks::filament-flexible-content-blocks.form_component.content_blocks.templates_options.footer',
+//        'partials.footer-nav' => 'filament-flexible-content-blocks::filament-flexible-content-blocks.form_component.content_blocks.templates_options.footer',
+      'partials.contact-form' => 'Contact Form'
     ],
 
     /*

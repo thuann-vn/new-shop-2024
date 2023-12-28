@@ -34,6 +34,7 @@ class PageResource extends Resource
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $recordRouteKeyName = 'id';
 
     public static function getNavigationGroup(): string
     {
@@ -107,7 +108,7 @@ class PageResource extends Resource
         return [
             'index' => \App\Filament\Resources\Website\PageResource\Pages\ListPages::route('/'),
             'create' => \App\Filament\Resources\Website\PageResource\Pages\CreatePage::route('/create'),
-            'edit' => \App\Filament\Resources\Website\PageResource\Pages\EditPage::route('/{record}/edit'),
+            'edit' => \App\Filament\Resources\Website\PageResource\Pages\EditPage::route('/{record:id}/edit'),
         ];
     }
 }

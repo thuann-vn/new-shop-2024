@@ -6,10 +6,11 @@ use App\Models\Page;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Response;
+use Inertia\Inertia;
 
 class PageController extends Controller
 {
-    public function __invoke(Page $page)
+    public function show(Page $page)
     {
         if (! $page->isPublished()) {
             return abort(Response::HTTP_NOT_FOUND);
@@ -21,9 +22,10 @@ class PageController extends Controller
         SEOTools::opengraph()->addImage($page->getSEOImageUrl());
         SEOMeta::setKeywords($page->seo_keywords);
 
-        return view('pages.index', [
+        $pageTitle = $page->title;
+        $content = view('pages.index', [
             'page' => $page,
-            'title' => $page->title,
-        ]);
+        ])->render();
+      return Inertia::render('Page/Show', compact('content', 'pageTitle'));
     }
 }

@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 class HomeController extends Controller
 {
-    public function index(Page $page)
+    public function index()
     {
         $homeSlider = \App\Models\Slider::with('items')->where('code', 'home-slider')->first();
         $homeSaleSlider1 = \App\Models\Slider::with('items')->where('code', 'home-sale-1')->first();

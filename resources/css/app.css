@@ -109,3 +109,54 @@
         overflow: hidden;
     }
 }
+
+/* Card */
+.card{
+    text-align: center;
+    background-color: #f3f3f6;
+    padding: 1.5rem 1rem;
+    border-radius: 8px;
+
+    .card__description{
+
+    }
+
+    .card__title{
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    img{
+        width: 36px;
+        height: 36px;
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.page-content{
+    h1{
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    h2{
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    h3{
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    h4{
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+}

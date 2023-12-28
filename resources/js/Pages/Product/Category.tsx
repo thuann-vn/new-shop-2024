@@ -1,7 +1,6 @@
 import { Fragment, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState} from 'react'
-import {Dialog, Disclosure, Menu, Transition} from '@headlessui/react'
-import {XMarkIcon} from '@heroicons/react/24/outline'
-import {ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon} from '@heroicons/react/20/solid'
+import {Menu, Transition} from '@headlessui/react'
+import {ChevronDownIcon, FunnelIcon} from '@heroicons/react/20/solid'
 import MasterLayout from "@/Layouts/MasterLayout";
 import ProductList from "@/Components/Products/ProductList";
 import Pagination from "@/Components/Other/Pagination";

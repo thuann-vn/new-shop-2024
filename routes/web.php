@@ -6,6 +6,8 @@ use \App\Http\Controllers\CartController;
 use \App\Http\Controllers\ProductController;
 use \App\Http\Controllers\CheckoutController;
 use \App\Http\Controllers\BlogController;
+use \App\Http\Controllers\PageController;
+use \App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -59,4 +61,11 @@ Route::group(['prefix' => 'blog'], function () {
   Route::get('/{slug}', [BlogController::class, 'show'])->name('blog.detail');
 });
 
+
+Route::group(['prefix' => 'contact'], function () {
+  Route::post('/', [ContactController::class, 'submitContact'])->name('contact.submit');
+});
+
 require __DIR__ . '/auth.php';
+
+Route::get('/{page}', [PageController::class, 'show'])->name('page.detail');
