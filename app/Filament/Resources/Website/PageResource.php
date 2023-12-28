@@ -55,18 +55,18 @@ class PageResource extends Resource
                                 SlugField::create(false),
                                 IntroField::create(),
                                 AuthorField::create(),
-                                HeroImageSection::create(true),
-                                PublicationSection::create(),
+//                                HeroImageSection::create(true),
+//                                PublicationSection::create(),
                             ]),
                         Tab::make('Content')
                             ->schema([
                                 CopyContentBlocksToLocalesAction::create('translate_blocks'),
                                 ContentBlocksField::create(),
                             ]),
-                        Tab::make('Overview')
-                            ->schema([
-                                OverviewFields::create(1, true),
-                            ]),
+//                        Tab::make('Overview')
+//                            ->schema([
+//                                OverviewFields::create(1, true),
+//                            ]),
                         Tab::make('SEO')
                             ->schema([
                                 SEOFields::create(1, true),

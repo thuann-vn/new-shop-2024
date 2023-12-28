@@ -21,8 +21,10 @@ export default function VerifyEmail({ status }: { status?: string }) {
             <Head title="Email Verification" />
             <div className="flex min-h-[500px] items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
                 <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-
-                    <div className="mb-4 text-sm text-gray-600">
+                    <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+                        Verify your email address
+                    </h2>
+                    <div className="mt-2 mb-4 text-sm text-gray-600">
                         Thanks for signing up! Before getting started, could you verify your email address by clicking on the
                         link we just emailed to you? If you didn't receive the email, we will gladly send you another.
                     </div>
