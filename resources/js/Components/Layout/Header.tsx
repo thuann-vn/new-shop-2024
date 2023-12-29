@@ -53,7 +53,7 @@ export default function Header() {
 
                         {/* Flyout menus */}
                         <Popover.Group className="hidden lg:ml-8 lg:block">
-                            <div className="flex space-x-2">
+                            <div className="flex space-x-0">
                                 {Object.keys(navigation.items).map((key) => {
                                     var page = navigation.items[key];
                                     return (
@@ -61,7 +61,7 @@ export default function Header() {
                                             key={key}
                                             href={page.data.url}
                                             className={
-                                                classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-2 py-3 rounded-full",
+                                                classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-4 py-3 rounded-full",
                                                     page.data.classes ?? '',
                                                     isCurrentPage(page.data.url) ? 'bg-main-100 text-main-500' : ''
                                                 )

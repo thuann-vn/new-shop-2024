@@ -1,7 +1,7 @@
 import * as React from "react";
 import CurrencyFormat from 'react-currency-format';
 import {usePage} from "@inertiajs/react";
-export default function CustomCurrencyFormat({value} : {value: number}) {
+export default function CustomCurrencyFormat({value} : {value: number | string}) {
     const {shop} = usePage().props;
     return (
         <CurrencyFormat
@@ -11,7 +11,7 @@ export default function CustomCurrencyFormat({value} : {value: number}) {
             decimalSeparator={shop.shop_currency_decimal_separator}
             prefix={shop.shop_currency_symbol_position == 'left' ? shop.shop_currency_symbol : ''}
             suffix={shop.shop_currency_symbol_position == 'right' ? shop.shop_currency_symbol : ''}
-            decimalScale={shop.shop_currency_decimal_digits}
+            decimalScale={shop.shop_currency_decimal_number}
         />
     )
 }

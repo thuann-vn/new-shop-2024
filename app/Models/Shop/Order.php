@@ -4,6 +4,7 @@ namespace App\Models\Shop;
 
 use App\Enums\OrderStatus;
 use App\Models\Address;
+use App\Settings\ShopSettings;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,6 +40,8 @@ class Order extends Model
         'status' => OrderStatus::class,
     ];
 
+    protected $appends = ['shipping_method_detail', 'payment_method_detail'];
+
     public function address(): MorphToMany
     {
       return $this->morphToMany(Address::class, 'addressable', 'addressables');
@@ -57,5 +60,27 @@ class Order extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function getShippingMethodDetailAttribute(){
+      $shippingMethod = $this->shipping_method;
+      $shippingMethods = app(ShopSettings::class)->shipping_methods;
+      foreach($shippingMethods as $method){
+        if(@$method['code'] == $shippingMethod){
+          return $method;
+        }
+      }
+      return null;
+    }
+
+    public function getPaymentMethodDetailAttribute(){
+      $paymentMethod = $this->payment_method;
+      $paymentMethods = app(ShopSettings::class)->payment_methods;
+      foreach($paymentMethods as $method){
+        if(@$method['code'] == $paymentMethod){
+          return $method;
+        }
+      }
+      return null;
     }
 }

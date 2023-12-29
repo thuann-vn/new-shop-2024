@@ -67,10 +67,11 @@ class PostResource extends Resource
                             ->relationship('category', 'name')
                             ->searchable()
                             ->required(),
-
+                        Forms\Components\Toggle::make('is_featured')
+                            ->label('Featured')
+                            ->hint('Featured posts will be displayed on the homepage and sidebar.'),
                         Forms\Components\DatePicker::make('published_at')
                             ->label('Published Date'),
-
                         SpatieTagsInput::make('tags'),
                     ])
                     ->columns(2),

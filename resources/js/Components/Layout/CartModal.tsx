@@ -1,4 +1,4 @@
-import {Fragment, useContext, useState} from 'react'
+import {Fragment, useContext, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import {CartContext} from "@/Contexts/CartContext";
@@ -11,6 +11,10 @@ export default function CartModal() {
     const {isOpen, closeCart} = useContext(CartContext);
     const { cart } = usePage().props;
     const [items, setItems] = useState(Object.values(cart.items));
+
+    useEffect(() => {
+        setItems(Object.values(cart.items));
+    }, [cart]);
     const removeCartItem = (event, product: any) => {
         event.preventDefault();
         axios.delete(route('cart.remove-from-cart', {id: product.rowId})).then((response) => {

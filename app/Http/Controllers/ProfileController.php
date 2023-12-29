@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Shop\Order;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Profile/Edit', [
+        return Inertia::render('Account/Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
@@ -59,5 +60,23 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function orders(Request $request){
+        $orders = Order::with(['items', 'items.product', 'address', 'customer'])->where('shop_customer_id', $request->user()->id)->orderBy('id', 'desc')->paginate(20);
+
+        return Inertia::render('Account/Orders', [
+            'orders' => $orders
+        ]);
+    }
+
+    public function orderDetail(Request $request, $id){
+        $order = Order::with(['items', 'items.product', 'address', 'customer'])->where('shop_customer_id', $request->user()->id)->where('id', $id)->first();
+        if(!$order){
+            return redirect()->route('profile.orders');
+        }
+        return Inertia::render('Account/OrderDetail', [
+            'order' => $order
+        ]);
     }
 }

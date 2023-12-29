@@ -27,6 +27,9 @@ Route::middleware('auth')->prefix('account')->group(function () {
     return Inertia::render('Account/Dashboard');
   })->middleware(['auth', 'verified'])->name('dashboard');
 
+  Route::get('/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+  Route::get('/orders/{id}', [ProfileController::class, 'orderDetail'])->name('profile.order-detail');
+
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -47,7 +50,7 @@ Route::group(['prefix' => 'cart'], function () {
 Route::group(['prefix' => 'checkout'], function () {
   Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
   Route::post('/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
-  Route::get('/success', [CheckoutController::class, 'success'])->name('checkout.success');
+  Route::get('/summary', [CheckoutController::class, 'orderSummary'])->name('checkout.order-summary');
 
   //Address
   Route::get('/provinces', [CheckoutController::class, 'getProvinces'])->name('checkout.get-provinces');
@@ -58,6 +61,8 @@ Route::group(['prefix' => 'checkout'], function () {
 
 Route::group(['prefix' => 'blog'], function () {
   Route::get('/', [BlogController::class, 'index'])->name('blog');
+  Route::get('/category/{category}', [BlogController::class, 'index'])->name('blog.category');
+  Route::get('/tag/{tag}', [BlogController::class, 'index'])->name('blog.tag');
   Route::get('/{slug}', [BlogController::class, 'show'])->name('blog.detail');
 });
 

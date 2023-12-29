@@ -36,6 +36,19 @@ export interface Tag{
     created_at: string;
     updated_at: string;
 }
+
+export interface BlogCategory{
+    id: number;
+    name: string;
+    slug: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface BlogTag{
+    id: number;
+    name: string;
+}
 export interface BlogPost{
     id: number;
     title: string;
@@ -70,7 +83,7 @@ export interface Product{
     name: string;
     slug: string;
     description: string;
-    image: string;
+    featured_image_url: string;
     price: number;
     created_at: string;
     updated_at: string;
@@ -88,4 +101,61 @@ export interface ProductCategory{
     image: string;
     created_at: string;
     updated_at: string;
+}
+
+export interface Address{
+    id: number;
+    name: string;
+    phone: string;
+    email: string;
+    street: string;
+    province: string;
+    district: string;
+    ward: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface PaymentMethod{
+    code: string;
+    name: string;
+    description: string;
+}
+export interface ShippingMethod{
+    code: string;
+    name: string;
+    description: string;
+}
+
+export interface Order{
+    id: number;
+    number: string;
+    total_price: number;
+    tax: number;
+    shipping_price:number;
+    discount: number;
+    shipping_method_detail: ShippingMethod;
+    payment_method_detail: PaymentMethod;
+    items: OrderItem[];
+    address: Address[]
+    status: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface OrderItem{
+    id: number;
+    order_id: number;
+    product_id: number;
+    qty: number;
+    unit_price: number;
+    total_price: number;
+    created_at: string;
+    updated_at: string;
+    product: Product;
+}
+
+export interface OrderCollection{
+    data: Order[];
+    links: any[]
 }

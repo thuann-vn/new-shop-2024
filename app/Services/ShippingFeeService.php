@@ -24,13 +24,10 @@ class ShippingFeeService
         $defaultShippingFee = $this->shopSettings->shop_default_shipping_fee;
 
         //Get by shipping method
-        $shippingMethods = array_filter($this->shopSettings->shipping_methods, function ($method) {
-          return $method['enabled'];
-        });
-        $shippingMethod = array_filter($shippingMethods, function ($method) use ($shippingMethod) {
-          return $method['code'] == $shippingMethod;
-        });
+        $shippingMethods = array_values(array_filter($this->shopSettings->shipping_methods, function ($method) use ($shippingMethod) {
+          return $method['enabled'] && $method['code'] == $shippingMethod;
+        }));
 
-        return $shippingMethod['price'] ?? $defaultShippingFee;
+        return $shippingMethods[0]['price'] ?? $defaultShippingFee;
     }
 }

@@ -15,6 +15,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        return Filament::getLoginUrl();
+        return route('login');
     }
 }

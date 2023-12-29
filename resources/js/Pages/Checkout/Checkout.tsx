@@ -1,5 +1,5 @@
 import MasterLayout from "@/Layouts/MasterLayout";
-import {Head, Link} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
 import CheckoutItems from "@/Components/Checkout/CheckoutItems";
@@ -13,7 +13,7 @@ import CheckoutSteps from "@/Components/Checkout/CheckoutSteps";
 import Alert from "@/Components/Form/Alert";
 
 export default function Checkout({items, subtotal, total, tax, shippingMethods, paymentMethods}:
-                                     { items: any, subtotal: number , total: number, tax: number, shippingMethods: object[], paymentMethods: object[] }) {
+                                     { items: any, subtotal: number, total: number, tax: number, shippingMethods: object[], paymentMethods: object[] }) {
     const breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
         {id: 2, name: 'Checkout', href: '#'},
@@ -41,14 +41,19 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
         setErrors(null)
         //Post
         axios.post(route('checkout.place-order'), formData)
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => {
-            const errorMessage = error.response.data.message;
-            setErrors(errorMessage)
-            setSubmitting(false)
-        }).finally(() => {
+            .then(response => {
+                if (response.data.id) {
+                    router.visit(route('checkout.order-summary'))
+                } else {
+                    setErrors(response.data.message)
+                    setSubmitting(false)
+                }
+            })
+            .catch(error => {
+                const errorMessage = error.response.data.message;
+                setErrors(errorMessage)
+                setSubmitting(false)
+            }).finally(() => {
             setSubmitting(false)
         })
     }
@@ -68,7 +73,8 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
                             <div className="grid lg:grid-cols-2 space-x-0 lg:space-x-10">
                                 <div className="pt-8">
                                     <div>
-                                        {  errors ? <Alert title={"Please check your input information:"} message={errors} />: null}
+                                        {errors ? <Alert title={"Please check your input information:"}
+                                                         message={errors}/> : null}
                                         <CheckoutForm
                                             formData={formData}
                                             setFormData={setFormData}
@@ -118,7 +124,8 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
                                     <div className="mt-6 flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-900">Total</p>
                                         <p className="text-2xl font-semibold text-gray-900">
-                                            <CustomCurrencyFormat value={parseFloat(String(total)) + parseFloat(String(shippingFee))}/>
+                                            <CustomCurrencyFormat
+                                                value={parseFloat(String(total)) + parseFloat(String(shippingFee))}/>
                                         </p>
                                     </div>
                                     <PrimaryButton type={"submit"}

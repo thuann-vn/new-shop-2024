@@ -97,7 +97,8 @@ class CheckoutController extends Controller
           'tax' => \Cart::taxFloat(),
           'total_price' => \Cart::totalFloat(),
           'payment_method' => $params['payment_method'],
-          'status' => OrderStatus::New
+          'status' => OrderStatus::New,
+          'shop_customer_id' => auth()->check() ? auth()->user()->id : null
       ]);
 
       //Create detail
@@ -152,6 +153,14 @@ class CheckoutController extends Controller
       DB::rollBack();
       throw $e;
     }
+  }
+
+  public function orderSummary()
+  {
+    $order = Order::findOrFail(session()->get('created_order_id'));
+    $order->items->load('product');
+    $order->load('address');
+    return Inertia::render('Checkout/OrderSummary', compact('order'));
   }
 
   public function getProvinces()
