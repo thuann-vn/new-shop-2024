@@ -75,7 +75,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
             })
     }
 
-    const _setFormData = (key: string, value: string | null) => {
+    const _setFormData = (key: string, value: any) => {
         setFormData({
             ...formData,
             [key]: value

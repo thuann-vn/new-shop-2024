@@ -1,4 +1,4 @@
-import {BlogPost, PageProps, Slider} from '@/types';
+import {BlogPost, Collection, PageProps, Slider} from '@/types';
 import Authenticated from "@/Layouts/MasterLayout";
 import HomeBlog from "@/Components/Home/HomeBlog";
 import HomeCollections from "@/Components/Home/HomeCollections";
@@ -6,7 +6,7 @@ import HomeBanner from "@/Components/Home/HomeBanner";
 import AppHead from "@/Components/Layout/AppHead";
 import HomeSaleBanner from "@/Components/Home/HomeSaleBanner";
 
-export default function Home({ homeSlider, homeSaleSlider1, homeSaleSlider2, collections, homePosts}: PageProps<{ homeSlider:Slider, homeSaleSlider1:Slider, homeSaleSlider2:Slider, collections: object[], homePosts: BlogPost[] }>) {
+export default function Home({ homeSlider, homeSaleSlider1, homeSaleSlider2, collections, homePosts}: PageProps<{ homeSlider:Slider, homeSaleSlider1:Slider, homeSaleSlider2:Slider, collections: Collection[], homePosts: BlogPost[] }>) {
     return (
         <Authenticated>
             <AppHead title="Welcome" />
