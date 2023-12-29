@@ -1,9 +1,19 @@
-import {Fragment, useState, useEffect} from 'react'
+import {Fragment, useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal} from 'react'
 import {Combobox, Transition} from '@headlessui/react'
 import {CheckIcon, ChevronUpDownIcon} from '@heroicons/react/20/solid'
+import {classNames} from "@/Utils/Helper";
 
-export default function Select({className = '', name, options, value, onChange, placeholder = '', required = false}) {
-    const [selected, setSelected] = useState(options.find((option: { value: any }) => option.value === value) ?? null)
+interface SelectProps {
+    name: string,
+    options: { value: any, label: string }[],
+    value: any,
+    onChange: (value: any) => void,
+    placeholder?: string,
+    required?: boolean,
+    className: string
+}
+export default function Select({ name, options, value, onChange, placeholder = '', required = false, className } : SelectProps) {
+    const [selected, setSelected] = useState(options.find((option: { value: any, label: string }) => option.value === value) ?? null)
     const [query, setQuery] = useState('')
 
     useEffect(() => {
@@ -22,18 +32,17 @@ export default function Select({className = '', name, options, value, onChange, 
 
     return (
         <Combobox value={selected}
-                  onChange={(value)=>{
-                      onChange(value.value)
+                  onChange={(value) => {
+                      onChange(value?.value)
                       setSelected(value)
                   }}
-                  className={className}
         >
-            <div className="relative">
+            <div className={classNames("relative", className)}>
                 <div
                     className="relative rounded-md border border-gray-200 py-1 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500">
                     <Combobox.Input
                         className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                        displayValue={(selected) => selected?.label}
+                        displayValue={(selected: {label: string}) => selected?.label}
                         onChange={(event) => setQuery(event.target.value)}
                         placeholder={placeholder}
                         onFocus={(event) => {
@@ -65,7 +74,7 @@ export default function Select({className = '', name, options, value, onChange, 
                                 Nothing found.
                             </div>
                         ) : (
-                            filteredOptions.map((option) => (
+                            filteredOptions.map((option: { value: Key | null | undefined; label: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined }) => (
                                 <Combobox.Option
                                     key={option.value}
                                     className={({active}) =>

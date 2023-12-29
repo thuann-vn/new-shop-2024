@@ -1,9 +1,10 @@
 import ProductSlider from "@/Components/Products/ProductSlider";
 import {Link} from "@inertiajs/react";
+import {Collection, ProductCollection} from "@/types";
 
-export default function HomeCollections({collections}: { collections: array }) {
+export default function HomeCollections({collections}: { collections: Collection[] }) {
     return (
-        collections.map((collection: { name: string; slug: string; description: string, items : array}) => (
+        collections.map((collection) => (
             <div key={collection.name} className="group relative">
                 <div className="container mx-auto mt-10">
                     <div className="flex items-center justify-between mb-3">

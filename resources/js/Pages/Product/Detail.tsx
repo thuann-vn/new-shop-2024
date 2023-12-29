@@ -18,7 +18,7 @@ export default function ProductDetail({product, images, relatedProducts, firstCa
     if (firstCategory) {
         breadcrumbs.push({id: 2, name: firstCategory.name, href: route('shop.category', {slug: firstCategory.slug})})
     }
-    breadcrumbs.push({id: 3, name: product.name})
+    breadcrumbs.push({id: 3, name: product.name, href: ''})
 
     return (
         <MasterLayout>

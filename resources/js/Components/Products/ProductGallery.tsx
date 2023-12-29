@@ -13,8 +13,9 @@ import 'lightgallery/css/lg-thumbnail.css';
 // import plugins if you need
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import lgZoom from 'lightgallery/plugins/zoom';
+import {Media} from "@/types";
 interface ProductSliderProps {
-    images: object[]
+    images: Media[]
 }
 
 export default function ProductGallery({images}: ProductSliderProps) {

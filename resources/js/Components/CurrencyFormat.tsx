@@ -1,8 +1,9 @@
 import * as React from "react";
 import CurrencyFormat from 'react-currency-format';
 import {usePage} from "@inertiajs/react";
+import {PageProps} from "@/types";
 export default function CustomCurrencyFormat({value} : {value: number | string}) {
-    const {shop} = usePage().props;
+    const {shop} = usePage<PageProps>().props;
     return (
         <CurrencyFormat
             value={value}

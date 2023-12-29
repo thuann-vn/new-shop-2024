@@ -1,6 +1,6 @@
 import {classNames} from "@/Utils/Helper";
 
-export default function CounterInput({value, onValueChange, size="md"} : {value: number, onValueChange: any, size: string}) : JSX.Element{
+export default function CounterInput({value, onValueChange, size="md"} : {value: number, onValueChange: any, size?: string}) : JSX.Element{
     const _onPlusClick = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         onValueChange(value + 1);

@@ -3,9 +3,10 @@ import {Autoplay, Navigation} from 'swiper/modules';
 import {imageStorageUrl} from "@/Utils/Helper";
 import * as React from "react";
 import ProductCard from "@/Components/Products/ProductCard";
+import {Product} from "@/types";
 
 interface ProductSliderProps {
-    products: object[],
+    products: Product[],
     title?: string,
     className?: string
 }
@@ -53,7 +54,7 @@ export default function ProductSlider({products, title, className = ''}: Product
                 {products.map((product, index) => {
                     return (
                         <SwiperSlide key={index}>
-                            <ProductCard product={product}/>
+                            <ProductCard product={product} onRemoveFromWishList={()=>{}}/>
                         </SwiperSlide>
                     );
                 })}

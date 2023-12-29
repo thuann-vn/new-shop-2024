@@ -1,21 +1,22 @@
-import {Fragment, useContext, useEffect, useState} from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import {Fragment, MouseEvent, useContext, useEffect, useState} from 'react'
+import {Dialog, Transition} from '@headlessui/react'
+import {XMarkIcon} from '@heroicons/react/24/outline'
 import {CartContext} from "@/Contexts/CartContext";
 import {Link, router, usePage} from "@inertiajs/react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import axios from "axios";
 import CounterInput from "@/Components/Other/CounterInput";
+import {PageProps} from "@/types";
 
 export default function CartModal() {
     const {isOpen, closeCart} = useContext(CartContext);
-    const { cart } = usePage().props;
+    const {cart} = usePage<PageProps>().props;
     const [items, setItems] = useState(Object.values(cart.items));
 
     useEffect(() => {
         setItems(Object.values(cart.items));
     }, [cart]);
-    const removeCartItem = (event, product: any) => {
+    const removeCartItem = (event: React.MouseEvent<HTMLButtonElement>, product: any) => {
         event.preventDefault();
         axios.delete(route('cart.remove-from-cart', {id: product.rowId})).then((response) => {
             router.reload({only: ['cart']})
@@ -81,7 +82,7 @@ export default function CartModal() {
                                                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                                                     <img
                                                                         src={product.options.image}
-                                                                        alt={product.imageAlt}
+                                                                        alt={product.name}
                                                                         className="h-full w-full object-cover object-center"
                                                                     />
                                                                 </div>
@@ -96,10 +97,10 @@ export default function CartModal() {
                                                                                 <CustomCurrencyFormat value={product.price} />
                                                                             </p>
                                                                         </div>
-                                                                        <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                                                                        <p className="mt-1 text-sm text-gray-500">{product.options.variant_description ?? ''}</p>
                                                                     </div>
                                                                     <div className="flex flex-1 items-center justify-between text-sm">
-                                                                        <CounterInput size={"sm"} value={product.qty} onValueChange={(qty)=>{
+                                                                        <CounterInput size={"sm"} value={product.qty} onValueChange={(qty: number)=>{
                                                                             product.qty = qty;
                                                                             setItems([...items]);
                                                                             updateCartItem(product);

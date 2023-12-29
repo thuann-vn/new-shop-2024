@@ -66,7 +66,7 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
                         <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row">
                             <a href="#" className="text-2xl font-bold text-gray-800">Checkout</a>
                             <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
-                                <CheckoutSteps/>
+                                <CheckoutSteps step={2}/>
                             </div>
                         </div>
                         <form onSubmit={onSubmit}>

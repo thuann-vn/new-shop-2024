@@ -132,8 +132,18 @@ export default function Category({category, allCategories, products, filters, so
 
                                 {/* Product grid */}
                                 <div className="lg:col-span-3">
-                                    <ProductList products={products}/>
-                                    <Pagination data={products}/>
+                                    {
+                                        products.data.length > 0 ? (
+                                            <>
+                                                <ProductList products={products}/>
+                                                <Pagination data={products}/>
+                                            </>
+                                        ) : (
+                                            <div className={"text-center text-gray-500"}>
+                                                No products found
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </section>

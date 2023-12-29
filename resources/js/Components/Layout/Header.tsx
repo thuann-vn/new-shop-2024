@@ -10,10 +10,11 @@ import {classNames, imageStorageUrl} from "@/Utils/Helper";
 import MobileMenu from "@/Components/Layout/MobileMenu";
 import {Link, usePage} from "@inertiajs/react";
 import {CartContext} from "@/Contexts/CartContext";
+import {PageProps} from "@/types";
 
 export default function Header() {
     const [open, setOpen] = useState(false)
-    const {general_settings, cart, navigation, auth} = usePage().props;
+    const {general_settings, cart, navigation, auth} = usePage<PageProps>().props;
     const {openCart} = useContext(CartContext);
 
     const isCurrentPage = (url: string) => {
@@ -101,7 +102,7 @@ export default function Header() {
                                                                         <Menu.Item key={child.label}>
                                                                             {({active}) => (
                                                                                 <Link
-                                                                                    href={child.data.href}
+                                                                                    href={child.data.url}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100' : '',
                                                                                         'flex items-center py-3 px-4 text-sm text-gray-700'

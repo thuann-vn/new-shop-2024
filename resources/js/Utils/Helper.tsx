@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export function classNames(...classes) {
+export function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 

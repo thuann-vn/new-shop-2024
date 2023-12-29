@@ -3,15 +3,74 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: string;
+    photo: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;
     };
-
+    cart: Cart;
     general_settings: GeneralSettings;
+    wishlist: number[],
+    navigation: Navigation,
+    shop: ShopSettings
 };
+
+export interface ShopSettings{
+    shop_currency_thousand_separator: string;
+    shop_currency_decimal_separator: string;
+    shop_currency_decimal_digit: number;
+    shop_currency_symbol: string;
+    shop_currency_symbol_position: string;
+    shop_currency_symbol_space: boolean;
+    shop_currency_code: string;
+    shop_currency_name: string;
+    shop_currency_decimal_number: number;
+}
+export interface Navigation{
+    items: MenuItems;
+}
+
+export interface MenuItems{
+    [key: string]: MenuItem
+}
+
+export interface MenuItem{
+    label: string;
+    children: MenuItems;
+    data: MenuItemOptions;
+}
+
+export interface MenuItemOptions{
+    icon: string;
+    url: string;
+    target: string;
+    classes: string;
+}
+
+export interface Cart{
+    items: CartItem[];
+    count: number;
+    total: number;
+    total_items: number;
+}
+
+export interface CartItem{
+    rowId: string;
+    id: number;
+    name: string;
+    product_id: number;
+    qty: number;
+    price: number;
+    created_at: string;
+    updated_at: string;
+    product: Product;
+    options: CartItemOptions;
+}
+export interface CartItemOptions{
+    [key: string]: string;
+}
 
 export interface GeneralSettings {
     site_name: string;
@@ -85,8 +144,16 @@ export interface Product{
     description: string;
     featured_image_url: string;
     price: number;
+    old_price: number;
     created_at: string;
     updated_at: string;
+    content: string;
+    specifications: ProductSpecification[];
+}
+
+export interface ProductSpecification{
+    name: string;
+    value: string;
 }
 
 export interface ProductCollection{
@@ -101,6 +168,15 @@ export interface ProductCategory{
     image: string;
     created_at: string;
     updated_at: string;
+}
+
+export interface Collection{
+    id: number;
+    name: string;
+    slug: string;
+    description: string,
+    items : Product[],
+    home_products: Product[],
 }
 
 export interface Address{
@@ -168,4 +244,13 @@ export interface WishListItem{
 export interface WishList{
     data: WishListItem[];
     links: any[]
+}
+
+export interface Media{
+    id: number;
+    name: string;
+    original_url: string;
+    preview_url: string;
+    created_at: string;
+    updated_at: string;
 }

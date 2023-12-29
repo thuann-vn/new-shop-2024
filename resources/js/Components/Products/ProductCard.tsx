@@ -7,10 +7,11 @@ import {useContext} from "react";
 import {classNames} from "@/Utils/Helper";
 import {HeartIcon} from "@heroicons/react/24/solid";
 import {HeartIcon as OutlineHeartIcon} from "@heroicons/react/24/outline";
+import {PageProps, Product} from "@/types";
 
-export default function ProductCard({ product, className= '', onRemoveFromWishList }: { product: any, className?: string, onRemoveFromWishList: () => void }) {
+export default function ProductCard({ product, className= '', onRemoveFromWishList}: { product: Product, className?: string, onRemoveFromWishList?: any }) {
     const {openCart} = useContext(CartContext);
-    const {auth, wishlist = []} = usePage().props;
+    const {auth, wishlist = []} = usePage<PageProps>().props;
     const addProductToCart = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         e.stopPropagation();
@@ -21,7 +22,7 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
         });
     }
 
-    const addToWishlist = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const addToWishlist = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -35,7 +36,7 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
             if(confirmed) {
                 axios.delete(route('profile.remove-wishlist', {id: product.id})).then((response) => {
                     alert('Product removed from wishlist');
-                    onRemoveFromWishList();
+                    onRemoveFromWishList && onRemoveFromWishList();
                     router.reload({only: ['wishlist']})
                 });
             }
@@ -49,6 +50,7 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
     }
     console.log(wishlist)
 
+    // @ts-ignore
     return (
         <div className={classNames("product-card bg-white border border-transparent border-r-gray-200", className)}>
             <div className={"relative d-flex flex-column justify-content-center align-items-center"}>

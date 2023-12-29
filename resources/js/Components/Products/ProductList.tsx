@@ -19,7 +19,7 @@ export default function ProductList({products}: { products: ProductCollection })
             [&>*:nth-child(3)]:border-r-transparent
             "
         >
-            {products.data.map((product: { id: Key | null | undefined; }) => (
+            {products.data.map((product) => (
                 <ProductCard product={product} key={product.id} className={"border-b-gray-200"}/>
             ))}
         </div>

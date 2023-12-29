@@ -2,7 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build"
+        "build": "tsc && vite build --ssr"
     },
     "devDependencies": {
         "@alpinejs/focus": "^3.10.3",

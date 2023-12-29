@@ -1,17 +1,22 @@
 import { Tab } from '@headlessui/react'
-import {useState} from "react";
+import {JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useState} from "react";
 import {classNames} from "@/Utils/Helper";
 import ProductReviews from "@/Components/Products/ProductReviews";
+import {Product, ProductSpecification} from "@/types";
 
-export default function ProductTabs({product}) {
+export default function ProductTabs({product}: {product: Product}) {
     const [activeTab, setActiveTab] = useState(0);
     return (
         <div className={'bg-white border border-gray-200 mt-3 rounded-lg'}>
-            <Tab.Group onChange={(index)=>setActiveTab(index)}>
+            <Tab.Group onChange={(index) => setActiveTab(index)}>
                 <Tab.List className={"border-b"}>
-                    <Tab className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 0 ? 'text-gray-400' : '')}>Description</Tab>
-                    <Tab className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 1 ? 'text-gray-400' : '')}>Additional Information</Tab>
-                    <Tab className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 2 ? 'text-gray-400' : '')}>Reviews</Tab>
+                    <Tab
+                        className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 0 ? 'text-gray-400' : '')}>Description</Tab>
+                    <Tab
+                        className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 1 ? 'text-gray-400' : '')}>Additional
+                        Information</Tab>
+                    <Tab
+                        className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 2 ? 'text-gray-400' : '')}>Reviews</Tab>
                 </Tab.List>
                 <Tab.Panels>
                     <Tab.Panel className={"px-5 py-5"}>

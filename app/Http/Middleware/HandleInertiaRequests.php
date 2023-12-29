@@ -36,6 +36,7 @@ class HandleInertiaRequests extends Middleware
         $generalSettings = $this->getGeneralSettings();
         $shopSettings = $this->getShopSettings();
         $navigation = Navigation::whereHandle('main')->first();
+        $navigation->items = array_values($navigation->items);
         return [
             ...parent::share($request),
             'general_settings' => $generalSettings,
