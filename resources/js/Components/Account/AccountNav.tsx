@@ -1,5 +1,6 @@
 import {classNames} from "@/Utils/Helper";
 import {Link, useForm} from "@inertiajs/react";
+import {HeartIcon} from "@heroicons/react/24/solid";
 
 export default function AccountNav({activeTab}: { activeTab: string }) {
     return (
@@ -9,7 +10,7 @@ export default function AccountNav({activeTab}: { activeTab: string }) {
                     <Link href={route('profile.edit')}
                        className={
                            classNames("inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg active group",
-                               activeTab === 'profile' ? "text-blue-600 border-blue-600" : "text-gray-600 hover:text-gray-600 hover:border-gray-300")
+                               activeTab === 'profile' ? "text-blue-600 border-blue-600" : "text-gray-400 hover:text-gray-600 hover:border-gray-300")
                        }
                     >
                         <svg
@@ -37,6 +38,17 @@ export default function AccountNav({activeTab}: { activeTab: string }) {
                                 d="M5 11.424V1a1 1 0 1 0-2 0v10.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.228 3.228 0 0 0 0-6.152ZM19.25 14.5A3.243 3.243 0 0 0 17 11.424V1a1 1 0 0 0-2 0v10.424a3.227 3.227 0 0 0 0 6.152V19a1 1 0 1 0 2 0v-1.424a3.243 3.243 0 0 0 2.25-3.076Zm-6-9A3.243 3.243 0 0 0 11 2.424V1a1 1 0 0 0-2 0v1.424a3.228 3.228 0 0 0 0 6.152V19a1 1 0 1 0 2 0V8.576A3.243 3.243 0 0 0 13.25 5.5Z"/>
                         </svg>
                         Orders
+                    </Link>
+                </li>
+                <li className="me-2">
+                    <Link href={route('profile.wishlist')}
+                          className={
+                              classNames("inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg active group",
+                                  activeTab === 'wishlist' ? "text-blue-600 border-blue-600" : "text-gray-400 hover:text-gray-600 hover:border-gray-300")
+                          }
+                    >
+                        <HeartIcon className={"w-4 h-4 me-2"}/>
+                        Wishlist
                     </Link>
                 </li>
                 <li>

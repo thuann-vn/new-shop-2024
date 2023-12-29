@@ -33,6 +33,11 @@ Route::middleware('auth')->prefix('account')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+  //Add wishlist
+  Route::get('/wishlist', [ProfileController::class, 'wishlist'])->name('profile.wishlist');
+  Route::post('/add-wishlist', [ProfileController::class, 'addWishlist'])->name('profile.add-wishlist');
+  Route::delete('/remove-wishlist', [ProfileController::class, 'removeWishlist'])->name('profile.remove-wishlist');
 });
 
 Route::group(['prefix' => 'shop'], function () {

@@ -159,3 +159,13 @@ export interface OrderCollection{
     data: Order[];
     links: any[]
 }
+
+export interface WishListItem{
+    product_id: number;
+    product: Product;
+}
+
+export interface WishList{
+    data: WishListItem[];
+    links: any[]
+}

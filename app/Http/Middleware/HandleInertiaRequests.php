@@ -53,6 +53,7 @@ class HandleInertiaRequests extends Middleware
                 'count' => fn() => Cart::count(),
             ],
             'navigation' => $navigation->toArray(),
+            'wishlist' => fn() => $request->user() ? $request->user()->wishlist()->pluck('shop_product_id')->toArray() : [],
         ];
     }
 

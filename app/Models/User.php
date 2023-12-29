@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Shop\Product;
+use App\Models\Shop\WishList;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
@@ -51,5 +53,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     public function getTenants(Panel $panel): array | Collection
     {
         return Team::all();
+    }
+
+    public function wishlist(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(WishList::class, 'user_id');
     }
 }
