@@ -12,6 +12,7 @@ class GeneralSettings extends Settings
     public bool $site_active;
     public ?string $site_logo;
     public ?string $site_favicon;
+    public ?string $site_copyright;
     public ?string $site_description;
     public ?string $site_keywords;
     public ?string $site_author;

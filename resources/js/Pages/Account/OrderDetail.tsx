@@ -5,11 +5,12 @@ import AccountNav from "@/Components/Account/AccountNav";
 import {ArrowLeftIcon,  } from "@heroicons/react/24/solid";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
+import AppHead from "@/Components/Layout/AppHead";
 
 export default function OrderDetail({order}: {order:Order}) {
     return (
         <>
-            <Head title="Dashboard"/>
+            <AppHead title="Dashboard"/>
 
             <div className="py-12">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">

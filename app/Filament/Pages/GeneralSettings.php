@@ -64,7 +64,7 @@ class GeneralSettings extends SettingsPage
                                 ->label('Site address'),
                             Forms\Components\TextInput::make('site_footer')
                                 ->label('Site footer'),
-                            Forms\Components\TextInput::make('copyright')
+                            Forms\Components\TextInput::make('site_copyright')
                                 ->label('Copyright notice'),
                         ]),
                     Forms\Components\Tabs\Tab::make('Social Media')

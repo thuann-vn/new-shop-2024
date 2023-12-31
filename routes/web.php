@@ -8,6 +8,7 @@ use \App\Http\Controllers\CheckoutController;
 use \App\Http\Controllers\BlogController;
 use \App\Http\Controllers\PageController;
 use \App\Http\Controllers\ContactController;
+use \App\Http\Controllers\NewsLetterController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -71,9 +72,12 @@ Route::group(['prefix' => 'blog'], function () {
   Route::get('/{slug}', [BlogController::class, 'show'])->name('blog.detail');
 });
 
-
 Route::group(['prefix' => 'contact'], function () {
   Route::post('/', [ContactController::class, 'submitContact'])->name('contact.submit');
+});
+
+Route::group(['prefix' => 'newsletter'], function () {
+    Route::post('/', [NewsLetterController::class, 'subscribe'])->name('newsletter.subscribe');
 });
 
 require __DIR__ . '/auth.php';

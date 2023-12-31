@@ -14,6 +14,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     general_settings: GeneralSettings;
     wishlist: number[],
     navigation: Navigation,
+    footer_links: Navigation,
     shop: ShopSettings
 };
 
@@ -78,6 +79,7 @@ export interface GeneralSettings {
     site_keywords: string;
     site_logo: string;
     site_favicon: string;
+    site_copyright: string;
     site_email: string;
     site_phone: string;
     site_address: string;

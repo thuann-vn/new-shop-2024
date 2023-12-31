@@ -2,11 +2,12 @@ import Layout from '@/Layouts/Layout';
 import {Head} from '@inertiajs/react';
 import {PageProps} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
+import AppHead from "@/Components/Layout/AppHead";
 
 export default function Dashboard({}: PageProps) {
     return (
         <>
-            <Head title="Dashboard"/>
+            <AppHead title="Dashboard"/>
 
             <div className="py-12">
                 <div className="container mx-auto sm:px-6 lg:px-8">

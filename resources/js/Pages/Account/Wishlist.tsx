@@ -1,5 +1,3 @@
-import Layout from '@/Layouts/Layout';
-import {Head} from '@inertiajs/react';
 import {PageProps, WishList, WishListItem} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
 import {Key, useEffect, useState} from "react";
@@ -7,6 +5,7 @@ import ProductCard from "@/Components/Products/ProductCard";
 import Pagination from "@/Components/Other/Pagination";
 import EmptyState from "@/Components/Other/EmptyState";
 import {HeartIcon} from "@heroicons/react/24/solid";
+import AppHead from "@/Components/Layout/AppHead";
 
 export default function Dashboard({myWishList}: { myWishList: WishList }) {
     const [items, setItems] = useState<WishListItem[]>([])
@@ -16,8 +15,7 @@ export default function Dashboard({myWishList}: { myWishList: WishList }) {
     }, []);
     return (
         <>
-            <Head title="Dashboard"/>
-
+            <AppHead title="Your Wishlist"/>
             <div className="py-12">
                 <div className="container mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">

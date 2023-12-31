@@ -48,7 +48,6 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
             router.reload({only: ['wishlist']})
         });
     }
-    console.log(wishlist)
 
     // @ts-ignore
     return (

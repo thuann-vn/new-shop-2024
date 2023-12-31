@@ -4,11 +4,12 @@ import {Order, OrderCollection, PageProps, Product} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
 import OrderItem from "@/Components/Account/OrderItem";
 import Pagination from "@/Components/Other/Pagination";
+import AppHead from "@/Components/Layout/AppHead";
 
 export default function Orders({orders}: { orders: OrderCollection }) {
     return (
         <>
-            <Head title="Dashboard"/>
+            <AppHead title="Dashboard"/>
 
             <div className="py-12">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">

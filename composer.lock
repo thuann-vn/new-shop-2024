@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0615b8f8b2f3e8691259f7867bf722b",
+    "content-hash": "8fa982fc15db04f56a90fd9d1334ddcb",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -74,6 +74,62 @@
                 "source": "https://github.com/akaunting/laravel-money/tree/5.1.2"
             },
             "time": "2023-07-28T06:57:28+00:00"
+        },
+        {
+            "name": "altelma/laravel-mailchimp",
+            "version": "2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ALTELMA/laravel-mailchimp.git",
+                "reference": "e7b544e5d22d053025ad3c16ed9cc72cdf0dd9ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ALTELMA/laravel-mailchimp/zipball/e7b544e5d22d053025ad3c16ed9cc72cdf0dd9ee",
+                "reference": "e7b544e5d22d053025ad3c16ed9cc72cdf0dd9ee",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Altelma\\LaravelMailChimp\\LaravelMailChimpServiceProvider"
+                    ],
+                    "aliases": {
+                        "MailChimp": "Altelma\\LaravelMailChimp\\Facades\\LaravelMailChimp"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Altelma\\LaravelMailChimp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ALTELMA",
+                    "email": "nrohtgnohp@gmail.com"
+                }
+            ],
+            "description": "A packages provide you to connect with mailchimp API v3, so easiest.",
+            "keywords": [
+                "api",
+                "mailchimp",
+                "php",
+                "v3"
+            ],
+            "support": {
+                "issues": "https://github.com/ALTELMA/laravel-mailchimp/issues",
+                "source": "https://github.com/ALTELMA/laravel-mailchimp/tree/2.0"
+            },
+            "time": "2022-03-11T12:22:46+00:00"
         },
         {
             "name": "althinect/filament-spatie-roles-permissions",

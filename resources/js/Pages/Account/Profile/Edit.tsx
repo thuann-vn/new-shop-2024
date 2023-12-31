@@ -2,14 +2,14 @@ import Layout from '@/Layouts/Layout';
 import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
-import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
+import AppHead from "@/Components/Layout/AppHead";
 
 export default function Edit({ auth, mustVerifyEmail, status }: PageProps<{ mustVerifyEmail: boolean, status?: string }>) {
     return (
         <>
-            <Head title="Profile" />
+            <AppHead title="Profile" />
             <div className="py-12">
                 <div className="container mx-auto sm:px-6 lg:px-8 space-y-6">
                     <AccountNav activeTab={'profile'}/>
