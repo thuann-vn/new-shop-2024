@@ -1,4 +1,4 @@
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 import {Head, Link, router} from "@inertiajs/react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
@@ -14,11 +14,6 @@ import Alert from "@/Components/Form/Alert";
 
 export default function Checkout({items, subtotal, total, tax, shippingMethods, paymentMethods}:
                                      { items: any, subtotal: number, total: number, tax: number, shippingMethods: object[], paymentMethods: object[] }) {
-    const breadcrumbs = [
-        {id: 1, name: 'Home', href: '/'},
-        {id: 2, name: 'Checkout', href: '#'},
-    ]
-
     const [submitting, setSubmitting] = React.useState(false)
     const [formData, setFormData] = React.useState({
         full_name: '',
@@ -58,7 +53,7 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
         })
     }
     return (
-        <MasterLayout>
+        <>
             <Head title={"Checkout"}/>
             {
                 items.length > 0 ? (
@@ -168,6 +163,6 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
                     </div>
                 )
             }
-        </MasterLayout>
+        </>
     )
 }

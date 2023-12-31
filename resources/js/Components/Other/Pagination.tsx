@@ -25,6 +25,7 @@ export default function Pagination({data}: { data: any }) {
                                 if (link.active) {
                                     return (
                                         <a
+                                            key={link.label}
                                             href="#"
                                             aria-current="page"
                                             className="relative rounded-full z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -35,6 +36,7 @@ export default function Pagination({data}: { data: any }) {
                                 } else {
                                     return (
                                         <Link
+                                            key={link.label}
                                             href={link.url}
                                             className="relative rounded-full inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                                             dangerouslySetInnerHTML={{__html: link.label}}

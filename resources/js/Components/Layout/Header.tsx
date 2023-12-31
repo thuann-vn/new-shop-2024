@@ -18,9 +18,10 @@ export default function Header() {
     const {openCart} = useContext(CartContext);
 
     const isCurrentPage = (url: string) => {
-        var currentUrl = window.location.pathname;
-        if (url == '/') return currentUrl == '/';
-        return url && currentUrl.startsWith(url);
+        return false;
+        // var currentUrl = location ? location.pathname : '';
+        // if (url == '/') return currentUrl == '/';
+        // return url && currentUrl.startsWith(url);
     }
 
     const userNavigation = [

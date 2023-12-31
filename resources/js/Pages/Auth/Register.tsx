@@ -5,7 +5,7 @@ import InputLabel from '@/Components/Form/InputLabel';
 import PrimaryButton from '@/Components/Form/PrimaryButton';
 import TextInput from '@/Components/Form/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 import Checkbox from "@/Components/Form/Checkbox";
 
 export default function Register() {
@@ -29,7 +29,7 @@ export default function Register() {
     };
 
     return (
-        <MasterLayout>
+        <>
             <Head title="Register" />
             <div className="flex min-h-[500px] items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
                 <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
@@ -120,6 +120,6 @@ export default function Register() {
                     </form>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

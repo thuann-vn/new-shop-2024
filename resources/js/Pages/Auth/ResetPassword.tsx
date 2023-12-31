@@ -4,7 +4,7 @@ import InputLabel from '@/Components/Form/InputLabel';
 import PrimaryButton from '@/Components/Form/PrimaryButton';
 import TextInput from '@/Components/Form/TextInput';
 import {Head, Link, useForm} from '@inertiajs/react';
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 
 export default function ResetPassword({ token, email }: { token: string, email: string }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -27,7 +27,7 @@ export default function ResetPassword({ token, email }: { token: string, email: 
     };
 
     return (
-        <MasterLayout>
+        <>
             <Head title="Reset Password" />
             <div className="flex min-h-[500px] items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
                 <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
@@ -95,6 +95,6 @@ export default function ResetPassword({ token, email }: { token: string, email: 
                     </form>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

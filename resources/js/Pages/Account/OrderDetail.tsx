@@ -1,4 +1,4 @@
-import MasterLayout from '@/Layouts/MasterLayout';
+import Layout from '@/Layouts/Layout';
 import {Head, Link} from '@inertiajs/react';
 import {Order} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
@@ -8,7 +8,7 @@ import * as React from "react";
 
 export default function OrderDetail({order}: {order:Order}) {
     return (
-        <MasterLayout>
+        <>
             <Head title="Dashboard"/>
 
             <div className="py-12">
@@ -147,6 +147,6 @@ export default function OrderDetail({order}: {order:Order}) {
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

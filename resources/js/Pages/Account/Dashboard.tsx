@@ -1,11 +1,11 @@
-import MasterLayout from '@/Layouts/MasterLayout';
+import Layout from '@/Layouts/Layout';
 import {Head} from '@inertiajs/react';
 import {PageProps} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
 
 export default function Dashboard({}: PageProps) {
     return (
-        <MasterLayout>
+        <>
             <Head title="Dashboard"/>
 
             <div className="py-12">
@@ -18,6 +18,6 @@ export default function Dashboard({}: PageProps) {
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

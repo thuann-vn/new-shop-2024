@@ -1,4 +1,4 @@
-import MasterLayout from '@/Layouts/MasterLayout';
+import Layout from '@/Layouts/Layout';
 import {Head, Link, router} from '@inertiajs/react';
 import {Order, OrderCollection, PageProps, Product} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
@@ -7,7 +7,7 @@ import Pagination from "@/Components/Other/Pagination";
 
 export default function Orders({orders}: { orders: OrderCollection }) {
     return (
-        <MasterLayout>
+        <>
             <Head title="Dashboard"/>
 
             <div className="py-12">
@@ -37,6 +37,6 @@ export default function Orders({orders}: { orders: OrderCollection }) {
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

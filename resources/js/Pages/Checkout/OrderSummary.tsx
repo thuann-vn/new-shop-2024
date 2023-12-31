@@ -1,4 +1,4 @@
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 import {Head, Link} from "@inertiajs/react";
 import * as React from "react";
 import CheckoutSteps from "@/Components/Checkout/CheckoutSteps";
@@ -6,7 +6,7 @@ import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import {Order} from "@/types";
 export default function OrderSummary({order}:{ order:Order }) {
     return (
-        <MasterLayout>
+        <>
             <Head title={"Checkout"}/>
             <div className="pb-10 container mx-auto  px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row">
@@ -143,6 +143,6 @@ export default function OrderSummary({order}:{ order:Order }) {
                     </div>
                 </section>
             </div>
-        </MasterLayout>
+        </>
     )
 }

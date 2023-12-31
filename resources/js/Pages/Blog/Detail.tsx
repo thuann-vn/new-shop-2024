@@ -1,15 +1,12 @@
 import {BlogCategory, BlogPost, PageProps, Slider} from '@/types';
-import Authenticated from "@/Layouts/MasterLayout";
 import AppHead from "@/Components/Layout/AppHead";
-import WideBlogCard from "@/Components/Blog/WideBlogCard";
-import Pagination from "@/Components/Other/Pagination";
 import {formatDate, imageStorageUrl} from "@/Utils/Helper";
 import BlogCard from "@/Components/Blog/BlogCard";
 import BlogSidebar from "@/Components/Blog/BlogSidebar";
 
 export default function BlogSingle({post, relatedPosts, tags, categories, featuredPosts }: PageProps<{ post: BlogPost, relatedPosts: BlogPost[], tags: string[],categories: BlogCategory[], featuredPosts: BlogPost[] }>) {
     return (
-        <Authenticated>
+        <>
             <AppHead title={post.title}/>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className={"grid grid-cols-1 md:grid-cols-3 gap-4 mt-12"}>
@@ -56,6 +53,6 @@ export default function BlogSingle({post, relatedPosts, tags, categories, featur
                 </div>
             </div>
 
-        </Authenticated>
+        </>
     );
 }

@@ -1,7 +1,7 @@
 import { Fragment, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState} from 'react'
 import {Menu, Transition} from '@headlessui/react'
 import {ChevronDownIcon, FunnelIcon} from '@heroicons/react/20/solid'
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 import ProductList from "@/Components/Products/ProductList";
 import Pagination from "@/Components/Other/Pagination";
 import Breadcrumb from "@/Components/Other/Breadcrumb";
@@ -34,7 +34,7 @@ export default function Category({category, allCategories, products, filters, so
     }
 
     return (
-        <MasterLayout>
+        <>
             <AppHead title={category?.name ?? 'Shop'}/>
             <div className="bg-white">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -150,6 +150,6 @@ export default function Category({category, allCategories, products, filters, so
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     )
 }

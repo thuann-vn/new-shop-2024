@@ -17,7 +17,7 @@ import 'swiper/css/grid';
 import {CartProvider} from "@/Contexts/CartContext";
 import Footer from "@/Components/Layout/Footer";
 
-export default function MasterLayout({ children }: PropsWithChildren<{  }>) {
+export default function Layout({ children }: PropsWithChildren<{  }>) {
     return (
         <div className="min-h-screen">
             <CartProvider>

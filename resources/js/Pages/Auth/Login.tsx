@@ -5,7 +5,7 @@ import InputLabel from '@/Components/Form/InputLabel';
 import PrimaryButton from '@/Components/Form/PrimaryButton';
 import TextInput from '@/Components/Form/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 
 export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -27,7 +27,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
     };
 
     return (
-        <MasterLayout>
+        <>
             <Head title="Log in" />
 
             <div className="flex min-h-[500px] items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
@@ -143,6 +143,6 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

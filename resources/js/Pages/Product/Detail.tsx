@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 import {PageProps} from "@/types";
 import ProductGallery from "@/Components/Products/ProductGallery";
 import StarRating from "@/Components/Other/StarRating";
@@ -21,7 +21,7 @@ export default function ProductDetail({product, images, relatedProducts, firstCa
     breadcrumbs.push({id: 3, name: product.name, href: ''})
 
     return (
-        <MasterLayout>
+        <>
             <AppHead title={product.name}/>
             <div className="bg-gray-100 pb-10">
                 <div className="pt-6">
@@ -79,6 +79,6 @@ export default function ProductDetail({product, images, relatedProducts, firstCa
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     )
 }

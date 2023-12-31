@@ -1,5 +1,4 @@
 import {BlogCategory, BlogPost, BlogTag, PageProps, Slider} from '@/types';
-import Authenticated from "@/Layouts/MasterLayout";
 import AppHead from "@/Components/Layout/AppHead";
 import WideBlogCard from "@/Components/Blog/WideBlogCard";
 import Pagination from "@/Components/Other/Pagination";
@@ -16,7 +15,7 @@ interface Props {
 export default function BlogIndex({posts, featuredPosts, tags, categories, category, tag}: Props) {
     console.log(tag, tags)
     return (
-        <Authenticated>
+        <>
             <AppHead title={category ? category.name : 'Blog' } />
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h1 className="text-4xl font-bold text-gray-900 mt-12">
@@ -36,6 +35,6 @@ export default function BlogIndex({posts, featuredPosts, tags, categories, categ
                     <BlogSidebar featuredPosts={featuredPosts} tags={tags} categories={categories}/>
                 </div>
             </div>
-        </Authenticated>
+        </>
     );
 }

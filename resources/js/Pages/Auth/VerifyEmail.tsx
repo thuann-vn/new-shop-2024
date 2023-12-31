@@ -2,7 +2,7 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import PrimaryButton from '@/Components/Form/PrimaryButton';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import MasterLayout from "@/Layouts/MasterLayout";
+import Layout from "@/Layouts/Layout";
 import InputLabel from "@/Components/Form/InputLabel";
 import TextInput from "@/Components/Form/TextInput";
 import InputError from "@/Components/Form/InputError";
@@ -17,7 +17,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
     };
 
     return (
-        <MasterLayout>
+        <>
             <Head title="Email Verification" />
             <div className="flex min-h-[500px] items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
                 <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
@@ -51,6 +51,6 @@ export default function VerifyEmail({ status }: { status?: string }) {
                     </form>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }

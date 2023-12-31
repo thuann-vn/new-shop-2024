@@ -2,9 +2,9 @@ import {formatDate, imageStorageUrl} from "@/Utils/Helper";
 import {Link} from "@inertiajs/react";
 import {BlogPost} from "@/types";
 
-export default function BlogCard({post, key} : {post: BlogPost, key: number}) {
+export default function BlogCard({post} : {post: BlogPost}) {
     return (
-        <div className="overflow-hidden rounded-lg bg-white group" key={key}>
+        <div className="overflow-hidden rounded-lg bg-white group" key={post.id}>
             <Link href={route('blog.detail', {slug: post.slug})} className={"block relative overflow-hidden w-full h-52 rounded-lg"}>
                 <img
                     src={imageStorageUrl(post.image)}

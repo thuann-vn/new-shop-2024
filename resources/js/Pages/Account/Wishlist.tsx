@@ -1,4 +1,4 @@
-import MasterLayout from '@/Layouts/MasterLayout';
+import Layout from '@/Layouts/Layout';
 import {Head} from '@inertiajs/react';
 import {PageProps, WishList, WishListItem} from '@/types';
 import AccountNav from "@/Components/Account/AccountNav";
@@ -15,7 +15,7 @@ export default function Dashboard({myWishList}: { myWishList: WishList }) {
         setItems(myWishList.data);
     }, []);
     return (
-        <MasterLayout>
+        <>
             <Head title="Dashboard"/>
 
             <div className="py-12">
@@ -65,6 +65,6 @@ export default function Dashboard({myWishList}: { myWishList: WishList }) {
                     </div>
                 </div>
             </div>
-        </MasterLayout>
+        </>
     );
 }
