@@ -44,6 +44,7 @@ class Product extends Model implements HasMedia, Buyable
 
     protected $appends = [
         'featured_image_url',
+        'has_variants'
     ];
 
     public function getBuyableIdentifier($options = null) {

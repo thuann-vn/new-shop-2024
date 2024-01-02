@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react'
 import Layout from "@/Layouts/Layout";
-import {PageProps} from "@/types";
+import {PageProps, Product, ProductCategory} from "@/types";
 import ProductGallery from "@/Components/Products/ProductGallery";
 import StarRating from "@/Components/Other/StarRating";
 import ProductTabs from "@/Components/Products/ProductTabs";
@@ -11,7 +11,7 @@ import ProductSlider from "@/Components/Products/ProductSlider";
 import Breadcrumb from "@/Components/Other/Breadcrumb";
 import AppHead from "@/Components/Layout/AppHead";
 
-export default function ProductDetail({product, images, relatedProducts, firstCategory}: { product: any, images: any, relatedProducts: any, firstCategory: any }) {
+export default function ProductDetail({product, productVariants, productOptions, productAttributes, images, relatedProducts, firstCategory}: { product: Product, productOptions:any, productVariants: any, productAttributes:any, images: any, relatedProducts: any, firstCategory: ProductCategory }) {
     let breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
     ]
@@ -19,6 +19,7 @@ export default function ProductDetail({product, images, relatedProducts, firstCa
         breadcrumbs.push({id: 2, name: firstCategory.name, href: route('shop.category', {slug: firstCategory.slug})})
     }
     breadcrumbs.push({id: 3, name: product.name, href: ''})
+    const [selectedVariant, setSelectedVariant] = useState(null)
 
     return (
         <>
@@ -53,20 +54,34 @@ export default function ProductDetail({product, images, relatedProducts, firstCa
                                     <p className="text-3xl tracking-tight text-red-600">
                                         {
                                             product.old_price > product.price &&
-                                            <span className={"text-gray-400 text-sm line-through mr-2"}><CustomCurrencyFormat
-                                                value={product.old_price}/></span>
+                                            <span className={"text-gray-400 text-sm line-through mr-2"}>
+                                                <CustomCurrencyFormat value={selectedVariant?.old_price ? selectedVariant.old_price : product.old_price}/>
+                                            </span>
                                         }
-                                        <CustomCurrencyFormat value={product.price} />
+                                        <CustomCurrencyFormat value={selectedVariant ? selectedVariant.price : product.price} />
                                     </p>
-                                    <p className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-green-100 px-2 py-0 text-green-600 leading-6">
-                                        In stock
-                                    </p>
+                                    {
+                                        (product.has_variants && selectedVariant) || (!product.has_variants && product.qty) ?
+                                            <p className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-green-100 px-2 py-0 text-green-600 leading-6">
+                                                In stock
+                                            </p> :  <p className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-red-100 px-2 py-0 text-red-600 leading-6">
+                                            Out of stock
+                                        </p>
+                                    }
+
 
                                     {/*Description*/}
                                     <p className="text-base text-gray-500 mt-3">{product.description}</p>
 
                                     {/*Add to cart*/}
-                                    <ProductCartForm product={product}/>
+                                    <ProductCartForm
+                                        product={product}
+                                        variants={productVariants}
+                                        attributes={productAttributes}
+                                        options={productOptions}
+                                        selectedVariant={selectedVariant}
+                                        setSelectedVariant={setSelectedVariant}
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -143,6 +143,7 @@ export interface Product{
     id: number;
     name: string;
     slug: string;
+    sku: string;
     description: string;
     featured_image_url: string;
     price: number;
@@ -151,6 +152,19 @@ export interface Product{
     updated_at: string;
     content: string;
     specifications: ProductSpecification[];
+    brand: Brand,
+    has_variants: boolean;
+    qty: number;
+}
+
+export interface Brand{
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    image: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface ProductSpecification{

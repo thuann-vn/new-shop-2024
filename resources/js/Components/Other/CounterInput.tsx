@@ -1,9 +1,9 @@
 import {classNames} from "@/Utils/Helper";
 
-export default function CounterInput({value, onValueChange, size="md"} : {value: number, onValueChange: any, size?: string}) : JSX.Element{
+export default function CounterInput({value, onValueChange, size="md", max = 0} : {value: number, onValueChange: any, size?: string, max: number}) : JSX.Element{
     const _onPlusClick = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        onValueChange(value + 1);
+        onValueChange(Math.min(value + 1, max));
     }
 
     const _onMinusClick = (e: { preventDefault: () => void; }) => {

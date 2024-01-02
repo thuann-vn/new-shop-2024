@@ -22,12 +22,12 @@ class ProductVariant extends Model implements HasMedia
     protected $casts = [
     ];
 
-    public function product()
+    public function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Product::class, 'shop_product_id');
     }
 
-    public function attributeOptions()
+    public function attributeOptions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(ProductVariantAttributeOption::class, 'shop_product_variant_id');
     }

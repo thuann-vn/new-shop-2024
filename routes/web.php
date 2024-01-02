@@ -42,6 +42,8 @@ Route::middleware('auth')->prefix('account')->group(function () {
 });
 
 Route::group(['prefix' => 'shop'], function () {
+  Route::get('/product/available-variants', [ProductController::class, 'getAvailableProductVariants'])->name('products.available-variants');
+
   Route::get('/', [ProductController::class, 'index'])->name('shop.index');
   Route::get('/{slug}', [ProductController::class, 'index'])->name('shop.category');
   Route::get('/product/{slug}', [ProductController::class, 'detail'])->name('products.detail');

@@ -20,4 +20,9 @@ class ProductVariantAttributeOption extends Model implements HasMedia
      */
     protected $casts = [
     ];
+
+    public function option(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(AttributeOption::class, 'shop_attribute_option_id');
+    }
 }
