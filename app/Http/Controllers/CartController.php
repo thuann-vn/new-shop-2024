@@ -46,7 +46,7 @@ class CartController extends Controller
                 'href' => route('products.detail', ['slug' => $product->slug]),
                 'type' => 'variant',
                 'variant' => $variant,
-                'variant_description' => $variant->description
+                'variant_description' => $variant->name
             ]);
         } else {
             \Cart::add($product, $qty, [

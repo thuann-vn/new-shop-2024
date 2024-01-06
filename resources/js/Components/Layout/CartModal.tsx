@@ -16,6 +16,7 @@ export default function CartModal() {
     useEffect(() => {
         setItems(Object.values(cart.items));
     }, [cart]);
+
     const removeCartItem = (event: React.MouseEvent<HTMLButtonElement>, product: any) => {
         event.preventDefault();
         axios.delete(route('cart.remove-from-cart', {id: product.rowId})).then((response) => {
@@ -90,14 +91,20 @@ export default function CartModal() {
                                                                 <div className="ml-4 flex flex-1 flex-col">
                                                                     <div>
                                                                         <div className="flex justify-between text-base font-medium text-gray-900">
-                                                                            <h3>
-                                                                                <Link href={product.options.href}>{product.name}</Link>
-                                                                            </h3>
+                                                                            <div>
+                                                                                <h3>
+                                                                                    <Link href={product.options.href}>{product.name}</Link>
+                                                                                </h3>
+                                                                                {
+                                                                                    product.options.variant_description ? (
+                                                                                        <p className="mt-1 text-sm text-gray-500">{product.options.variant_description ?? ''}</p>
+                                                                                    ) : null
+                                                                                }
+                                                                            </div>
                                                                             <p className="ml-4">
                                                                                 <CustomCurrencyFormat value={product.price} />
                                                                             </p>
                                                                         </div>
-                                                                        <p className="mt-1 text-sm text-gray-500">{product.options.variant_description ?? ''}</p>
                                                                     </div>
                                                                     <div className="flex flex-1 items-center justify-between text-sm">
                                                                         <CounterInput size={"sm"} value={product.qty} onValueChange={(qty: number)=>{

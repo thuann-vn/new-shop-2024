@@ -44,6 +44,11 @@ export default function OrderSummary({order}:{ order:Order }) {
                                     <h4 className="font-medium text-gray-900">
                                         <Link target={"_blank"} href={route('products.detail', {slug: item.product.slug})}>{item.product.name}</Link>
                                     </h4>
+                                    {
+                                        item.shop_variant_name ? (
+                                            <p className="text-sm text-gray-400">{item.shop_variant_name}</p>
+                                        ) : null
+                                    }
                                     <p className="mt-2 text-sm text-gray-600">{item.product.description}</p>
                                 </div>
                                 <div className="mt-6 flex-1 flex items-end">

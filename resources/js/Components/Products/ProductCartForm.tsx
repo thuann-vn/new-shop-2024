@@ -16,7 +16,7 @@ export default function ProductCartForm({product, selectedVariant, setSelectedVa
         e.preventDefault();
         e.stopPropagation();
         setAddToCartLoading(true)
-        axios.post(route('cart.add-to-cart', {id: product.id, qty: quantity}))
+        axios.post(route('cart.add-to-cart', {id: product.id, qty: quantity, variant_id: selectedVariant?.id ?? null}))
             .then((response) => {
                 openCart();
                 router.reload({only: ['cart']})

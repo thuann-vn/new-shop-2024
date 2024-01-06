@@ -22,7 +22,7 @@ return new class extends Migration
 
         Schema::table('shop_order_items', function (Blueprint $table) {
             $table->integer('shop_variant_id')->nullable()->after('shop_product_id');
-            $table->integer('shop_variant_name')->nullable()->after('shop_variant_id');
+            $table->string('shop_variant_name')->nullable()->after('shop_variant_id');
         });
     }
 

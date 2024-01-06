@@ -106,6 +106,8 @@ class CheckoutController extends Controller
       foreach (\Cart::content() as $item) {
         $order->items()->create([
             'shop_product_id' => $item->id,
+            'shop_variant_id' => $item->options->variant ? $item->options->variant->id : null,
+            'shop_variant_name' => $item->options->variant ? $item->options->variant->name : null,
             'qty' => $item->qty,
             'unit_price' => $item->price,
             'sort' => $index,

@@ -13,7 +13,12 @@ export default function CheckoutItems({items} : {items:any[]}) {
                             <div className="flex flex-col rounded-lg bg-white sm:flex-row" key={index}>
                                 <img className="h-24 w-28 rounded-md border object-cover object-center" src={item.options.image} alt="" />
                                 <div className="flex w-full flex-col px-4 py-4">
-                                    <a href={item.options.href} target={'_blank'} className="font-semibold">{item.name}</a>
+                                    <a href={item.options.href} className="font-semibold">{item.name}</a>
+                                    {
+                                        item.options.variant_description ? (
+                                            <p className="text-sm text-gray-400">{item.options.variant_description}</p>
+                                        ) : null
+                                    }
                                     <p className="text-lg font-bold">
                                         <CustomCurrencyFormat value={item.price} /> <span className={'text-sm text-gray-400'}>x {item.qty}</span>
                                     </p>

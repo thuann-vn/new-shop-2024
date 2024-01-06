@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react'
 import Layout from "@/Layouts/Layout";
-import {PageProps, Product, ProductCategory} from "@/types";
+import {PageProps, Product, ProductCategory, ProductVariant} from "@/types";
 import ProductGallery from "@/Components/Products/ProductGallery";
 import StarRating from "@/Components/Other/StarRating";
 import ProductTabs from "@/Components/Products/ProductTabs";
@@ -19,7 +19,7 @@ export default function ProductDetail({product, productVariants, productOptions,
         breadcrumbs.push({id: 2, name: firstCategory.name, href: route('shop.category', {slug: firstCategory.slug})})
     }
     breadcrumbs.push({id: 3, name: product.name, href: ''})
-    const [selectedVariant, setSelectedVariant] = useState(null)
+    const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null)
 
     return (
         <>

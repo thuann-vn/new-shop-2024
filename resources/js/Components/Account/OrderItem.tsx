@@ -169,6 +169,11 @@ export default function OrderItem({order, ...props}: { order:Order }) {
                                 <div
                                     className="font-medium text-gray-900 sm:flex sm:justify-between">
                                     <h5>{item.product.name}</h5>
+                                    {
+                                        item.shop_variant_name ? (
+                                            <p className="text-sm text-gray-400">{item.shop_variant_name}</p>
+                                        ) : null
+                                    }
                                     <p className="mt-2 sm:mt-0">
                                         <span className={"text-sm text-gray-400"}>{item.qty} x</span> <CustomCurrencyFormat value={item.unit_price}/>
                                     </p>

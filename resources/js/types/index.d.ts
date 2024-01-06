@@ -157,6 +157,18 @@ export interface Product{
     qty: number;
 }
 
+export interface ProductVariant{
+    id: number;
+    name: string;
+    sku: string;
+    price: number;
+    old_price: number;
+    qty: number;
+    created_at: string;
+    updated_at: string;
+    specifications: ProductSpecification[];
+}
+
 export interface Brand{
     id: number;
     name: string;
@@ -245,6 +257,7 @@ export interface OrderItem{
     created_at: string;
     updated_at: string;
     product: Product;
+    shop_variant_name: string;
 }
 
 export interface OrderCollection{
