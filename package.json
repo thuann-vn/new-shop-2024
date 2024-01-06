@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite",
         "preview": "vite preview",
-        "build": "tsc && vite build --ssr"
+        "build": "tsc && vite build && vite build --ssr"
     },
     "devDependencies": {
         "@alpinejs/focus": "^3.10.3",
