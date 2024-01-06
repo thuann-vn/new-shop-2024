@@ -1,12 +1,9 @@
 import { useEffect, FormEventHandler } from 'react';
-import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/Form/InputError';
 import InputLabel from '@/Components/Form/InputLabel';
 import PrimaryButton from '@/Components/Form/PrimaryButton';
 import TextInput from '@/Components/Form/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-import Layout from "@/Layouts/Layout";
-import Checkbox from "@/Components/Form/Checkbox";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({

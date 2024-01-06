@@ -1,0 +1,37 @@
+{
+  "node_modules/lightgallery/fonts/lg.svg": {
+    "file": "assets/lg-dHSFdgUg.svg",
+    "src": "node_modules/lightgallery/fonts/lg.svg"
+  },
+  "node_modules/lightgallery/fonts/lg.ttf": {
+    "file": "assets/lg-KMo8Jaj9.ttf",
+    "src": "node_modules/lightgallery/fonts/lg.ttf"
+  },
+  "node_modules/lightgallery/fonts/lg.woff": {
+    "file": "assets/lg-qLEB-Arm.woff",
+    "src": "node_modules/lightgallery/fonts/lg.woff"
+  },
+  "node_modules/lightgallery/fonts/lg.woff2": {
+    "file": "assets/lg-u83t-DB8.woff2",
+    "src": "node_modules/lightgallery/fonts/lg.woff2"
+  },
+  "node_modules/lightgallery/images/loading.gif": {
+    "file": "assets/loading-WTh2nip_.gif",
+    "src": "node_modules/lightgallery/images/loading.gif"
+  },
+  "resources/js/app.tsx": {
+    "assets": [
+      "assets/lg-u83t-DB8.woff2",
+      "assets/lg-KMo8Jaj9.ttf",
+      "assets/lg-qLEB-Arm.woff",
+      "assets/lg-dHSFdgUg.svg",
+      "assets/loading-WTh2nip_.gif"
+    ],
+    "css": [
+      "assets/app-WLKEUP36.css"
+    ],
+    "file": "assets/app-P-aAIcRY.js",
+    "isEntry": true,
+    "src": "resources/js/app.tsx"
+  }
+}

@@ -107,7 +107,7 @@ export default function CartModal() {
                                                                         </div>
                                                                     </div>
                                                                     <div className="flex flex-1 items-center justify-between text-sm">
-                                                                        <CounterInput size={"sm"} value={product.qty} onValueChange={(qty: number)=>{
+                                                                        <CounterInput size={"sm"} value={product.qty} max={100} onValueChange={(qty: number)=>{
                                                                             product.qty = qty;
                                                                             setItems([...items]);
                                                                             updateCartItem(product);
