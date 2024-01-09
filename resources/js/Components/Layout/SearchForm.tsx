@@ -3,7 +3,6 @@ import {useCallback, useEffect, useState} from "react";
 import {Combobox} from "@headlessui/react";
 import debounce from 'lodash.debounce'
 import axios from "axios";
-import {imageStorageUrl} from "@/Utils/Helper";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import {Link, router} from "@inertiajs/react";
 import {Product} from "@/types";
@@ -54,7 +53,7 @@ export default function SearchForm() {
                         }
                         {dropdownOptions.map((product) => (
                             <Combobox.Option
-                                key={product}
+                                key={product.id}
                                 value={product}
                                 className={({active}) =>
                                     `relative cursor-pointer select-none py-2 pl-4 pr-4 hover:bg-gray-100 text-gray-900`
