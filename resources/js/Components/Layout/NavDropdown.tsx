@@ -15,7 +15,7 @@ export default function NavDropdown({ item, isActive = false }: { item: MenuItem
                     <div>
                         <Menu.Button
                             className={
-                                classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-4 py-3 rounded-full",
+                                classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-8 py-4 rounded-full",
                                     item.data.classes ?? '',
                                     isActive ? 'bg-main-100 text-main-500' : ''
                                 )
@@ -35,7 +35,7 @@ export default function NavDropdown({ item, isActive = false }: { item: MenuItem
                         leaveTo="transform opacity-0 scale-95"
                     >
                         <Menu.Items
-                            className="origin-top-left absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
+                            className="origin-top-left absolute left-0 mt-3 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
                             {Object.keys(item.children).map((childKey) => {
                                 var child = item.children[childKey];
                                 return (

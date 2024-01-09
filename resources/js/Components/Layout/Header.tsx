@@ -6,6 +6,9 @@ import {
     ShoppingBagIcon,
     UserIcon
 } from '@heroicons/react/24/outline'
+import {
+    PhoneIcon
+} from '@heroicons/react/24/solid'
 import {classNames, imageStorageUrl} from "@/Utils/Helper";
 import MobileMenu from "@/Components/Layout/MobileMenu";
 import {Link, usePage} from "@inertiajs/react";
@@ -41,7 +44,7 @@ export default function Header() {
             {/* Mobile menu */}
             <MobileMenu open={open} setOpen={setOpen} navigation={navigation}/>
 
-            <header className="bg-main-600 relative border-b border-gray-200">
+            <header className="bg-main-600 relative border-b border-transparent">
                 <nav aria-label="Top" className="mx-auto container px-4 sm:px-6 lg:px-8">
                     <div className="flex h-24 items-center">
                         <button
@@ -65,12 +68,14 @@ export default function Header() {
                         {/*Hotline*/}
                         <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
                             <div className="hidden sm:block sm:ml-6">
-                                <div className="flex space-x-2 bg-white rounded-full px-2 shadow">
-                                    <div className="flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-4 py-3 rounded-full">
-                                        <img src={imageStorageUrl(general_settings.hotline_icon)} alt=""
-                                             className="h-5 w-5 mr-1"/>
-                                        {general_settings.hotline}
-                                    </div>
+                                <div className="flex space-x-2">
+                                    <Link href={"tel:" + general_settings.site_phone} className="flex items-center text-sm font-medium text-white hover:text-gray-100 px-4 py-3 rounded-full">
+                                        <PhoneIcon className="h-8 w-8 me-3" aria-hidden="true"/>
+                                        <div className="leading-5">
+                                            Need help? <br/>
+                                            Call us at {general_settings.site_phone}
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +89,7 @@ export default function Header() {
                                             <Menu.Button
                                                 className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                 <span className="sr-only">Open user menu</span>
-                                                <img className="h-8 w-8 rounded-full"
+                                                <img className="h-10 w-h-10 rounded-full"
                                                      src={auth.user.photo ? auth.user.photo : 'https://ui-avatars.com/api/?background=random&name=' + auth.user.name}
                                                      alt=""/>
                                             </Menu.Button>
@@ -120,8 +125,8 @@ export default function Header() {
                                     </Menu>
                                 ) : (
                                     <div className="flex lg:ml-6">
-                                        <Link href={route('login')} className="p-2 text-gray-400 hover:text-gray-500">
-                                            <UserIcon className="h-6 w-6" aria-hidden="true"/>
+                                        <Link href={route('login')} className="p-2 text-gray-400 hover:opacity-90 rounded-full bg-main-400">
+                                            <UserIcon className="h-8 w-8" aria-hidden="true"/>
                                         </Link>
                                     </div>
                                 )
@@ -129,13 +134,12 @@ export default function Header() {
 
                             {/* Cart */}
                             <div className="ml-4 flow-root lg:ml-6">
-                                <a onClick={() => openCart()} href="#" className="group -m-2 flex items-center p-2">
+                                <a onClick={() => openCart()} href="#" className="group hover:opacity-90 relative -m-2 flex items-center p-2 rounded-full bg-main-400">
                                     <ShoppingBagIcon
-                                        className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                        className="h-6 w-6 flex-shrink-0 text-white"
                                         aria-hidden="true"
                                     />
-                                    <span
-                                        className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cart.count ?? 0}</span>
+                                    <span className="absolute bg-white rounded-full h-5 w-5 text-center right-0 top-0 -me-2 text-sm">{cart.count ?? 0}</span>
                                     <span className="sr-only">items in cart, view bag</span>
                                 </a>
                             </div>
