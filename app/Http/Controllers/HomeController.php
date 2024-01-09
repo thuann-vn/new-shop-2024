@@ -18,6 +18,7 @@ class HomeController extends Controller
             $productsQuery->where('is_visible', true);
         })->get();
         $homePosts = Post::with(['author', 'category', 'tags'])->where('published_at', '<=', date('Y-m-d'))->orderBy('created_at', 'desc')->take(3)->get();
-        return Inertia::render('Home', compact('homeSlider', 'collections', 'homeSaleSlider1', 'homeSaleSlider2', 'homePosts'));
+        $featuredCategories = \App\Models\Shop\Category::whereIsVisible(true)->whereIsFeatured(true)->get();
+        return Inertia::render('Home', compact('homeSlider', 'collections', 'homeSaleSlider1', 'homeSaleSlider2', 'homePosts', 'featuredCategories'));
     }
 }

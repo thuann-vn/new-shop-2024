@@ -17,6 +17,7 @@ class SliderResource extends Resource
     protected static ?string $model = Slider::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Banners';
 
     public static function form(Form $form): Form
     {
@@ -28,6 +29,7 @@ class SliderResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_visible')
+                    ->default(true)
                     ->required(),
             ]);
     }

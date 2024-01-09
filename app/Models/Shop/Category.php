@@ -12,37 +12,38 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Category extends Model implements HasMedia
 {
-    use HasFactory;
-    use InteractsWithMedia;
+  use HasFactory;
+  use InteractsWithMedia;
 
-    /**
-     * @var string
-     */
-    protected $table = 'shop_categories';
+  /**
+   * @var string
+   */
+  protected $table = 'shop_categories';
 
-    /**
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'is_visible' => 'boolean',
-    ];
+  /**
+   * @var array<string, string>
+   */
+  protected $casts = [
+      'is_visible' => 'boolean',
+      'is_featured' => 'boolean',
+  ];
 
-    public $translatable = [
-        'description'
-    ];
+  public $translatable = [
+      'description'
+  ];
 
-    public function children(): HasMany
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
+  public function children(): HasMany
+  {
+    return $this->hasMany(Category::class, 'parent_id');
+  }
 
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
+  public function parent(): BelongsTo
+  {
+    return $this->belongsTo(Category::class, 'parent_id');
+  }
 
-    public function products(): BelongsToMany
-    {
-        return $this->belongsToMany(Product::class, 'shop_category_product', 'shop_category_id', 'shop_product_id');
-    }
+  public function products(): BelongsToMany
+  {
+    return $this->belongsToMany(Product::class, 'shop_category_product', 'shop_category_id', 'shop_product_id');
+  }
 }

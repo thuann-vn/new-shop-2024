@@ -2,6 +2,7 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Slider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -28,5 +29,10 @@ class Collection extends Model
     public function getHomeProductsAttribute($limit = 10)
     {
         return $this->products->take($limit);
+    }
+
+    public function slider()
+    {
+        return $this->belongsTo(Slider::class);
     }
 }

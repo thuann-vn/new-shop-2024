@@ -36,6 +36,9 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->schema([
+                        Forms\Components\FileUpload::make('image')
+                            ->image()
+                            ->required(),
                         Forms\Components\Grid::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
@@ -45,7 +48,6 @@ class CategoryResource extends Resource
                                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                                 Forms\Components\TextInput::make('slug')
-                                    ->disabled()
                                     ->dehydrated()
                                     ->required()
                                     ->maxLength(255)
@@ -61,7 +63,9 @@ class CategoryResource extends Resource
                         Forms\Components\Toggle::make('is_visible')
                             ->label('Visible to customers.')
                             ->default(true),
-
+                        Forms\Components\Toggle::make('is_featured')
+                            ->label('Show on homepage.')
+                            ->default(false),
                         Forms\Components\MarkdownEditor::make('description')
                             ->label('Description'),
                     ])

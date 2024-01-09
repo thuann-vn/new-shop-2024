@@ -9,7 +9,7 @@ import {HeartIcon} from "@heroicons/react/24/solid";
 import {HeartIcon as OutlineHeartIcon} from "@heroicons/react/24/outline";
 import {PageProps, Product} from "@/types";
 
-export default function ProductCard({ product, className= '', onRemoveFromWishList}: { product: Product, className?: string, onRemoveFromWishList?: any }) {
+export default function ProductCard({product, className = '', onRemoveFromWishList, showCartButton = false}: { product: Product, className?: string, onRemoveFromWishList?: any, showCartButton?: boolean }) {
     const {openCart} = useContext(CartContext);
     const {auth, wishlist = []} = usePage<PageProps>().props;
     const addProductToCart = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -31,9 +31,9 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
             return;
         }
 
-        if(wishlist.includes(product.id)) {
+        if (wishlist.includes(product.id)) {
             let confirmed = confirm('Are you sure to remove this product from wishlist?');
-            if(confirmed) {
+            if (confirmed) {
                 axios.delete(route('profile.remove-wishlist', {id: product.id})).then((response) => {
                     alert('Product removed from wishlist');
                     onRemoveFromWishList && onRemoveFromWishList();
@@ -75,7 +75,7 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
                 </div>
                 <Link href={route('products.detail', {slug: product.slug})} className={"block p-[20px] pt-0"}>
                     <h3 className="mt-4 font-bold text-gray-600 line-clamp-2 min-h-[48px]">{product.name}</h3>
-                    <p className="mt-1 text-lg font-medium text-red-600">
+                    <p className="mt-1 text-lg font-bold text-main-500">
                         {
                             product.old_price > product.price &&
                             <span className={"text-gray-400 text-sm line-through mr-2"}><CustomCurrencyFormat
@@ -83,10 +83,15 @@ export default function ProductCard({ product, className= '', onRemoveFromWishLi
                         }
                         <CustomCurrencyFormat value={product.price}/>
                     </p>
-                    <button type={"button"} onClick={(e) => addProductToCart(e)}
-                            className={"mt-3 w-full py-1 text-center text-black text-sm bg-yellow-400 hover:bg-yellow-500 rounded-full"}>
-                        Add to cart
-                    </button>
+                    {
+                        showCartButton ? (
+                            <button type={"button"} onClick={(e) => addProductToCart(e)}
+                                    className={"mt-3 w-full py-1 text-center text-black text-sm bg-yellow-400 hover:bg-yellow-500 rounded-full"}>
+                                Add to cart
+                            </button>
+                        ) : null
+                    }
+
                 </Link>
             </div>
         </div>

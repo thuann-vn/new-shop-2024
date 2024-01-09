@@ -148,8 +148,8 @@ export default function Header() {
 
 
                     {/* Flyout menus */}
-                    <Popover.Group className="hidden lg:ml-8 lg:block">
-                        <div className="flex space-x-2 bg-white rounded-full px-2 py-2 -mb-8 shadow">
+                    <Popover.Group className="hidden lg:block">
+                        <div className="flex items-center space-x-2 bg-white rounded-full px-2 py-1 -mb-8 shadow">
                             <CategoryDropdown/>
                             {Object.keys(navigation.items).map((key) => {
                                 var page = navigation.items[key];

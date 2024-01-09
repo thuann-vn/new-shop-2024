@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Shop;
 
 use App\Filament\Resources\Shop\CollectionResource\RelationManagers\ProductsRelationManager;
+use App\Filament\Resources\Website\SliderResource;
 use App\Models\Shop\Category;
 use App\Models\Shop\Collection;
+use App\Models\Slider;
 use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Resources\Resource;
@@ -43,11 +45,16 @@ class CollectionResource extends Resource
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
                 Forms\Components\TextInput::make('slug')
-                    ->disabled()
                     ->dehydrated()
                     ->required()
                     ->maxLength(255)
                     ->unique(Collection::class, 'slug', ignoreRecord: true),
+                Forms\Components\Select::make('slider_id')
+                    ->relationship('slider', 'name')
+                    ->createOptionForm(function (Form $form) {
+                        return SliderResource::form($form);
+                    })
+                    ->label('Banner'),
                 Forms\Components\MarkdownEditor::make('description')
                     ->label('Description'),
                 Forms\Components\Toggle::make('is_visible')

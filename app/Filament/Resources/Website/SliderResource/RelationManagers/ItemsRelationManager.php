@@ -12,6 +12,8 @@ class ItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'items';
 
+    protected static ?string $label = 'Banner Items';
+
     public function form(Form $form): Form
     {
         return $form

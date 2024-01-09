@@ -207,6 +207,7 @@ export interface Collection{
     name: string;
     slug: string;
     description: string,
+    image: string,
     items : Product[],
     home_products: Product[],
 }

@@ -29,7 +29,7 @@ export default function ProductSlider({products, title, className = ''}: Product
                     nextEl: '.swiper-button-next_' + randomId,
                     prevEl: '.swiper-button-prev_' + randomId,
                 }}
-                slidesPerView={5}
+                slidesPerView={4}
                 effect={"creative"}
                 grabCursor={true}
                 className={"pt-5 border border-gray-150 rounded-lg  bg-white"}
@@ -44,7 +44,7 @@ export default function ProductSlider({products, title, className = ''}: Product
                         slidesPerView: 2,
                     },
                     1024: {
-                        slidesPerView: 5,
+                        slidesPerView: 4,
                     },
                     1536: {
                         slidesPerView: 8,
