@@ -5,7 +5,7 @@ export default function Breadcrumb({breadcrumbs}: { breadcrumbs: any[] }) {
     return (
         <nav aria-label="Breadcrumb">
             <ol role="list"
-                className="mx-auto flex items-center space-x-2">
+                className="mx-auto flex items-center space-x-2 mt-6">
                 {breadcrumbs.map((breadcrumb) => (
                     <li key={breadcrumb.id}>
                         {

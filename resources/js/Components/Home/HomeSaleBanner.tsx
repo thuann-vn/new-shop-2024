@@ -34,17 +34,17 @@ export default function HomeSaleBanner({slides} : {slides: any[]}) {
                         <SwiperSlide key={index}>
                             <div className={"w-full relative"}>
                                 <img src={imageStorageUrl(slide.image)} alt="" className="w-full rounded-lg"/>
-                                <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center"  data-swiper-parallax="-1000">
-                                    <div className={"container mx-auto"}>
-                                        <div className="w-full relative pl-[50%]">
-                                            <h2 className="text-xl font-extralight [&>strong]:text-3xl [&>strong]:block [&>strong]:font-bold" dangerouslySetInnerHTML={{"__html": slide.title}}></h2>
-                                            <p className="text-sm font-light mt-3 text-gray-400">{slide.subtitle}</p>
-                                            <PrimaryButton className={"rounded-full mt-5"}>
-                                                Shop Now
-                                            </PrimaryButton>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="absolute top-0 left-0 h-full w-full flex items-center justify-center"  data-swiper-parallax="-1000">*/}
+                                {/*    <div className={"container mx-auto"}>*/}
+                                {/*        <div className="w-full relative pl-[50%]">*/}
+                                {/*            <h2 className="text-xl font-extralight [&>strong]:text-3xl [&>strong]:block [&>strong]:font-bold" dangerouslySetInnerHTML={{"__html": slide.title}}></h2>*/}
+                                {/*            <p className="text-sm font-light mt-3 text-gray-400">{slide.subtitle}</p>*/}
+                                {/*            <PrimaryButton className={"rounded-full mt-5"}>*/}
+                                {/*                Shop Now*/}
+                                {/*            </PrimaryButton>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
                         </SwiperSlide>
                     );

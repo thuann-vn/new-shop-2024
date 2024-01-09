@@ -26,13 +26,17 @@ export default function ProductCartForm({product, selectedVariant, setSelectedVa
     }
     return (
         <form className="mt-10">
-            <ProductVariants
-                product={product}
-                attributes={attributes}
-                options={options}
-                onVariantChange={(variant: any) => {
-                    setSelectedVariant(variant)
-                }}/>
+            {
+                product.has_variants ? (
+                    <ProductVariants
+                        product={product}
+                        attributes={attributes}
+                        options={options}
+                        onVariantChange={(variant: any) => {
+                            setSelectedVariant(variant)
+                        }}/>
+                ) : null
+            }
             <div className="flex items-center mt-10">
                 <CounterInput value={quantity} onValueChange={setQuantity} max={product.has_variants ? (selectedVariant?.qty ?? 0) : product.qty}/>
                 <PrimaryButton className={"w-full rounded-full text-center justify-center py-3 ms-5"}
