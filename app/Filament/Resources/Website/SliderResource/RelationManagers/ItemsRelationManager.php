@@ -28,8 +28,11 @@ class ItemsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('link')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Toggle::make('is_alt_style')
+                    ->label('Alt Style (white text)')
+                    ->default(false),
                 Forms\Components\Toggle::make('is_visible')
-                    ->required(),
+                    ->default(true),
             ])->columns(1);
     }
 

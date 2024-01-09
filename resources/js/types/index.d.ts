@@ -14,6 +14,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     general_settings: GeneralSettings;
     wishlist: number[],
     navigation: Navigation,
+    category_navigation: Navigation,
     footer_links: Navigation,
     shop: ShopSettings
 };
@@ -135,6 +136,9 @@ export interface SliderItems{
     title: string;
     subtitle: string;
     image: string;
+    link: string;
+    is_alt_style: boolean;
+    is_visible: boolean;
     created_at: string;
     updated_at: string;
 }

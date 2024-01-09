@@ -44,6 +44,24 @@
             right: -20px;
         }
     }
+
+    .slide-item{
+        .slide-subtitle{
+            > strong {
+                display: block;
+                font-size: 2rem;
+                margin-top: 1rem;
+            }
+
+            > em{
+                color: red;
+            }
+        }
+
+        &.slide-item-alt{
+            color: #fff
+        }
+    }
 }
 
 .product-card{

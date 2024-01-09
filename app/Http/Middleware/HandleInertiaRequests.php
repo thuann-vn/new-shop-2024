@@ -35,8 +35,16 @@ class HandleInertiaRequests extends Middleware
     {
         $generalSettings = $this->getGeneralSettings();
         $shopSettings = $this->getShopSettings();
+
+        //Main navigation
         $navigation = Navigation::whereHandle('main')->first();
         $navigation->items = array_values($navigation->items);
+
+        //Category navigation
+        $categoryNavigation = Navigation::whereHandle('category')->first();
+        if(!empty($categoryNavigation)){
+            $categoryNavigation->items = !empty($categoryNavigation->items) ? array_values($categoryNavigation->items) : [];
+        }
 
         //Footer navigation
         $footerLinks = Navigation::whereHandle('footer-links')->first();
@@ -62,6 +70,7 @@ class HandleInertiaRequests extends Middleware
                 'count' => fn() => Cart::count(),
             ],
             'navigation' => $navigation->toArray(),
+            'category_navigation' => !empty($categoryNavigation) ? $categoryNavigation->toArray() : [],
             'footer_links' => $footerLinks,
             'wishlist' => fn() => $request->user() ? $request->user()->wishlist()->pluck('shop_product_id')->toArray() : [],
         ];

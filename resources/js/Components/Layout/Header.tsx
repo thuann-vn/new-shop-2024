@@ -1,7 +1,7 @@
 import {Fragment, useContext, useState} from 'react'
 import {Menu, Popover, Transition} from '@headlessui/react'
 import {
-    Bars3Icon, ChevronUpIcon, ChevronDownIcon,
+    Bars3Icon,
     MagnifyingGlassIcon,
     ShoppingBagIcon,
     UserIcon
@@ -11,6 +11,11 @@ import MobileMenu from "@/Components/Layout/MobileMenu";
 import {Link, usePage} from "@inertiajs/react";
 import {CartContext} from "@/Contexts/CartContext";
 import {PageProps} from "@/types";
+import ApplicationLogo from "@/Components/Layout/ApplicationLogo";
+import NavLink from "@/Components/Layout/NavLink";
+import NavDropdown from "@/Components/Layout/NavDropdown";
+import CategoryDropdown from "@/Components/Layout/CategoryDropdown";
+import SearchForm from "@/Components/Layout/SearchForm";
 
 export default function Header() {
     const [open, setOpen] = useState(false)
@@ -25,24 +30,20 @@ export default function Header() {
     }
 
     const userNavigation = [
-        { name: 'Your Profile', href: route('profile.edit') },
-        { name: 'Orders', href: route('profile.orders') },
-        { name: 'Wish List', href: route('profile.wishlist') },
-        { name: 'Sign out', href: route('logout') },
+        {name: 'Your Profile', href: route('profile.edit')},
+        {name: 'Orders', href: route('profile.orders')},
+        {name: 'Wish List', href: route('profile.wishlist')},
+        {name: 'Sign out', href: route('logout')},
     ]
 
     return (
-        <div className="bg-transparent relative z-20">
+        <div className="bg-main-600 relative z-20">
             {/* Mobile menu */}
             <MobileMenu open={open} setOpen={setOpen} navigation={navigation}/>
 
-            <header className="bg-transparent relative border-b border-gray-200">
-                <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-                    Get free delivery on orders over $100
-                </p>
-
+            <header className="bg-main-600 relative border-b border-gray-200">
                 <nav aria-label="Top" className="mx-auto container px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center">
+                    <div className="flex h-24 items-center">
                         <button
                             type="button"
                             className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
@@ -55,105 +56,26 @@ export default function Header() {
 
                         {/* Logo */}
                         <div className="ml-4 flex lg:ml-0">
-                            <Link href={route('home')}>
-                                <span className="sr-only">Your Company</span>
-                                <img
-                                    className="h-8 w-auto"
-                                    src={general_settings.site_logo}
-                                    alt=""
-                                />
-                            </Link>
+                            <ApplicationLogo/>
                         </div>
 
-                        {/* Flyout menus */}
-                        <Popover.Group className="hidden lg:ml-8 lg:block">
-                            <div className="flex space-x-2">
-                                {Object.keys(navigation.items).map((key) => {
-                                    var page = navigation.items[key];
-                                    if(page.children && Object.keys(page.children).length > 0) {
-                                        return (
-                                            <Menu key={key} as="div" className="flex-shrink-0 relative ml-4">
-                                                {({ open }) => (
-                                                    <>
-                                                        <div>
-                                                            <Menu.Button
-                                                                className={
-                                                                    classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-4 py-3 rounded-full",
-                                                                        page.data.classes ?? '',
-                                                                        isCurrentPage(page.data.url) ? 'bg-main-100 text-main-500' : ''
-                                                                    )
-                                                                }>
-                                                                {page.label} {open ? (<ChevronUpIcon className={"ms-1 w-3 h-3"}/>) : (<ChevronDownIcon className={"ms-1 w-3 h-3"}/>)}
-                                                            </Menu.Button>
-                                                        </div>
-                                                        <Transition
-                                                            as={Fragment}
-                                                            enter="transition ease-out duration-100"
-                                                            enterFrom="transform opacity-0 scale-95"
-                                                            enterTo="transform opacity-100 scale-100"
-                                                            leave="transition ease-in duration-75"
-                                                            leaveFrom="transform opacity-100 scale-100"
-                                                            leaveTo="transform opacity-0 scale-95"
-                                                        >
-                                                            <Menu.Items
-                                                                className="origin-top-left absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
-                                                                {Object.keys(page.children).map((childKey) => {
-                                                                    var child = page.children[childKey];
-                                                                    return (
-                                                                        <Menu.Item key={child.label}>
-                                                                            {({active}) => (
-                                                                                <Link
-                                                                                    href={child.data.url}
-                                                                                    className={classNames(
-                                                                                        active ? 'bg-gray-100' : '',
-                                                                                        'flex items-center py-3 px-4 text-sm text-gray-700'
-                                                                                    )}
-                                                                                >
-                                                                                    {
-                                                                                        child.data.icon ? (
-                                                                                            <img src={imageStorageUrl(child.data.icon)} alt=""
-                                                                                                 className="h-5 w-5 mr-1"/>
-                                                                                        ) : null
-                                                                                    }
-                                                                                    {child.label}
-                                                                                </Link>
-                                                                            )}
-                                                                        </Menu.Item>
-                                                                    )
-                                                                })}
-                                                            </Menu.Items>
-                                                        </Transition>
-                                                    </>
-                                                )}
+                        {/*Search form*/}
+                        <SearchForm/>
 
-                                            </Menu>
-                                        )
-                                    }else {
-                                        return (
-                                            <Link
-                                                key={key}
-                                                href={page.data.url}
-                                                className={
-                                                    classNames("flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-4 py-3 rounded-full",
-                                                        page.data.classes ?? '',
-                                                        isCurrentPage(page.data.url) ? 'bg-main-100 text-main-500' : ''
-                                                    )
-                                                }
-                                            >
-                                                {
-                                                    page.data.icon ? (
-                                                        <img src={imageStorageUrl(page.data.icon)} alt=""
-                                                             className="h-5 w-5 mr-1"/>
-                                                    ) : null
-                                                }
-                                                {page.label}
-                                            </Link>
-                                        )
-                                    }
-                                })}
+                        {/*Hotline*/}
+                        <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
+                            <div className="hidden sm:block sm:ml-6">
+                                <div className="flex space-x-2 bg-white rounded-full px-2 shadow">
+                                    <div className="flex items-center text-sm font-medium text-gray-700 hover:text-main-500 hover:bg-main-100 px-4 py-3 rounded-full">
+                                        <img src={imageStorageUrl(general_settings.hotline_icon)} alt=""
+                                             className="h-5 w-5 mr-1"/>
+                                        {general_settings.hotline}
+                                    </div>
+                                </div>
                             </div>
-                        </Popover.Group>
+                        </div>
 
+                        {/* Right buttons */}
                         <div className="ml-auto flex items-center">
                             {
                                 auth.user ? (
@@ -162,7 +84,9 @@ export default function Header() {
                                             <Menu.Button
                                                 className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                                 <span className="sr-only">Open user menu</span>
-                                                <img className="h-8 w-8 rounded-full" src={auth.user.photo ? auth.user.photo : 'https://ui-avatars.com/api/?background=random&name=' + auth.user.name } alt=""/>
+                                                <img className="h-8 w-8 rounded-full"
+                                                     src={auth.user.photo ? auth.user.photo : 'https://ui-avatars.com/api/?background=random&name=' + auth.user.name}
+                                                     alt=""/>
                                             </Menu.Button>
                                         </div>
                                         <Transition
@@ -203,14 +127,6 @@ export default function Header() {
                                 )
                             }
 
-                            {/* Search */}
-                            <div className="flex lg:ml-6">
-                                <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                                    <span className="sr-only">Search</span>
-                                    <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true"/>
-                                </a>
-                            </div>
-
                             {/* Cart */}
                             <div className="ml-4 flow-root lg:ml-6">
                                 <a onClick={() => openCart()} href="#" className="group -m-2 flex items-center p-2">
@@ -225,6 +141,33 @@ export default function Header() {
                             </div>
                         </div>
                     </div>
+
+
+                    {/* Flyout menus */}
+                    <Popover.Group className="hidden lg:ml-8 lg:block">
+                        <div className="flex space-x-2 bg-white rounded-full px-2 py-2 -mb-8 shadow">
+                            <CategoryDropdown/>
+                            {Object.keys(navigation.items).map((key) => {
+                                var page = navigation.items[key];
+                                if (page.children && Object.keys(page.children).length > 0) {
+                                    return (
+                                        <NavDropdown
+                                            key={key}
+                                            item={page}
+                                            isActive={isCurrentPage(page.data.url)}
+                                        />
+                                    )
+                                } else {
+                                    return (
+                                        <NavLink key={key}
+                                                 href={page.data.url} active={isCurrentPage(page.data.url)}
+                                                 icon={page.data.icon ? imageStorageUrl(page.data.icon) : null}
+                                                 label={page.label} className={page.data.classes ?? ''}></NavLink>
+                                    )
+                                }
+                            })}
+                        </div>
+                    </Popover.Group>
                 </nav>
             </header>
         </div>
