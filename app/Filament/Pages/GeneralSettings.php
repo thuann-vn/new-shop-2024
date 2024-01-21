@@ -62,8 +62,6 @@ class GeneralSettings extends SettingsPage
                                 ->label('Site email'),
                             Forms\Components\TextInput::make('site_address')
                                 ->label('Site address'),
-                            Forms\Components\TextInput::make('site_footer')
-                                ->label('Site footer'),
                             Forms\Components\TextInput::make('site_copyright')
                                 ->label('Copyright notice'),
                         ]),
@@ -87,6 +85,27 @@ class GeneralSettings extends SettingsPage
                             Forms\Components\TextInput::make('site_google')
                                 ->label('Site google')
                                 ->prefixIcon('heroicon-o-link'),
+                        ]),
+                    Forms\Components\Tabs\Tab::make('Footer')
+                        ->schema([
+                            Forms\Components\Repeater::make('site_footer')
+                            ->schema([
+                                Forms\Components\FileUpload::make('image')
+                                    ->label('Image')
+                                    ->previewable()
+                                    ->avatar()
+                                    ->image()
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios([
+                                        null,
+                                        '1:1',
+                                    ])
+                                    ->preserveFilenames()
+                                    ->required(),
+                                Forms\Components\TextInput::make('text')
+                                    ->label('Text')
+                            ])
+                            ->grid(4)
                         ]),
                     Forms\Components\Tabs\Tab::make('Custom JS/CSS')
                         ->schema([

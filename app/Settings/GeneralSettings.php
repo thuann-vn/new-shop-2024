@@ -25,6 +25,7 @@ class GeneralSettings extends Settings
     public ?string $site_youtube;
     public ?string $site_linkedin;
     public ?string $site_google;
+    public ?array $site_footer;
 
     public static function group(): string
     {
