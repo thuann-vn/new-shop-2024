@@ -89,6 +89,7 @@ export interface GeneralSettings {
     site_twitter: string;
     site_linkedin: string;
     site_youtube: string;
+    site_footer: any[];
 }
 
 export interface Tag{

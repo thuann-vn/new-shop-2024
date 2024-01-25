@@ -125,8 +125,8 @@ export default function Header() {
                                     </Menu>
                                 ) : (
                                     <div className="flex lg:ml-6">
-                                        <Link href={route('login')} className="p-2 text-gray-400 hover:opacity-90 rounded-full bg-main-400">
-                                            <UserIcon className="h-8 w-8" aria-hidden="true"/>
+                                        <Link href={route('login')} className="p-2 text-white hover:opacity-90 rounded-full bg-main-400">
+                                            <UserIcon className="h-6 w-6" aria-hidden="true"/>
                                         </Link>
                                     </div>
                                 )

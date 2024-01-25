@@ -21,7 +21,7 @@ export default function Home({homeSlider, homeSaleSlider1, homeSaleSlider2, coll
             </div>
             <HomeCategories categories={featuredCategories}/>
             <HomeCollections collections={collections}/>
-            <HomeBlog posts={homePosts}/>
+            {/*<HomeBlog posts={homePosts}/>*/}
         </>
     );
 }

@@ -11,3 +11,7 @@ export function imageStorageUrl(path: string) : string {
 export function formatDate(date: string) : string {
     return moment(date).format('DD MMMM YYYY');
 }
+
+export function getDiscountedPercent(oldPrice: number, price: number) : number {
+    return Math.round((oldPrice - price) / oldPrice * 100);
+}
