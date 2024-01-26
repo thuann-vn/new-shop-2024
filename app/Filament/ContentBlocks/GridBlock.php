@@ -2,17 +2,30 @@
 
 namespace App\Filament\ContentBlocks;
 
-use App\Models\Page;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TextInput;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
+use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\Concerns\HasBackgroundColour;
+use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\Concerns\HasBlockStyle;
+use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Blocks\BackgroundColourField;
+use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Blocks\BlockStyleField;
+use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Blocks\GridColumnsField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\ContentBlocksField;
 use Statikbe\FilamentFlexibleContentBlocks\FilamentFlexibleBlocksConfig;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 
 class GridBlock extends AbstractContentBlock
 {
-    public ?array $columns;
+    use HasBackgroundColour;
+    use HasBlockStyle;
+
+    public array $columns = [];
+
+    public ?string $title;
+
+    public int $gridColumns = 2;
 
     /**
      * Create a new component instance.
@@ -22,6 +35,10 @@ class GridBlock extends AbstractContentBlock
         parent::__construct($record, $blockData);
 
         $this->columns = $this->createBlocks($blockData['columns'] ?? []);
+        $this->title = $blockData['title'] ?? null;
+        $this->backgroundColourType = $blockData['background_colour'] ?? null;
+        $this->gridColumns = $blockData['grid_columns'] ?? null;
+        $this->setBlockStyle($blockData);
     }
 
     public static function getNameSuffix(): string
@@ -40,6 +57,14 @@ class GridBlock extends AbstractContentBlock
     protected static function makeFilamentSchema(): array | \Closure
     {
         return [
+            TextInput::make('title')
+                ->label('Title')
+                ->maxLength(255),
+            Grid::make(2)->schema([
+                GridColumnsField::create(static::class, true),
+                BackgroundColourField::create(static::class),
+                BlockStyleField::create(static::class),
+            ]),
             Repeater::make('columns')
                 ->hiddenLabel()
                 ->collapsible()
@@ -78,6 +103,7 @@ class GridBlock extends AbstractContentBlock
     {
         // TODO: Implement render() method.
     }
+
     /**
      * Transforms the JSON block data into content block components that can be rendered.
      *
@@ -85,19 +111,21 @@ class GridBlock extends AbstractContentBlock
      */
     private function createBlocks($content_blocks): array
     {
+        $columns = [];
         $blockClasses = FilamentFlexibleBlocksConfig::getDefaultFlexibleBlocks();
         $blockClassIndex = collect($blockClasses)->mapWithKeys(fn ($item, $key) => [$item::getName() => $item]);
-        $blocks = [];
-        foreach ($content_blocks as $blockData) {
-            $blockData = $blockData['content_blocks'][0];
-            if ($blockClassIndex->has($blockData['type'])) {
-                $blockClass = $blockClassIndex->get($blockData['type']);
-                $block = new $blockClass($this->record, $blockData['data']);
-                $block->name = $block->getName();
-                $blocks[] = $block;
+        foreach ($content_blocks as $index => $columnBlocks) {
+            $columns[$index] = [];
+            foreach ($columnBlocks['content_blocks'] as $blockData) {
+                if ($blockClassIndex->has($blockData['type'])) {
+                    $blockClass = $blockClassIndex->get($blockData['type']);
+                    $block = new $blockClass($this->record, $blockData['data']);
+                    $block->name = $block->getName();
+                    $columns[$index][] = $block;
+                }
             }
         }
 
-        return $blocks;
+        return $columns;
     }
 }

@@ -1,11 +1,12 @@
 import {Link} from "@inertiajs/react";
 import {imageStorageUrl} from "@/Utils/Helper";
 import {Block, TopCategoriesBlock} from "@/types/blocks";
+import Container from "@/Components/Layout/Container";
 
-    export default function TopCategories({block}: { block: TopCategoriesBlock }) {
+    export default function Categories({block}: { block: TopCategoriesBlock }) {
     return (
         <div className="bg-white py-10">
-            <div className="mx-auto container">
+            <Container>
                 <h2 className="text-center text-4xl font-semibold leading-8 text-gray-900">
                     Top Categories
                 </h2>
@@ -24,7 +25,7 @@ import {Block, TopCategoriesBlock} from "@/types/blocks";
                         ))
                     }
                 </div>
-            </div>
+            </Container>
         </div>
     )
 }

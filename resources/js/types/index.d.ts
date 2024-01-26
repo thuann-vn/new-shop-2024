@@ -138,6 +138,7 @@ export interface SliderItems{
     subtitle: string;
     image: string;
     link: string;
+    is_image_only: boolean;
     is_alt_style: boolean;
     is_visible: boolean;
     created_at: string;

@@ -7,7 +7,15 @@ export interface Block {
     blockStyle: any
 }
 
-export interface TopCategoriesBlock extends Block {
+export interface HasBackgroundStyle {
+    backgroundColourType: string;
+}
+
+export interface HasTitle{
+    title: string;
+}
+
+export interface CategoriesBlock extends Block {
     categoryIds: number[];
     categories: ProductCategory[];
 }
@@ -16,3 +24,9 @@ export interface SliderBlock extends Block {
     sliderId: number;
     slider: Slider
 }
+
+export interface GridBlock extends Block, HasBackgroundStyle, HasTitle {
+    columns: [];
+    gridColumns: number;
+}
+

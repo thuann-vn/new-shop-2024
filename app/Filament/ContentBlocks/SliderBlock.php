@@ -29,7 +29,6 @@ class SliderBlock extends AbstractContentBlock
     public function __construct(HasContentBlocks & HasMedia $record, ?array $blockData)
     {
         parent::__construct($record, $blockData);
-
         $this->sliderId = $blockData['slider_id'] ?? null;
         $this->slider = Slider::with(['items'])->where('id', $this->sliderId)->first();
         $this->setBlockStyle($blockData);

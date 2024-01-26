@@ -38,7 +38,7 @@ return [
     */
     'default_flexible_blocks' => [
         \App\Filament\ContentBlocks\GridBlock::class,
-        \App\Filament\ContentBlocks\TopCategoriesBlock::class,
+        \App\Filament\ContentBlocks\CategoriesBlock::class,
         \App\Filament\ContentBlocks\SliderBlock::class,
         \App\Filament\ContentBlocks\TwoColumnsBannerBlock::class,
         TextBlock::class,

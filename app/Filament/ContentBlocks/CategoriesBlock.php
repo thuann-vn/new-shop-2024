@@ -4,17 +4,20 @@ namespace App\Filament\ContentBlocks;
 
 use App\Models\Shop\Category;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\Concerns\HasBackgroundColour;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\Concerns\HasBlockStyle;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 
-class TopCategoriesBlock extends AbstractContentBlock
+class CategoriesBlock extends AbstractContentBlock
 {
     use HasBackgroundColour;
     use HasBlockStyle;
 
+
+    public ?string $title;
     public ?array $categoryIds;
     public ?array $categories;
 
@@ -25,6 +28,7 @@ class TopCategoriesBlock extends AbstractContentBlock
     {
         parent::__construct($record, $blockData);
 
+        $this->title = $blockData['title'] ?? null;
         $this->categoryIds = $blockData['category_ids'] ?? null;
         $this->categories = Category::whereIn('id', $this->categoryIds)->get()->toArray();
         $this->setBlockStyle($blockData);
@@ -46,6 +50,9 @@ class TopCategoriesBlock extends AbstractContentBlock
     protected static function makeFilamentSchema(): array | \Closure
     {
         return [
+            TextInput::make('title')
+                ->label('Title')
+                ->maxLength(255),
             Select::make('category_ids')
                 ->multiple()
                 ->minItems(1)
@@ -63,17 +70,17 @@ class TopCategoriesBlock extends AbstractContentBlock
 
     public static function getName(): string
     {
-        return 'Top Categories';
+        return 'Categories';
     }
 
     public static function getLabel(): string
     {
-        return 'Top Categories';
+        return 'Categories';
     }
 
     public static function getFieldLabel(string $field): string
     {
-        return 'Top Categories';
+        return 'Categories';
     }
 
     public function render()
