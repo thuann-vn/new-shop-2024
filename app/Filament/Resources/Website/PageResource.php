@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Website;
 
-use App\Filament\Resources\Blog\PageResource\Pages;
 use App\Models\Page;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Tabs\Tab;
@@ -15,7 +14,6 @@ use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\AuthorField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\CodeField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\ContentBlocksField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\HeroImageSection;
-use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\OverviewFields;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\PublicationSection;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\SEOFields;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\IntroField;
@@ -34,6 +32,7 @@ class PageResource extends Resource
     protected static ?string $model = Page::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+
     protected static ?string $recordRouteKeyName = 'id';
 
     public static function getNavigationGroup(): string
@@ -55,18 +54,15 @@ class PageResource extends Resource
                                 SlugField::create(false),
                                 IntroField::create(),
                                 AuthorField::create(),
-//                                HeroImageSection::create(true),
-//                                PublicationSection::create(),
+                                //                                HeroImageSection::create(true),
+                                //                                PublicationSection::create(),
                             ]),
                         Tab::make('Content')
                             ->schema([
                                 CopyContentBlocksToLocalesAction::create('translate_blocks'),
-                                ContentBlocksField::create(),
+                                ContentBlocksField::create()->cloneable(true)
+                                    ->collapsible(true)->collapsed(true),
                             ]),
-//                        Tab::make('Overview')
-//                            ->schema([
-//                                OverviewFields::create(1, true),
-//                            ]),
                         Tab::make('SEO')
                             ->schema([
                                 SEOFields::create(1, true),

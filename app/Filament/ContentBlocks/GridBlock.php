@@ -2,6 +2,8 @@
 
 namespace App\Filament\ContentBlocks;
 
+use App\Filament\ContentBlocks\Concerns\HasBlockOption;
+use App\Filament\Form\Fields\Blocks\BlockOptionField;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -18,8 +20,7 @@ use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 
 class GridBlock extends AbstractContentBlock
 {
-    use HasBackgroundColour;
-    use HasBlockStyle;
+    use HasBlockOption;
 
     public array $columns = [];
 
@@ -36,9 +37,8 @@ class GridBlock extends AbstractContentBlock
 
         $this->columns = $this->createBlocks($blockData['columns'] ?? []);
         $this->title = $blockData['title'] ?? null;
-        $this->backgroundColourType = $blockData['background_colour'] ?? null;
         $this->gridColumns = $blockData['grid_columns'] ?? null;
-        $this->setBlockStyle($blockData);
+        $this->setBlockOption($blockData);
     }
 
     public static function getNameSuffix(): string
@@ -68,12 +68,14 @@ class GridBlock extends AbstractContentBlock
             Repeater::make('columns')
                 ->hiddenLabel()
                 ->collapsible()
+                ->collapsed()
                 ->itemLabel('Column')
                 ->schema(
                     [
                         ContentBlocksField::create()->hiddenLabel(),
                     ]
                 ),
+            BlockOptionField::create(static::class),
         ];
     }
 
@@ -121,6 +123,7 @@ class GridBlock extends AbstractContentBlock
                     $blockClass = $blockClassIndex->get($blockData['type']);
                     $block = new $blockClass($this->record, $blockData['data']);
                     $block->name = $block->getName();
+                    unset($block->record);
                     $columns[$index][] = $block;
                 }
             }

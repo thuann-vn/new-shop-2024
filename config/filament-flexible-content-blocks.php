@@ -6,8 +6,6 @@ use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\CallToActionBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\CardsBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\HtmlBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\ImageBlock;
-use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\OverviewBlock;
-use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\QuoteBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\TemplateBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\TextBlock;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\TextImageBlock;
@@ -40,14 +38,12 @@ return [
         \App\Filament\ContentBlocks\GridBlock::class,
         \App\Filament\ContentBlocks\CategoriesBlock::class,
         \App\Filament\ContentBlocks\SliderBlock::class,
-        \App\Filament\ContentBlocks\TwoColumnsBannerBlock::class,
+        \App\Filament\ContentBlocks\ProductCollectionBlock::class,
         TextBlock::class,
         VideoBlock::class,
         ImageBlock::class,
         HtmlBlock::class,
         TextImageBlock::class,
-//        OverviewBlock::class,
-//        QuoteBlock::class,
         CallToActionBlock::class,
         CardsBlock::class,
         TemplateBlock::class,
@@ -374,8 +370,8 @@ return [
     | The list consists of the name of the Blade template as key and the translation key that will be shown in the dropdown.
     */
     'templates' => [
-//        'partials.footer-nav' => 'filament-flexible-content-blocks::filament-flexible-content-blocks.form_component.content_blocks.templates_options.footer',
-      'partials.contact-form' => 'Contact Form'
+        //        'partials.footer-nav' => 'filament-flexible-content-blocks::filament-flexible-content-blocks.form_component.content_blocks.templates_options.footer',
+        'partials.contact-form' => 'Contact Form',
     ],
 
     /*

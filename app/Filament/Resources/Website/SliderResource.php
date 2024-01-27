@@ -28,9 +28,17 @@ class SliderResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('code')
                     ->maxLength(255),
+                Forms\Components\Select::make('display_type')
+                    ->options([
+                        'slider' => 'Slider',
+                        'grid' => 'Grid',
+                    ])
+                    ->default('slider')
+                    ->required(),
                 Forms\Components\Toggle::make('is_visible')
                     ->default(true)
                     ->required(),
+
             ]);
     }
 
@@ -42,6 +50,7 @@ class SliderResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('code')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('display_type'),
                 Tables\Columns\IconColumn::make('is_visible')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')

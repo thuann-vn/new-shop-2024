@@ -25,11 +25,13 @@ class ItemsRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('subtitle')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
-                    ->required()
                     ->maxLength(255),
+                Forms\Components\Toggle::make('is_image_only')
+                    ->label('Display image only')
+                    ->live()
+                    ->default(false),
                 Forms\Components\Toggle::make('is_alt_style')
                     ->label('Alt Style (white text)')
                     ->default(false),
@@ -46,6 +48,8 @@ class ItemsRelationManager extends RelationManager
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('title'),
                 Tables\Columns\TextColumn::make('subtitle'),
+                Tables\Columns\IconColumn::make('is_image_only'),
+                Tables\Columns\IconColumn::make('is_alt_style'),
                 Tables\Columns\IconColumn::make('is_visible')
                     ->boolean(),
             ])

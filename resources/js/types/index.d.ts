@@ -129,7 +129,8 @@ export interface Slider{
     id: number;
     code: string;
     name: string;
-    items: SliderItems[]
+    items: SliderItems[];
+    display_type: string;
 }
 
 export interface SliderItems{

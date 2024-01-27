@@ -50,6 +50,7 @@ class PageController extends Controller
                 $blockClass = $blockClassIndex->get($blockData['type']);
                 $block = new $blockClass($page, $blockData['data']);
                 $block->name = $block->getName();
+                unset($block->record);
                 $blocks[] = $block;
             }
         }

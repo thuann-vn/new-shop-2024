@@ -2,25 +2,21 @@
 
 namespace App\Filament\ContentBlocks;
 
+use App\Filament\ContentBlocks\Concerns\HasBlockOption;
+use App\Filament\Form\Fields\Blocks\BlockOptionField;
 use App\Models\Slider;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
-use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\Concerns\HasBackgroundColour;
-use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\Concerns\HasBlockStyle;
-use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Blocks\BackgroundColourField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Blocks\BlockStyleField;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 
 class SliderBlock extends AbstractContentBlock
 {
-    use HasBackgroundColour;
-    use HasBlockStyle;
+    use HasBlockOption;
 
     public ?string $sliderId;
+
     public ?Slider $slider;
 
     /**
@@ -31,7 +27,7 @@ class SliderBlock extends AbstractContentBlock
         parent::__construct($record, $blockData);
         $this->sliderId = $blockData['slider_id'] ?? null;
         $this->slider = Slider::with(['items'])->where('id', $this->sliderId)->first();
-        $this->setBlockStyle($blockData);
+        $this->setBlockOption($blockData);
     }
 
     public static function getNameSuffix(): string
@@ -54,12 +50,14 @@ class SliderBlock extends AbstractContentBlock
                 ->label(static::getFieldLabel('slider_id'))
                 ->options(Slider::where('is_visible', true)->pluck('name', 'id')->toArray())
                 ->required(),
+            BlockOptionField::create(static::class),
         ];
     }
 
     public function getSearchableContent(): array
     {
         $searchable = [];
+
         return $searchable;
     }
 
@@ -70,7 +68,7 @@ class SliderBlock extends AbstractContentBlock
 
     public static function getLabel(): string
     {
-        return 'Slider';
+        return 'Slider & Banner';
     }
 
     public static function getFieldLabel(string $field): string

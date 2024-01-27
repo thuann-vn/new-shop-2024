@@ -1,7 +1,6 @@
 import {BlogPost, Collection, PageProps, ProductCategory, Slider} from '@/types';
 import Authenticated from "@/Layouts/Layout";
 import HomeBlog from "@/Components/Home/HomeBlog";
-import HomeCollections from "@/Components/Home/HomeCollections";
 import HomeBanner from "@/Components/Home/HomeBanner";
 import AppHead from "@/Components/Layout/AppHead";
 import HomeSaleBanner from "@/Components/Home/HomeSaleBanner";
@@ -19,8 +18,8 @@ export default function Home({homeSlider, homeSaleSlider1, homeSaleSlider2, coll
                     <HomeSaleBanner slides={homeSaleSlider2?.items ?? []}/>
                 </div>
             </div>
-            <HomeCategories categories={featuredCategories}/>
-            <HomeCollections collections={collections}/>
+            {/*<HomeCategories categories={featuredCategories}/>*/}
+            {/*<HomeCollections collections={collections}/>*/}
             {/*<HomeBlog posts={homePosts}/>*/}
         </>
     );
