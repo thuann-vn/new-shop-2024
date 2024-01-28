@@ -36,6 +36,7 @@ return [
     */
     'default_flexible_blocks' => [
         \App\Filament\ContentBlocks\TextBlock::class,
+        HtmlBlock::class,
         \App\Filament\ContentBlocks\GridBlock::class,
         \App\Filament\ContentBlocks\CategoriesBlock::class,
         \App\Filament\ContentBlocks\SliderBlock::class,

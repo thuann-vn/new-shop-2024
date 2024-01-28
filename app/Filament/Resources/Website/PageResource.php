@@ -9,12 +9,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Actions\CopyContentBlocksToLocalesAction;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\AuthorField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\CodeField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\ContentBlocksField;
-use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\HeroImageSection;
-use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\PublicationSection;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Groups\SEOFields;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\IntroField;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\SlugField;
@@ -54,13 +51,11 @@ class PageResource extends Resource
                                 SlugField::create(false),
                                 IntroField::create(),
                                 AuthorField::create(),
-                                //                                HeroImageSection::create(true),
-                                //                                PublicationSection::create(),
                             ]),
                         Tab::make('Content')
                             ->schema([
-                                CopyContentBlocksToLocalesAction::create('translate_blocks'),
                                 ContentBlocksField::create()->cloneable(true)
+                                    ->label('Content Blocks')
                                     ->collapsible(true)->collapsed(true),
                             ]),
                         Tab::make('SEO')
