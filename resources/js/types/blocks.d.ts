@@ -16,6 +16,16 @@ export interface HasTitle{
     title: string;
 }
 
+export interface TextBlock extends Block {
+    title: string;
+    content: string
+}
+
+export interface ContactFormBlock extends Block {
+    title: string;
+    content: string
+}
+
 export interface CategoriesBlock extends Block {
     categoryIds: number[];
     categories: ProductCategory[];
@@ -36,3 +46,22 @@ export interface GridBlock extends Block, HasBackgroundStyle, HasTitle {
     gridColumns: number;
 }
 
+export interface CardsBlock extends Block, HasBackgroundStyle, HasTitle {
+    cards: Card[];
+    gridColumns: number;
+}
+
+export interface Card {
+    blockStyles: string;
+    title: string;
+    text: string;
+    imageUrl: string;
+    callToActions: CallToAction[];
+}
+
+export interface CallToAction{
+    buttonStyle: string;
+    label: string;
+    openNewWindow: boolean;
+    url: string;
+}

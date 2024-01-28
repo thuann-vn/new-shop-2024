@@ -35,18 +35,13 @@ return [
     |
     */
     'default_flexible_blocks' => [
+        \App\Filament\ContentBlocks\TextBlock::class,
         \App\Filament\ContentBlocks\GridBlock::class,
         \App\Filament\ContentBlocks\CategoriesBlock::class,
         \App\Filament\ContentBlocks\SliderBlock::class,
         \App\Filament\ContentBlocks\ProductCollectionBlock::class,
-        TextBlock::class,
-        VideoBlock::class,
-        ImageBlock::class,
-        HtmlBlock::class,
-        TextImageBlock::class,
-        CallToActionBlock::class,
-        CardsBlock::class,
-        TemplateBlock::class,
+        \App\Filament\ContentBlocks\CardsBlock::class,
+        \App\Filament\ContentBlocks\ContactFormBlock::class
     ],
 
     /*

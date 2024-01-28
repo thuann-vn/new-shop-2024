@@ -1,13 +1,29 @@
-import {Block, CategoriesBlock, CollectionBlock, GridBlock, SliderBlock} from "@/types/blocks";
+import {
+    Block,
+    CardsBlock,
+    CategoriesBlock,
+    CollectionBlock,
+    ContactFormBlock,
+    GridBlock,
+    SliderBlock,
+    TextBlock
+} from "@/types/blocks";
 import BannerSlider from "@/Components/PageBlocks/BannerSlider";
 import Categories from "@/Components/PageBlocks/Categories";
 import Grid from "@/Components/PageBlocks/Grid";
 import Collection from "@/Components/PageBlocks/Collection";
 import {classNames} from "@/Utils/Helper";
+import Cards from "@/Components/PageBlocks/Cards";
+import Text from "@/Components/PageBlocks/Text";
+import ContactForm from "@/Components/PageBlocks/ContactForm";
 
 export default function PageBlock({ block }: { block: Block }) {
     const renderBlock = (block: Block) => {
         switch (block.name) {
+            case 'Text':
+                return (
+                    <Text block={block as TextBlock}/>
+                )
             case 'Slider':
                 return (
                     <BannerSlider block={block as SliderBlock}/>
@@ -23,6 +39,14 @@ export default function PageBlock({ block }: { block: Block }) {
             case 'Product Collection':
                 return (
                     <Collection block={block as CollectionBlock}/>
+                )
+            case 'Cards':
+                return (
+                    <Cards block={block as CardsBlock}/>
+                )
+            case 'Contact Form':
+                return (
+                    <ContactForm block={block as ContactFormBlock}/>
                 )
         }
     }

@@ -40,7 +40,7 @@ class CategoriesBlock extends AbstractContentBlock
 
     public static function getIcon(): string
     {
-        return 'heroicon-o-bars-3-bottom-left';
+        return 'heroicon-o-rectangle-group';
     }
 
     /**

@@ -7,7 +7,6 @@ import {imageStorageUrl} from "@/Utils/Helper";
 
 export default () => {
     const {general_settings, footer_links} = usePage<PageProps>().props;
-    console.log(general_settings)
     const navigation = {
         social: [
             {
@@ -49,11 +48,7 @@ export default () => {
         ],
     }
     return (
-        <footer className="bg-white pt-14 border-t border-t-gray-200" aria-labelledby="footer-heading">
-            <h2 id="footer-heading" className="sr-only">
-                Footer
-            </h2>
-
+        <>
             <div className={"bg-main-900 relative overflow-hidden"}>
                 <svg width="1365" height="449" viewBox="0 0 1365 449" fill="none"
                      xmlns="http://www.w3.org/2000/svg" className={"absolute left-0 right-0 bottom-0 top-0"}>
@@ -103,63 +98,67 @@ export default () => {
                     </div>
                 </div>
             </div>
-
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="pb-8 xl:grid xl:grid-cols-5 xl:gap-8">
-                    <div className="grid grid-cols-4 gap-8 xl:col-span-4">
-                        {
-                            Object.keys(footer_links.items).map((key: string, index: number) => {
-                                const column = footer_links.items[key];
-                                return (
-                                    <div key={index}>
-                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">{column.label}</h3>
-                                        <ul role="list" className="mt-4 space-y-4">
-                                            {
-                                                Object.keys(column.children).map((childKey: string, childIdx: number) => {
-                                                    const child = column.children[childKey];
-                                                    return (
-                                                        <li key={childIdx}>
-                                                            <a href={child.data.url}
-                                                               className="text-base text-gray-500 hover:text-gray-900">
-                                                                {child.label}
-                                                            </a>
-                                                        </li>
-                                                    )
-                                                })
-                                            }
-                                        </ul>
-                                    </div>
-                                )
-                            })
-                        }
+            <footer className="bg-white pt-14 border-t border-t-gray-200" aria-labelledby="footer-heading">
+                <h2 id="footer-heading" className="sr-only">
+                    Footer
+                </h2>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="pb-8 xl:grid xl:grid-cols-5 xl:gap-8">
+                        <div className="grid grid-cols-4 gap-8 xl:col-span-4">
+                            {
+                                Object.keys(footer_links.items).map((key: string, index: number) => {
+                                    const column = footer_links.items[key];
+                                    return (
+                                        <div key={index}>
+                                            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">{column.label}</h3>
+                                            <ul role="list" className="mt-4 space-y-4">
+                                                {
+                                                    Object.keys(column.children).map((childKey: string, childIdx: number) => {
+                                                        const child = column.children[childKey];
+                                                        return (
+                                                            <li key={childIdx}>
+                                                                <a href={child.data.url}
+                                                                   className="text-base text-gray-500 hover:text-gray-900">
+                                                                    {child.label}
+                                                                </a>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
-                </div>
-                <div className="border-t border-gray-200 pt-8 lg:flex lg:items-center lg:justify-between xl:mt-0">
-                    <div>
-                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                            Subscribe to our newsletter
-                        </h3>
-                        <p className="mt-2 text-base text-gray-500">
-                            The latest news, articles, and resources, sent to your inbox weekly.
+                    <div className="border-t border-gray-200 pt-8 lg:flex lg:items-center lg:justify-between xl:mt-0">
+                        <div>
+                            <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                                Subscribe to our newsletter
+                            </h3>
+                            <p className="mt-2 text-base text-gray-500">
+                                The latest news, articles, and resources, sent to your inbox weekly.
+                            </p>
+                        </div>
+                        <NewsLetterForm/>
+                    </div>
+                    <div className="mt-8 border-t border-gray-200 pt-8 pb-8 md:flex md:items-center md:justify-between">
+                        <div className="flex space-x-6 md:order-2">
+                            {navigation.social.map((item) => (
+                                <a key={item.name} href={item.href} target="_blank"
+                                   className="text-gray-400 hover:text-gray-500">
+                                    <span className="sr-only">{item.name}</span>
+                                    <item.icon className="h-6 w-6" aria-hidden="true"/>
+                                </a>
+                            ))}
+                        </div>
+                        <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
+                            {general_settings.site_copyright}
                         </p>
                     </div>
-                    <NewsLetterForm/>
                 </div>
-                <div className="mt-8 border-t border-gray-200 pt-8 pb-8 md:flex md:items-center md:justify-between">
-                    <div className="flex space-x-6 md:order-2">
-                        {navigation.social.map((item) => (
-                            <a key={item.name} href={item.href} target="_blank"
-                               className="text-gray-400 hover:text-gray-500">
-                                <span className="sr-only">{item.name}</span>
-                                <item.icon className="h-6 w-6" aria-hidden="true"/>
-                            </a>
-                        ))}
-                    </div>
-                    <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
-                        {general_settings.site_copyright}
-                    </p>
-                </div>
-            </div>
-        </footer>
+            </footer>
+        </>
     )
 }

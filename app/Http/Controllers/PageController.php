@@ -26,13 +26,9 @@ class PageController extends Controller
 
         $blocks = $this->createBlocks($page);
         $pageTitle = $page->title;
-//        $content = view('pages.index', [
-//            'page' => $page,
-//        ])->render();
-        $content = '';
-      return Inertia::render('Page/Show', compact('page', 'blocks','content', 'pageTitle'));
-    }
 
+        return Inertia::render('Page/Show', compact('page', 'blocks', 'pageTitle'));
+    }
 
     /**
      * Transforms the JSON block data into content block components that can be rendered.

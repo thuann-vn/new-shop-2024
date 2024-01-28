@@ -48,7 +48,7 @@ class GridBlock extends AbstractContentBlock
 
     public static function getIcon(): string
     {
-        return 'heroicon-o-bars-3-bottom-left';
+        return 'heroicon-o-squares-2x2';
     }
 
     /**

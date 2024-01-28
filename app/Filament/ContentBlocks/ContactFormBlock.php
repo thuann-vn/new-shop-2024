@@ -5,19 +5,21 @@ namespace App\Filament\ContentBlocks;
 use App\Filament\ContentBlocks\Concerns\HasBlockOption;
 use App\Filament\Form\Fields\Blocks\BlockOptionField;
 use App\Models\Slider;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
 use Statikbe\FilamentFlexibleContentBlocks\Filament\Form\Fields\Blocks\BlockStyleField;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 
-class SliderBlock extends AbstractContentBlock
+class ContactFormBlock extends AbstractContentBlock
 {
     use HasBlockOption;
 
-    public ?string $sliderId;
+    public ?string $title;
+    public ?string $content;
 
-    public ?Slider $slider;
 
     /**
      * Create a new component instance.
@@ -25,19 +27,19 @@ class SliderBlock extends AbstractContentBlock
     public function __construct(HasContentBlocks & HasMedia $record, ?array $blockData)
     {
         parent::__construct($record, $blockData);
-        $this->sliderId = $blockData['slider_id'] ?? null;
-        $this->slider = Slider::with(['items'])->where('id', $this->sliderId)->first();
+        $this->title = $blockData['title'] ?? null;
+        $this->content = $blockData['content'] ?? null;
         $this->setBlockOption($blockData);
     }
 
     public static function getNameSuffix(): string
     {
-        return 'slider';
+        return 'contact_form';
     }
 
     public static function getIcon(): string
     {
-        return 'heroicon-o-photo';
+        return 'heroicon-o-question-mark-circle';
     }
 
     /**
@@ -46,10 +48,9 @@ class SliderBlock extends AbstractContentBlock
     protected static function makeFilamentSchema(): array | \Closure
     {
         return [
-            Select::make('slider_id')
-                ->label(static::getFieldLabel('slider_id'))
-                ->options(Slider::where('is_visible', true)->pluck('name', 'id')->toArray())
-                ->required(),
+            TextInput::make('title')
+                ->label('Title'),
+            RichEditor::make('content'),
             BlockOptionField::create(static::class),
         ];
     }
@@ -63,17 +64,17 @@ class SliderBlock extends AbstractContentBlock
 
     public static function getName(): string
     {
-        return 'Slider';
+        return 'Contact Form';
     }
 
     public static function getLabel(): string
     {
-        return 'Slider & Banner';
+        return 'Contact Form';
     }
 
     public static function getFieldLabel(string $field): string
     {
-        return 'Slider';
+        return 'Contact Form';
     }
 
     public function render()
