@@ -8,11 +8,13 @@ export default function PageSingle({ pageTitle, content, blocks}: PageProps<{ pa
     return (
         <>
             <AppHead title= {pageTitle}/>
-            {
-                blocks.map((block, index) => (
-                    <PageBlock block={block} key={index}/>
-                ))
-            }
+            <div className={"py-12"}>
+                {
+                    blocks.map((block, index) => (
+                        <PageBlock block={block} key={index}/>
+                    ))
+                }
+            </div>
         </>
     );
 }

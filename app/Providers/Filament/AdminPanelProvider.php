@@ -2,18 +2,20 @@
 
 namespace App\Providers\Filament;
 
-use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
 use App\Filament\Resources\Blog\PostResource;
 use App\Filament\Resources\Shop\ProductResource;
 use App\Http\Middleware\Authenticate;
+use App\Models\Page;
+use App\Models\Shop\Category;
+use App\Models\Shop\Collection;
 use Awcodes\FilamentQuickCreate\QuickCreatePlugin;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
@@ -30,7 +32,6 @@ use Phpsa\FilamentAuthentication\Widgets\LatestUsersWidget;
 use RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource;
 use RyanChandler\FilamentNavigation\FilamentNavigation;
 use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
-use Tapp\FilamentAuthenticationLog\Resources\AuthenticationLogResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -49,8 +50,8 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-//                Widgets\FilamentInfoWidget::class,
-//                LatestUsersWidget::make(['limit' => 5, 'paginate' => true])
+                //                Widgets\FilamentInfoWidget::class,
+                //                LatestUsersWidget::make(['limit' => 5, 'paginate' => true])
             ])
             ->navigationGroups([
                 'Shop',
@@ -78,12 +79,76 @@ class AdminPanelProvider extends PanelProvider
                 new \RickDBCN\FilamentEmail\FilamentEmail(),
                 QuickCreatePlugin::make()->includes([
                     ProductResource::class,
-                    PostResource::class
+                    PostResource::class,
                 ]),
                 \FilipFonal\FilamentLogManager\FilamentLogManager::make(),
                 FilamentNavigation::make()->withExtraFields([
                     TextInput::make('classes'),
                     FileUpload::make('icon')->image()->imageEditor()->avatar(),
+                ])->itemType('Internal Link', [
+                    TextInput::make('url')->placeholder('/slug')->required(),
+                ])->itemType('Page', [
+                    Select::make('url')
+                        ->options(function () {
+                            $allPages = Page::orderBy('title')->get();
+                            $options = [];
+                            foreach ($allPages as $page) {
+                                $options[$page->getViewUrl()] = $page->title;
+                            }
+
+                            return $options;
+                        })
+                        ->required(),
+                ])->itemType('Category', [
+                    Select::make('url')
+                        ->options(function () {
+                            $categories = Category::orderBy('name')->get();
+                            $options = [];
+                            foreach ($categories as $category) {
+                                $options[$category->getViewUrl()] = $category->name;
+                            }
+
+                            return $options;
+                        })
+                        ->required(),
+                ])->itemType('Collection', [
+                    Select::make('url')
+                        ->options(function () {
+                            $collections = Collection::orderBy('name')->get();
+                            $options = [];
+                            foreach ($collections as $collection) {
+                                $options[$collection->getViewUrl()] = $collection->name;
+                            }
+
+                            return $options;
+                        })
+                        ->required(),
+                ])->itemType('Route', [
+                    Select::make('url')
+                        ->options(function () {
+                            $routes = collect(app('router')
+                                ->getRoutes()
+                                ->getRoutesByName())
+                                ->reject(function ($route) {
+                                    $routeName = $route->getName();
+                                    $method = @$route->methods()[0];
+
+                                    return
+                                        $method != 'GET'
+                                        || (\Str::is('debugbar.*', $routeName)
+                                            || \Str::is('filament.*', $routeName)
+                                            || \Str::is('sanctum.*', $routeName)
+                                            || \Str::is('livewire.*', $routeName)
+                                            || \Str::is('filament-authentication.*', $routeName)
+                                            || \Str::is('ignition.*', $routeName));
+                                })
+                                ->mapWithKeys(function ($route, $name) {
+                                    return [$name => $name];
+                                })->toArray();
+
+                            return $routes;
+                        })
+                        ->required(),
                 ]),
             ])->resources(
                 FilamentAuthentication::resources()

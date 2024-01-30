@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
-use Artesaos\SEOTools\Facades\SEOMeta;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
@@ -12,17 +10,16 @@ use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
 
 class PageController extends Controller
 {
+    public function homePage()
+    {
+        return $this->show(Page::whereCode('home')->first());
+    }
+
     public function show(Page $page)
     {
         if (! $page->isPublished()) {
             return abort(Response::HTTP_NOT_FOUND);
         }
-
-        SEOTools::setTitle($page->getSEOTitle());
-        SEOTools::setDescription($page->getSEODescription());
-        SEOTools::jsonLd()->addImage($page->getSEOImageUrl());
-        SEOTools::opengraph()->addImage($page->getSEOImageUrl());
-        SEOMeta::setKeywords($page->seo_keywords);
 
         $blocks = $this->createBlocks($page);
         $pageTitle = $page->title;

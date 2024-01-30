@@ -6,9 +6,11 @@ import {useForm, usePage} from "@inertiajs/react";
 import TextArea from "@/Components/Form/TextArea";
 import PrimaryButton from "@/Components/Form/PrimaryButton";
 import {FormEventHandler} from "react";
+import {PageProps} from "@/types";
+import Alert from "@/Components/Form/Alert";
 
 export default function ContactForm({block}: { block: ContactFormBlock }) {
-    const {status} = usePage().props;
+    const {flash} = usePage<PageProps>().props;
     const {data, setData, post, processing, errors, reset} = useForm({
         name: '',
         email: '',
@@ -19,7 +21,11 @@ export default function ContactForm({block}: { block: ContactFormBlock }) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('contact.submit'));
+        post(route('contact.submit'),
+            {
+                preserveScroll: true,
+                onSuccess: () => reset(),
+            });
     };
 
     return (
@@ -28,9 +34,10 @@ export default function ContactForm({block}: { block: ContactFormBlock }) {
                 {block.title}
             </h2>
             <div className={"mb-8"} dangerouslySetInnerHTML={{__html: block.content}}></div>
-
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-            <form onSubmit={submit} className="space-y-8">
+            {flash.success && (
+                <Alert title={"Success"} message={"Your message has been sent successfully."}/>
+            )}
+            <form onSubmit={submit} className="space-y-8" autoComplete={"false"}>
                 <div>
                     <InputLabel htmlFor="email" value="Your name"/>
                     <TextInput

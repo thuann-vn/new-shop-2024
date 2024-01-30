@@ -7,11 +7,11 @@ use App\Filament\Resources\Shop\CategoryResource\RelationManagers;
 use App\Models\Shop\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
@@ -111,15 +111,11 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->groupedBulkActions([
                 Tables\Actions\DeleteBulkAction::make()
-                    ->action(function () {
-                        Notification::make()
-                            ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
-                            ->warning()
-                            ->send();
-                    }),
+                    ->action(fn (Collection $records) => $records->each->delete()),
             ]);
     }
 

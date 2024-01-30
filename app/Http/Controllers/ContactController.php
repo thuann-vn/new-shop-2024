@@ -27,6 +27,6 @@ class ContactController extends Controller
             Log::error('Can not send email ' . $exception->getMessage());
         }
 
-        return back()->with('status', 'Your message has been sent successfully, we will contact you soon.');
+        return back()->with('success', 'Your message has been sent successfully, we will contact you soon.');
     }
 }

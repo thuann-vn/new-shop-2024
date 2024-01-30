@@ -5,7 +5,7 @@ export default function Text({ block }: { block: TextBlock }) {
         <>
             {
                 block.title ? (
-                    <h2 dangerouslySetInnerHTML={{__html:block.title}}></h2>
+                    <h2 className="font-semibold text-3xl" dangerouslySetInnerHTML={{__html:block.title}}></h2>
                 ) : null
             }
             {

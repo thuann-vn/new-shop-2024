@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Concerns\HasAuthorAttributeTrait;
@@ -27,7 +26,6 @@ class Page extends Model implements HasContentBlocks, HasHeroImageAttributes, Ha
 {
     use HasAuthorAttributeTrait;
     use HasDefaultContentBlocksTrait;
-    use HasFactory;
     use HasHeroImageAttributesTrait;
     use HasTranslatedContentBlocksTrait;
     use HasTranslatedIntroAttributeTrait;
@@ -38,8 +36,7 @@ class Page extends Model implements HasContentBlocks, HasHeroImageAttributes, Ha
 
     public function getViewUrl(?string $locale = null): string
     {
-        //todo implement controller and add route:
-        return route('page.detail', ['page' => $this->slug]);
+        return route('page.detail', ['page' => $this->slug], false);
     }
 
     public function getPreviewUrl(?string $locale = null): string

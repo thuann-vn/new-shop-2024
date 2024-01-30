@@ -22,7 +22,6 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::middleware('auth')->prefix('account')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Account/Dashboard');
@@ -47,6 +46,7 @@ Route::group(['prefix' => 'shop'], function () {
 
     Route::get('/', [ProductController::class, 'index'])->name('shop.index');
     Route::get('/{slug}', [ProductController::class, 'index'])->name('shop.category');
+    Route::get('/collection/{slug}', [ProductController::class, 'index'])->name('shop.collection');
     Route::get('/product/{slug}', [ProductController::class, 'detail'])->name('products.detail');
 });
 
@@ -83,6 +83,9 @@ Route::group(['prefix' => 'newsletter'], function () {
     Route::post('/', [NewsLetterController::class, 'subscribe'])->name('newsletter.subscribe');
 });
 
-require __DIR__ . '/auth.php';
-
+// PAGES
+Route::get('/', [PageController::class, 'homePage'])->name('home');
 Route::get('/{page}', [PageController::class, 'show'])->name('page.detail');
+
+// AUTH PAGES
+require __DIR__ . '/auth.php';

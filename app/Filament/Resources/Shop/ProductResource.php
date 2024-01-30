@@ -4,14 +4,15 @@ namespace App\Filament\Resources\Shop;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\Shop\BrandResource\RelationManagers\ProductsRelationManager;
-use App\Filament\Resources\Shop\CategoryResource\Pages\CreateCategory;
 use App\Filament\Resources\Shop\ProductResource\Pages;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Widgets\ProductStats;
 use App\Models\Shop\Attribute;
+use App\Models\Shop\Brand;
 use App\Models\Shop\Product;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -25,9 +26,9 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class ProductResource extends Resource
 {
@@ -62,8 +63,9 @@ class ProductResource extends Resource
                                                     ->required()
                                                     ->maxLength(255)
                                                     ->live(onBlur: true)
-                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                                        if ($operation !== 'create') {
+                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
+                                                        $slug = $get('slug');
+                                                        if ($operation !== 'create' && ! empty($slug)) {
                                                             return;
                                                         }
 
@@ -71,7 +73,6 @@ class ProductResource extends Resource
                                                     }),
 
                                                 Forms\Components\TextInput::make('slug')
-                                                    ->disabled()
                                                     ->dehydrated()
                                                     ->required()
                                                     ->maxLength(255)
@@ -89,20 +90,20 @@ class ProductResource extends Resource
                                         Forms\Components\Section::make('Pricing')
                                             ->schema([
                                                 Forms\Components\TextInput::make('price')
-                                                    ->currencyMask(thousandSeparator: ',',decimalSeparator: '.',precision: 2)
+                                                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
                                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                     ->required(),
 
                                                 Forms\Components\TextInput::make('old_price')
                                                     ->label('Compare at price')
-                                                    ->currencyMask(thousandSeparator: ',',decimalSeparator: '.',precision: 2)
+                                                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
                                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                     ->required(),
 
                                                 Forms\Components\TextInput::make('cost')
                                                     ->label('Cost per item')
                                                     ->helperText('Customers won\'t see this price.')
-                                                    ->currencyMask(thousandSeparator: ',',decimalSeparator: '.',precision: 2)
+                                                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
                                                     ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                     ->required(),
                                             ])
@@ -133,16 +134,6 @@ class ProductResource extends Resource
                                                     ->required(),
                                             ])
                                             ->columns(2),
-
-                                        Forms\Components\Section::make('Shipping')
-                                            ->schema([
-                                                Forms\Components\Checkbox::make('backorder')
-                                                    ->label('This product can be returned'),
-
-                                                Forms\Components\Checkbox::make('requires_shipping')
-                                                    ->label('This product will be shipped'),
-                                            ])
-                                            ->columns(2),
                                     ]),
                                 Tabs\Tab::make('Images')
                                     ->icon('heroicon-o-photo')
@@ -166,6 +157,7 @@ class ProductResource extends Resource
                                                 Forms\Components\TextInput::make('value')
                                                     ->required(),
                                             ])
+                                            ->defaultItems(0)
                                             ->reorderable()
                                             ->columns(2)
                                             ->columnSpan('full'),
@@ -188,7 +180,7 @@ class ProductResource extends Resource
                                                         Forms\Components\TextInput::make('name')
                                                             ->required(),
                                                     ])
-                                                    ->createOptionUsing(function ($data)  {
+                                                    ->createOptionUsing(function ($data) {
                                                         $attribute = Attribute::create([
                                                             'name' => $data['name'],
                                                         ]);
@@ -201,6 +193,7 @@ class ProductResource extends Resource
                                             ])
                                             ->mutateRelationshipDataBeforeSaveUsing(function ($data, Model $record) {
                                                 $data['shop_product_id'] = $record->id;
+
                                                 return $data;
                                             })
                                             ->addActionLabel('Add options like size or color')
@@ -211,11 +204,12 @@ class ProductResource extends Resource
                                             )->addable(function (Forms\Get $get) {
                                                 $attributes = $get('productAttributes');
                                                 $isValid = true;
-                                                foreach ($attributes as $attribute){
-                                                    if(@$attribute['shop_attribute_id'] == null){
+                                                foreach ($attributes as $attribute) {
+                                                    if (@$attribute['shop_attribute_id'] == null) {
                                                         $isValid = false;
                                                     }
                                                 }
+
                                                 return $isValid;
                                             })->saveRelationshipsUsing(function (Model $record, Forms\Get $get) {
                                                 $data = $get('productAttributes');
@@ -224,10 +218,10 @@ class ProductResource extends Resource
                                                 }, $data);
                                                 $record->productAttributes()->sync($ids);
                                             }),
-//                                        VariantsForm::make('variants'),
+                                        //                                        VariantsForm::make('variants'),
                                     ]),
                             ])
-                            ->persistTabInQueryString()
+                            ->persistTabInQueryString(),
                     ])
                     ->columnSpan(['lg' => 2]),
 
@@ -255,9 +249,18 @@ class ProductResource extends Resource
                                     ->hiddenOn(ProductsRelationManager::class)
                                     ->createOptionForm([
                                         Forms\Components\TextInput::make('name')
-                                            ->required(),
-                                    ])
-                                ,
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                                $set('slug', Str::slug($state));
+                                            }),
+                                        Forms\Components\TextInput::make('slug')
+                                            ->dehydrated()
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->unique(Brand::class, 'slug', ignoreRecord: true),
+                                    ]),
 
                                 SelectTree::make('categories')
                                     ->relationship('categories', 'name', 'parent_id')
@@ -368,16 +371,19 @@ class ProductResource extends Resource
                     ->constraintPickerColumns(2),
             ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->actions([
-                Tables\Actions\EditAction::make()
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\ReplicateAction::make()
+                    ->excludeAttributes(['slug'])
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Product replicated')
+                            ->body('The product has been replicated successfully.'),
+                    ),
             ])
             ->groupedBulkActions([
                 Tables\Actions\DeleteBulkAction::make()
-                    ->action(function () {
-                        Notification::make()
-                            ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
-                            ->warning()
-                            ->send();
-                    }),
+                    ->action(fn (Collection $records) => $records->each->delete()),
             ]);
     }
 
@@ -385,17 +391,19 @@ class ProductResource extends Resource
     {
         return [
             RelationGroup::make('Variants', [
-                ProductVariantResource\RelationManagers\ProductsRelationManager::class
+                ProductVariantResource\RelationManagers\ProductsRelationManager::class,
             ]),
             RelationGroup::make('Comments', [
-                CommentsRelationManager::class
+                CommentsRelationManager::class,
             ]),
         ];
     }
+
     public function hasCombinedRelationManagerTabsWithForm(): bool
     {
         return true;
     }
+
     public static function getWidgets(): array
     {
         return [
@@ -435,5 +443,4 @@ class ProductResource extends Resource
     {
         return static::$model::whereColumn('qty', '<', 'security_stock')->count();
     }
-
 }

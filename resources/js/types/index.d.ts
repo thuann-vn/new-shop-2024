@@ -16,7 +16,11 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     navigation: Navigation,
     category_navigation: Navigation,
     footer_links: Navigation,
-    shop: ShopSettings
+    shop: ShopSettings,
+    flash: {
+        success: string;
+        error: string;
+    }
 };
 
 export interface ShopSettings{

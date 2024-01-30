@@ -31,8 +31,13 @@ class Collection extends Model
         return $this->products->take($limit);
     }
 
-    public function slider()
+    public function slider(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Slider::class);
+    }
+
+    public function getViewUrl(): string
+    {
+        return route('shop.collection', ['slug' => $this->slug], false);
     }
 }
