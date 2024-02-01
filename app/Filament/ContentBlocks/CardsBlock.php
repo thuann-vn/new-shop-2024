@@ -2,6 +2,7 @@
 
 namespace App\Filament\ContentBlocks;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
@@ -75,17 +76,16 @@ class CardsBlock extends AbstractContentBlock
                 ->label('Cards')
                 ->schema([
                     Grid::make(3)->schema([
-                        BlockSpatieMediaLibraryFileUpload::make('image')
-                            ->collection(static::getName())
-                            ->label('Cart image')
+                        FileUpload::make('image')
+                            ->label('Card image')
                             ->downloadable()
                             ->maxFiles(1),
                         Group::make([
                             TextInput::make('title')
-                                ->label('Cart title')
+                                ->label('Card title')
                                 ->maxLength(255),
                             RichEditor::make('text')
-                                ->label('Cart text')
+                                ->label('Card text')
                                 ->disableToolbarButtons([
                                     'attachFiles',
                                 ]),
