@@ -60,11 +60,6 @@ Route::group(['prefix' => 'checkout'], function () {
     Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.place-order');
     Route::get('/summary', [CheckoutController::class, 'orderSummary'])->name('checkout.order-summary');
-
-    //Address
-    Route::get('/provinces', [CheckoutController::class, 'getProvinces'])->name('checkout.get-provinces');
-    Route::get('/districts', [CheckoutController::class, 'getDistricts'])->name('checkout.get-districts');
-    Route::get('/wards', [CheckoutController::class, 'getWards'])->name('checkout.get-wards');
 });
 
 

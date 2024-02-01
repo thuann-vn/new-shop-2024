@@ -10,10 +10,14 @@ return new class() extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('country')->nullable();
+            $table->string('name')->nullable()->after('id');
+            $table->string('phone')->nullable()->after('name');
+            $table->string('email')->nullable()->after('phone');
             $table->string('street')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
+            $table->string('ward')->nullable()->after('state');
+            $table->string('district')->nullable()->after('ward');
+            $table->string('province')->nullable()->after('district');
+            $table->string('country')->nullable();
             $table->string('zip')->nullable();
             $table->timestamps();
         });

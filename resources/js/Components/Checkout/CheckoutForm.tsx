@@ -6,75 +6,6 @@ import InputLabel from "@/Components/Form/InputLabel";
 import TextInput from "@/Components/Form/TextInput";
 
 export default function CheckoutForm({formData, setFormData}: { formData:object, setFormData: any }) {
-    const [provinces, setProvinces] = React.useState([])
-    const [selectedProvince, setSelectedProvince] = React.useState<string|null>(null)
-
-    const [districts, setDistricts] = React.useState([])
-    const [selectedDistrict, setSelectedDistrict] = React.useState<string|null>(null)
-
-    const [wards, setWards] = React.useState([])
-    const [selectedWard, setSelectedWard] = React.useState<string|null>(null)
-
-    useEffect(() => {
-        loadProvinces()
-    }, []);
-
-    // Load provinces
-    const loadProvinces = () => {
-        axios.get(route('checkout.get-provinces'))
-            .then(response => {
-                console.log(response)
-                setProvinces(response.data.data.map((province: { code: any; full_name: any; }) => {
-                    return {
-                        value: province.code,
-                        label: province.full_name
-                    }
-                }))
-            })
-    }
-
-    //Load districts
-    const loadDistricts = (provinceCode: string) => {
-        setSelectedDistrict(null)
-        setSelectedWard(null)
-
-        setFormData({
-            ...formData,
-            province_code: provinceCode,
-            district_code: '',
-            ward_code: ''
-        })
-        axios.get(route('checkout.get-districts', {province_id: provinceCode}))
-            .then(response => {
-                setDistricts(response.data.data.map((district: { code: any; full_name: any; }) => {
-                    return {
-                        value: district.code,
-                        label: district.full_name
-                    }
-                }))
-            })
-    }
-
-    //Load wards
-    const loadWards = (districtCode: string) => {
-        setSelectedWard(null)
-
-        setFormData({
-            ...formData,
-            district_code: districtCode,
-            ward_code: ''
-        })
-        axios.get(route('checkout.get-wards', {district_id: districtCode}))
-            .then(response => {
-                setWards(response.data.data.map((ward: { code: any; full_name: any; }) => {
-                    return {
-                        value: ward.code,
-                        label: ward.full_name
-                    }
-                }))
-            })
-    }
-
     const _setFormData = (key: string, value: any) => {
         setFormData({
             ...formData,
@@ -140,42 +71,32 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                             <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                         </svg>)}
                     />
-                    <Select value={selectedProvince}
-                            onChange={(value: string) => {
-                                setSelectedProvince(value)
-                                loadDistricts(value)
-                            }}
-                            options={provinces}
-                            className={'w-full'}
-                            placeholder={'Select province'}
-                            required={true}
-                            name={"province_code"}
+                    <TextInput
+                        id="province"
+                        name="province"
+                        onChange={(e)=> _setFormData('province', e.target.value)}
+                        placeholder="Province/City"
+                        containerClassName="w-full me-2"
+                        required={true}
                     />
-
                 </div>
                 <div className="flex flex-col sm:flex-row mt-4 ">
-                    <Select value={selectedDistrict}
-                            onChange={(value: string) => {
-                                setSelectedDistrict(value)
-                                loadWards(value)
-                            }}
-                            options={districts}
-                            className={'w-full me-2'}
-                            placeholder={'Select district'}
-                            required={true}
-                            name={"district_code"}
+                    <TextInput
+                        id="district"
+                        name="district"
+                        onChange={(e)=> _setFormData('district', e.target.value)}
+                        placeholder="District"
+                        containerClassName="w-full me-2"
+                        required={true}
                     />
 
-                    <Select value={selectedWard}
-                            onChange={(value: React.SetStateAction<string | null>)=>{
-                                setSelectedWard(value)
-                                _setFormData('ward_code', value)
-                            }}
-                            options={wards}
-                            className={'w-full'}
-                            placeholder={'Select ward'}
-                            required={true}
-                            name={"ward_code"}
+                    <TextInput
+                        id="ward"
+                        name="ward"
+                        onChange={(e)=> _setFormData('ward', e.target.value)}
+                        placeholder="Ward"
+                        containerClassName="w-full me-2"
+                        required={true}
                     />
                 </div>
             </div>

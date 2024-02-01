@@ -29,8 +29,8 @@ class Address extends Model
         return $this->morphedByMany(Brand::class, 'addressable');
     }
 
-  public function orders(): \Illuminate\Database\Eloquent\Relations\MorphToMany
-  {
-    return $this->morphedByMany(Order::class, 'addressable');
-  }
+    public function orders(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Order::class, 'addressable');
+    }
 }
