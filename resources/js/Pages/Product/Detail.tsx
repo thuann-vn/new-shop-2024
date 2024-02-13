@@ -30,18 +30,6 @@ export default function ProductDetail({product, productVariants, productOptions,
                         <Breadcrumb breadcrumbs={breadcrumbs}/>
 
                         <div className="bg-white p-4 mt-5 rounded-lg">
-                            {/* Product name */}
-                            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
-
-                            {/* Product extra info */}
-                            <div className={"flex items-center text-sm leading-4 mt-3"}>
-                                <div className="text-gray-500 border-r border-r-gray-200 pr-3 mr-3">Brands: <span className={"text-black"}>{product.brand?.name}</span></div>
-                                <div className="flex items-center border-r border-r-gray-200 pr-3 mr-3">
-                                    <StarRating value={4}/> <span className={"text-gray-500"}>(117)</span>
-                                </div>
-                                <div className="text-gray-500">SKU: <span className={"text-black"}>{product.sku}</span></div>
-                            </div>
-
                             {/* Product info */}
                             <div
                                 className="lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
@@ -51,6 +39,19 @@ export default function ProductDetail({product, productVariants, productOptions,
                                 {/* Options */}
                                 <div className="mt-4 lg:row-span-3 lg:mt-0">
                                     <h2 className="sr-only">Product information</h2>
+
+                                    {/* Product name */}
+                                    <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{product.name}</h1>
+
+                                    {/* Product extra info */}
+                                    <div className={"flex items-center text-sm leading-4 mt-3 mb-3"}>
+                                        <div className="text-gray-500 border-r border-r-gray-200 pr-3 mr-3">Brands: <span className={"text-black"}>{product.brand?.name}</span></div>
+                                        <div className="flex items-center border-r border-r-gray-200 pr-3 mr-3">
+                                            <StarRating value={4}/> <span className={"text-gray-500"}>(117)</span>
+                                        </div>
+                                        <div className="text-gray-500">SKU: <span className={"text-black"}>{product.sku}</span></div>
+                                    </div>
+
                                     <p className="text-3xl tracking-tight text-red-600">
                                         {
                                             product.old_price > product.price &&

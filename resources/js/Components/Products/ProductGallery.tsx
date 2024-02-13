@@ -48,23 +48,25 @@ export default function ProductGallery({images}: ProductSliderProps) {
                 </Swiper>
             </LightGallery>
 
-            <Swiper
-                modules={[Thumbs]}
-                effect={"creative"}
-                grabCursor={true}
-                slideActiveClass={'outline-black'}
-                onSwiper={setThumbsSwiper}
-                onActiveIndexChange={(swiper) => setIndex(swiper.activeIndex)}
-                slidesPerView={5}
-            >
-                {images.map((image, idx) => {
-                    return (
-                        <SwiperSlide key={"thumb_" + idx}>
-                            <img src={image.preview_url} alt={image.name} className="w-full"/>
-                        </SwiperSlide>
-                    );
-                })}
-            </Swiper>
+            <div className={"mt-3"}>
+                <Swiper
+                    modules={[Thumbs]}
+                    effect={"creative"}
+                    grabCursor={true}
+                    slideActiveClass={'outline-black'}
+                    onSwiper={setThumbsSwiper}
+                    onActiveIndexChange={(swiper) => setIndex(swiper.activeIndex)}
+                    slidesPerView={5}
+                >
+                    {images.map((image, idx) => {
+                        return (
+                            <SwiperSlide key={"thumb_" + idx} className={"p-2"}>
+                                <img src={image.preview_url} alt={image.name} className="w-full"/>
+                            </SwiperSlide>
+                        );
+                    })}
+                </Swiper>
+            </div>
         </div>
     )
 }

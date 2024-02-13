@@ -1,6 +1,6 @@
 export default function ProductReviews() {
     return (
-        <div className="bg-gray-50">
+        <div>
             <div className="mx-auto max-w-screen-md px-10">
                 <div className="flex w-full flex-col">
                     <div className="flex flex-col sm:flex-row">
