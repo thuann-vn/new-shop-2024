@@ -4,11 +4,12 @@ namespace App\Http\Middleware;
 
 use App\Settings\GeneralSettings;
 use App\Settings\ShopSettings;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use RyanChandler\FilamentNavigation\Models\Navigation;
 use Tightenco\Ziggy\Ziggy;
-use Gloudemans\Shoppingcart\Facades\Cart;
+
 class HandleInertiaRequests extends Middleware
 {
     /**
@@ -21,7 +22,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      */
-    public function version(Request $request): string|null
+    public function version(Request $request): ?string
     {
         return parent::version($request);
     }
@@ -42,13 +43,13 @@ class HandleInertiaRequests extends Middleware
 
         //Category navigation
         $categoryNavigation = Navigation::whereHandle('category')->first();
-        if(!empty($categoryNavigation)){
-            $categoryNavigation->items = !empty($categoryNavigation->items) ? array_values($categoryNavigation->items) : [];
+        if (! empty($categoryNavigation)) {
+            $categoryNavigation->items = ! empty($categoryNavigation->items) ? array_values($categoryNavigation->items) : [];
         }
 
         //Footer navigation
         $footerLinks = Navigation::whereHandle('footer-links')->first();
-        if(!empty($footerLinks)){
+        if (! empty($footerLinks)) {
             $footerLinks->items = array_values($footerLinks->items);
             $footerLinks = $footerLinks->toArray();
         }
@@ -69,27 +70,31 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'cart' => [
-                'items' => fn() => Cart::content(),
-                'total' => fn() => Cart::subtotalFloat(),
-                'count' => fn() => Cart::count(),
+                'items' => fn () => Cart::content(),
+                'total' => fn () => Cart::subtotalFloat(),
+                'count' => fn () => Cart::count(),
             ],
             'navigation' => $navigation->toArray(),
-            'category_navigation' => !empty($categoryNavigation) ? $categoryNavigation->toArray() : [],
+            'category_navigation' => ! empty($categoryNavigation) ? $categoryNavigation->toArray() : [],
             'footer_links' => $footerLinks,
-            'wishlist' => fn() => $request->user() ? $request->user()->wishlist()->pluck('shop_product_id')->toArray() : [],
+            'wishlist' => fn () => $request->user() ? $request->user()->wishlist()->pluck('shop_product_id')->toArray() : [],
         ];
     }
 
-    public function getGeneralSettings(){
+    public function getGeneralSettings()
+    {
         $generalSettings = app(GeneralSettings::class);
         $settingArr = $generalSettings->toArray();
-        $settingArr['site_logo'] = !empty($generalSettings->site_logo) ? asset('storage/' . $generalSettings->site_logo) : null;
-        $settingArr['site_favicon'] = !empty($generalSettings->site_favicon) ? asset('storage/' .$generalSettings->site_favicon) : null;
-        return$settingArr ;
+        $settingArr['site_logo'] = ! empty($generalSettings->site_logo) ? asset('storage/' . $generalSettings->site_logo) : null;
+        $settingArr['site_favicon'] = ! empty($generalSettings->site_favicon) ? asset('storage/' . $generalSettings->site_favicon) : null;
+
+        return $settingArr;
     }
 
-    public function getShopSettings(){
+    public function getShopSettings()
+    {
         $shopSettings = app(ShopSettings::class);
+
         return $shopSettings->toArray();
     }
 }

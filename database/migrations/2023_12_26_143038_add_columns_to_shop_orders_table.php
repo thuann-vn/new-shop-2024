@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('shop_orders', function (Blueprint $table) {
           //
+            $table->decimal('subtotal')->nullable()->after('number');
           $table->string('payment_method')->nullable()->after('status');
           $table->string('payment_status')->nullable()->after('payment_method');
           $table->decimal('tax')->nullable()->after('subtotal');

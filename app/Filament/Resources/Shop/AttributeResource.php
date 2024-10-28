@@ -18,8 +18,28 @@ class AttributeResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
 
-    protected static ?string $navigationParentItem = 'Products';
     protected static ?int $navigationSort   = 6;
+
+    protected static ?string $navigationLabel = 'Attribute';
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('Product');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
 
     public static function form(Form $form): Form
     {
@@ -27,6 +47,7 @@ class AttributeResource extends Resource
             ->schema([
                 //
                 TextInput::make('name')
+                    ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,7 +58,8 @@ class AttributeResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name')),
             ])
             ->filters([
                 //

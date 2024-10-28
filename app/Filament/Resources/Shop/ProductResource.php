@@ -42,9 +42,25 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bolt';
 
-    protected static ?string $navigationLabel = 'Products';
 
     protected static ?int $navigationSort = 0;
+
+    protected static ?string $navigationLabel = 'Product';
+
+    public static function getNavigationLabel(): string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
 
     public static function form(Form $form): Form
     {
@@ -54,101 +70,38 @@ class ProductResource extends Resource
                     ->schema([
                         Tabs::make('Tabs')
                             ->tabs([
-                                Tabs\Tab::make('General Information')
+                                Tabs\Tab::make(__('General Info'))
                                     ->icon('heroicon-o-information-circle')
                                     ->schema([
-                                        Forms\Components\Section::make()
-                                            ->schema([
-                                                Forms\Components\TextInput::make('name')
-                                                    ->required()
-                                                    ->maxLength(255)
-                                                    ->live(onBlur: true)
-                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
-                                                        $slug = $get('slug');
-                                                        if ($operation !== 'create' && ! empty($slug)) {
-                                                            return;
-                                                        }
+                                        Forms\Components\TextInput::make('name')
+                                            ->label(__('Name'))
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) {
+                                                $slug = $get('slug');
+                                                if ($operation !== 'create' && ! empty($slug)) {
+                                                    return;
+                                                }
 
-                                                        $set('slug', Str::slug($state));
-                                                    }),
+                                                $set('slug', Str::slug($state));
+                                            }),
 
-                                                Forms\Components\TextInput::make('slug')
-                                                    ->dehydrated()
-                                                    ->required()
-                                                    ->maxLength(255)
-                                                    ->unique(Product::class, 'slug', ignoreRecord: true),
+                                        Forms\Components\TextInput::make('slug')
+                                            ->label(__('Slug'))
+                                            ->dehydrated()
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->unique(Product::class, 'slug', ignoreRecord: true),
 
-                                                Forms\Components\Textarea::make('description')
-                                                    ->rows(3)
-                                                    ->columnSpan('full'),
+                                        Forms\Components\Textarea::make('description')
+                                            ->label(__('Description'))
+                                            ->rows(3)
+                                            ->columnSpan('full'),
 
-                                                TinyEditor::make('content')
-                                                    ->columnSpan('full'),
-                                            ])
-                                            ->columns(2),
-
-                                        Forms\Components\Section::make('Pricing')
-                                            ->schema([
-                                                Forms\Components\TextInput::make('price')
-                                                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
-                                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                    ->required(),
-
-                                                Forms\Components\TextInput::make('old_price')
-                                                    ->label('Compare at price')
-                                                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
-                                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                    ->required(),
-
-                                                Forms\Components\TextInput::make('cost')
-                                                    ->label('Cost per item')
-                                                    ->helperText('Customers won\'t see this price.')
-                                                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
-                                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                    ->required(),
-                                            ])
-                                            ->columns(2),
-                                        Forms\Components\Section::make('Inventory')
-                                            ->schema([
-                                                Forms\Components\TextInput::make('sku')
-                                                    ->label('SKU (Stock Keeping Unit)')
-                                                    ->unique(Product::class, 'sku', ignoreRecord: true)
-                                                    ->maxLength(255),
-
-                                                Forms\Components\TextInput::make('barcode')
-                                                    ->label('Barcode (ISBN, UPC, GTIN, etc.)')
-                                                    ->unique(Product::class, 'barcode', ignoreRecord: true)
-                                                    ->maxLength(255),
-
-                                                Forms\Components\TextInput::make('qty')
-                                                    ->label('Quantity')
-                                                    ->numeric()
-                                                    ->rules(['integer', 'min:0'])
-                                                    ->required(),
-
-                                                Forms\Components\TextInput::make('security_stock')
-                                                    ->helperText('The safety stock is the limit stock for your products which alerts you if the product stock will soon be out of stock.')
-                                                    ->numeric()
-                                                    ->rules(['integer', 'min:0'])
-                                                    ->default(0)
-                                                    ->required(),
-                                            ])
-                                            ->columns(2),
-                                    ]),
-                                Tabs\Tab::make('Images')
-                                    ->icon('heroicon-o-photo')
-                                    ->schema([
-                                        SpatieMediaLibraryFileUpload::make('media')
-                                            ->image()
-                                            ->collection('product-images')
-                                            ->multiple()
-                                            ->maxFiles(5)
-                                            ->reorderable()
-                                            ->hiddenLabel(),
-                                    ]),
-                                Tabs\Tab::make('Specifications')
-                                    ->icon('heroicon-o-table-cells')
-                                    ->schema([
+                                        TinyEditor::make('content')
+                                            ->label(__('Content'))
+                                            ->columnSpan('full'),
                                         Forms\Components\Repeater::make('specifications')
                                             ->label('Specifications')
                                             ->schema([
@@ -161,18 +114,74 @@ class ProductResource extends Resource
                                             ->reorderable()
                                             ->columns(2)
                                             ->columnSpan('full'),
+                                    ])->columns(),
+                                Tabs\Tab::make(__('Price & Stock'))
+                                    ->icon('heroicon-o-banknotes')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('price')
+                                            ->label(__('Price'))
+                                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
+                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                            ->required(),
+
+                                        Forms\Components\TextInput::make('old_price')
+                                            ->label(__('Compare at price'))
+                                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
+                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                            ->required(),
+
+                                        Forms\Components\TextInput::make('cost')
+                                            ->label(__('Cost per item'))
+                                            ->helperText(__('Customers won\'t see this price.'))
+                                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
+                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                            ->required(),
+                                        Forms\Components\TextInput::make('sku')
+                                            ->label(__('SKU (Stock Keeping Unit)'))
+                                            ->unique(Product::class, 'sku', ignoreRecord: true)
+                                            ->maxLength(255),
+
+                                        Forms\Components\TextInput::make('barcode')
+                                            ->label(__('Barcode (ISBN, UPC, GTIN, etc.)'))
+                                            ->unique(Product::class, 'barcode', ignoreRecord: true)
+                                            ->maxLength(255),
+
+                                        Forms\Components\TextInput::make('qty')
+                                            ->label(__('Quantity'))
+                                            ->numeric()
+                                            ->rules(['integer', 'min:0'])
+                                            ->required(),
+
+                                        Forms\Components\TextInput::make('security_stock')
+                                            ->label(__('Safety stock'))
+                                            ->helperText(__('The safety stock is the limit stock for your products which alerts you if the product stock will soon be out of stock.'))
+                                            ->numeric()
+                                            ->rules(['integer', 'min:0'])
+                                            ->default(0)
+                                            ->required(),
                                     ]),
-                                Tabs\Tab::make('Variants')
+                                Tabs\Tab::make(__('Images'))
+                                    ->icon('heroicon-o-photo')
+                                    ->schema([
+                                        SpatieMediaLibraryFileUpload::make('media')
+                                            ->image()
+                                            ->collection('product-images')
+                                            ->multiple()
+                                            ->maxFiles(5)
+                                            ->reorderable()
+                                            ->hiddenLabel(),
+                                    ]),
+                                Tabs\Tab::make(__('Variants'))
                                     ->icon('heroicon-o-swatch')
                                     ->schema([
                                         Forms\Components\Repeater::make('productAttributes')
                                             ->relationship('productAttributes')
                                             ->hiddenLabel()
                                             ->defaultItems(0)
-                                            ->label('Select attributes to create variants:')
+                                            ->label(__('Select attributes to create variants:'))
                                             ->schema([
                                                 Forms\Components\Select::make('shop_attribute_id')
-                                                    ->label('Attribute')
+                                                    ->label(__('Attribute'))
                                                     ->options(Attribute::all()->pluck('name', 'id'))
                                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                                     ->required()
@@ -196,7 +205,7 @@ class ProductResource extends Resource
 
                                                 return $data;
                                             })
-                                            ->addActionLabel('Add options like size or color')
+                                            ->addActionLabel(__('Add options like size or color'))
                                             ->reorderable()
                                             ->columnSpan('full')
                                             ->deleteAction(
@@ -227,28 +236,30 @@ class ProductResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('Status')
+                        Forms\Components\Section::make(__('Status'))
                             ->schema([
                                 Forms\Components\Toggle::make('is_visible')
-                                    ->label('Visible')
-                                    ->helperText('This product will be hidden from all sales channels.')
+                                    ->label(__('Visible'))
+                                    ->helperText(__('This product will be hidden from all sales channels.'))
                                     ->default(true),
 
                                 Forms\Components\DatePicker::make('published_at')
-                                    ->label('Availability')
+                                    ->label(__('Availability'))
                                     ->default(now())
                                     ->required(),
                             ]),
 
-                        Forms\Components\Section::make('Associations')
+                        Forms\Components\Section::make(__('Associations'))
                             ->schema([
                                 Forms\Components\Select::make('shop_brand_id')
+                                    ->label(__('Brand'))
                                     ->relationship('brand', 'name')
                                     ->searchable()
                                     ->preload()
                                     ->hiddenOn(ProductsRelationManager::class)
                                     ->createOptionForm([
                                         Forms\Components\TextInput::make('name')
+                                            ->label(__('Name'))
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true)
@@ -256,6 +267,7 @@ class ProductResource extends Resource
                                                 $set('slug', Str::slug($state));
                                             }),
                                         Forms\Components\TextInput::make('slug')
+                                            ->label(__('Slug'))
                                             ->dehydrated()
                                             ->required()
                                             ->maxLength(255)
@@ -263,6 +275,7 @@ class ProductResource extends Resource
                                     ]),
 
                                 SelectTree::make('categories')
+                                    ->label(__('Categories'))
                                     ->relationship('categories', 'name', 'parent_id')
                                     ->independent(true)
                                     ->enableBranchNode()
@@ -271,6 +284,7 @@ class ProductResource extends Resource
                                     ->searchable()
                                     ->required(),
                                 Forms\Components\Select::make('collections')
+                                    ->label(__('Collections'))
                                     ->relationship('collections', 'name')
                                     ->preload()
                                     ->searchable()
@@ -291,37 +305,38 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('product-image')
-                    ->label('Image')
+                    ->label(__('Image'))
                     ->collection('product-images'),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('brand.name')
+                    ->label(__('Brand'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\IconColumn::make('is_visible')
-                    ->label('Visibility')
+                    ->label(__('Visibility'))
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->label('Price')
+                    ->label(__('Price'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('sku')
-                    ->label('SKU')
+                    ->label(__('SKU'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\TextColumn::make('qty')
-                    ->label('Quantity')
+                    ->label(__('Quantity'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
@@ -333,7 +348,7 @@ class ProductResource extends Resource
                     ->toggledHiddenByDefault(),
 
                 Tables\Columns\TextColumn::make('published_at')
-                    ->label('Publish Date')
+                    ->label(__('Publish Date'))
                     ->date()
                     ->sortable()
                     ->toggleable()
@@ -342,31 +357,40 @@ class ProductResource extends Resource
             ->filters([
                 QueryBuilder::make()
                     ->constraints([
-                        TextConstraint::make('name'),
-                        TextConstraint::make('slug'),
+                        TextConstraint::make('name')
+                            ->label(__('Name')),
+                        TextConstraint::make('slug')
+                            ->label(__('Slug')),
                         TextConstraint::make('sku')
-                            ->label('SKU (Stock Keeping Unit)'),
+                            ->label(__('SKU (Stock Keeping Unit)')),
                         TextConstraint::make('barcode')
-                            ->label('Barcode (ISBN, UPC, GTIN, etc.)'),
-                        TextConstraint::make('description'),
+                            ->label(__('Barcode (ISBN, UPC, GTIN, etc.)')),
+                        TextConstraint::make('description')
+                            ->label(__('Description')),
                         NumberConstraint::make('old_price')
-                            ->label('Compare at price')
+                            ->label(__('Compare at price'))
                             ->icon('heroicon-m-currency-dollar'),
                         NumberConstraint::make('price')
+                            ->label(__('Price'))
                             ->icon('heroicon-m-currency-dollar'),
                         NumberConstraint::make('cost')
-                            ->label('Cost per item')
+                            ->label(__('Cost per item'))
                             ->icon('heroicon-m-currency-dollar'),
                         NumberConstraint::make('qty')
-                            ->label('Quantity'),
-                        NumberConstraint::make('security_stock'),
+                            ->label(__('Quantity')),
+                        NumberConstraint::make('security_stock')
+                            ->label(__('Safety stock')),
                         BooleanConstraint::make('is_visible')
-                            ->label('Visibility'),
-                        BooleanConstraint::make('featured'),
-                        BooleanConstraint::make('backorder'),
+                            ->label(__('Visibility')),
+                        BooleanConstraint::make('featured')
+                            ->label(__('Featured')),
+                        BooleanConstraint::make('backorder')
+                            ->label(__('Backorder')),
                         BooleanConstraint::make('requires_shipping')
+                            ->label(__('Requires Shipping'))
                             ->icon('heroicon-m-truck'),
-                        DateConstraint::make('published_at'),
+                        DateConstraint::make('published_at')
+                            ->label(__('Publish Date')),
                     ])
                     ->constraintPickerColumns(2),
             ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)

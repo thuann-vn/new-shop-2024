@@ -26,9 +26,28 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationParentItem = 'Products';
-
     protected static ?int $navigationSort = 3;
+    protected static ?string $navigationLabel = 'Category';
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('Product');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
 
     public static function form(Form $form): Form
     {
@@ -37,17 +56,20 @@ class CategoryResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\FileUpload::make('image')
+                            ->label(__('Image'))
                             ->image()
                             ->avatar(),
                         Forms\Components\Grid::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
+                                    ->label(__('Name'))
                                     ->required()
                                     ->maxLength(255)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                                 Forms\Components\TextInput::make('slug')
+                                    ->label(__('Slug'))
                                     ->dehydrated()
                                     ->required()
                                     ->maxLength(255)
@@ -55,26 +77,26 @@ class CategoryResource extends Resource
                             ]),
 
                         Forms\Components\Select::make('parent_id')
-                            ->label('Parent')
+                            ->label(__('Parent'))
                             ->relationship('parent', 'name', fn (Builder $query) => $query->where('parent_id', null))
                             ->searchable()
-                            ->placeholder('Select parent category'),
+                            ->placeholder(__('Select parent category')),
 
                         Forms\Components\Toggle::make('is_visible')
-                            ->label('Visible to customers.')
+                            ->label(__('Visible to customers.'))
                             ->default(true),
                         Forms\Components\MarkdownEditor::make('description')
-                            ->label('Description'),
+                            ->label(__('Description')),
                     ])
                     ->columnSpan(['lg' => fn (?Category $record) => $record === null ? 3 : 2]),
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
+                            ->label(__('Created at'))
                             ->content(fn (Category $record): ?string => $record->created_at?->diffForHumans()),
 
                         Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
+                            ->label(__('Last modified at'))
                             ->content(fn (Category $record): ?string => $record->updated_at?->diffForHumans()),
                     ])
                     ->columnSpan(['lg' => 1])
@@ -88,18 +110,18 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('parent.name')
-                    ->label('Parent')
+                    ->label(__('Parent'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_visible')
-                    ->label('Visibility')
+                    ->label(__('Visibility'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated Date')
+                    ->label(__('Updated Date'))
                     ->date()
                     ->sortable(),
             ])

@@ -4,11 +4,9 @@ namespace App\Filament\Resources\Shop;
 
 use App\Filament\Resources\Shop\CollectionResource\RelationManagers\ProductsRelationManager;
 use App\Filament\Resources\Website\SliderResource;
-use App\Models\Shop\Category;
 use App\Models\Shop\Collection;
-use App\Models\Slider;
-use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,7 +14,6 @@ use Illuminate\Support\Str;
 
 class CollectionResource extends Resource
 {
-
     protected static ?string $slug = 'shop/collections';
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -27,38 +24,53 @@ class CollectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
-    protected static ?string $navigationParentItem = 'Products';
-
     protected static ?int $navigationSort = 4;
+    protected static ?string $navigationLabel = 'Collection';
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('Product');
+    }
+    public static function getNavigationLabel(): string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\FileUpload::make('image')
+                    ->label(__('Image'))
                     ->image()
-                    ->imageEditor()
-                ,
+                    ->imageEditor(),
                 Forms\Components\TextInput::make('name')
+                    ->label(__('Name'))
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
                 Forms\Components\TextInput::make('slug')
+                    ->label(__('Slug'))
                     ->dehydrated()
                     ->required()
                     ->maxLength(255)
                     ->unique(Collection::class, 'slug', ignoreRecord: true),
-                Forms\Components\Select::make('slider_id')
-                    ->relationship('slider', 'name')
-                    ->createOptionForm(function (Form $form) {
-                        return SliderResource::form($form);
-                    })
-                    ->label('Banner'),
+
                 Forms\Components\MarkdownEditor::make('description')
-                    ->label('Description'),
+                    ->label(__('Description')),
                 Forms\Components\Toggle::make('is_visible')
-                    ->label('Visible to customers.')
+                    ->label(__('Visible to customers.'))
                     ->default(true),
             ])->columns(1);
     }
@@ -68,16 +80,16 @@ class CollectionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image'),
+                    ->label(__('Image')),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_visible')
-                    ->label('Visibility')
+                    ->label(__('Visibility'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated Date')
+                    ->label(__('Updated Date'))
                     ->date()
                     ->sortable(),
             ])
@@ -85,7 +97,7 @@ class CollectionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,8 +109,7 @@ class CollectionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
-            ProductsRelationManager::class
+            ProductsRelationManager::class,
         ];
     }
 

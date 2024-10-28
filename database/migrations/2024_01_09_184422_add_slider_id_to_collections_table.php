@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('collections', function (Blueprint $table) {
+        Schema::table('shop_collections', function (Blueprint $table) {
             //
           $table->integer('slider_id')->unsigned()->nullable()->after('image');
         });

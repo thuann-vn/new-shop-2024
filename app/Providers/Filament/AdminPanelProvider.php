@@ -31,7 +31,6 @@ use Phpsa\FilamentAuthentication\FilamentAuthentication;
 use Phpsa\FilamentAuthentication\Widgets\LatestUsersWidget;
 use RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource;
 use RyanChandler\FilamentNavigation\FilamentNavigation;
-use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -73,15 +72,12 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])->plugins([
-                FilamentAuthenticationLogPlugin::make(),
                 \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
                 SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'vi']),
-                new \RickDBCN\FilamentEmail\FilamentEmail(),
                 QuickCreatePlugin::make()->includes([
                     ProductResource::class,
                     PostResource::class,
                 ]),
-                \FilipFonal\FilamentLogManager\FilamentLogManager::make(),
                 FilamentNavigation::make()->withExtraFields([
                     TextInput::make('classes'),
                     FileUpload::make('icon')->image()->imageEditor()->avatar(),
