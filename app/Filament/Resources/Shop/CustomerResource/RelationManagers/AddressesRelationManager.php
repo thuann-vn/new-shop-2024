@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Squire\Models\Country;
 
 class AddressesRelationManager extends RelationManager
@@ -14,6 +15,24 @@ class AddressesRelationManager extends RelationManager
     protected static string $relationship = 'addresses';
 
     protected static ?string $recordTitleAttribute = 'full_address';
+
+    protected static ?string $label = 'Address';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('Addresses');
+    }
+
+
+    public static function getModelPluralLabel(): ?string
+    {
+        return __(self::$label);
+    }
+
+    public static function getModelLabel(): ?string
+    {
+        return __(self::$label);
+    }
 
     public function form(Form $form): Form
     {
@@ -51,16 +70,13 @@ class AddressesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make(),
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DetachAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->groupedBulkActions([
-                Tables\Actions\DetachBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }

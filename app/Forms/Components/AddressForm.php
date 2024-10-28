@@ -7,7 +7,6 @@ use App\Models\Province;
 use App\Models\Ward;
 use Filament\Forms;
 use Illuminate\Database\Eloquent\Model;
-use Squire\Models\Country;
 
 class AddressForm extends Forms\Components\Field
 {
@@ -44,36 +43,35 @@ class AddressForm extends Forms\Components\Field
     {
         return [
             Forms\Components\TextInput::make('street')
-                ->label('Street address')
+                ->label(__('Street address'))
                 ->maxLength(255),
             Forms\Components\Grid::make(3)
                 ->schema([
                     Forms\Components\Select::make('province_code')
-                        ->label('Province/City')
+                        ->label(__('Province/City'))
                         ->live()
                         ->options(Province::all()->pluck('full_name', 'code')->toArray())
                         ->afterStateUpdated(function (Forms\Set $set) {
                             $set('district_code', null);
                             $set('ward_code', null);
                         })
-                        ->required()
-                    ,
+                        ->required(),
                     Forms\Components\Select::make('district_code')
                         ->options(function (Forms\Get $get): array {
                             return District::where('province_code', $get('province_code'))->orderBy('display_order')->orderBy('name')->pluck('full_name', 'code')->toArray();
                         })
                         ->afterStateUpdated(function (Forms\Set $set) {
-                          $set('ward_code', null);
+                            $set('ward_code', null);
                         })
                         ->live()
-                        ->label('District')
+                        ->label(__('District'))
                         ->required(),
                     Forms\Components\Select::make('ward_code')
                         ->options(function (Forms\Get $get): array {
                             return Ward::where('district_code', $get('district_code'))->orderBy('name')->pluck('full_name', 'code')->toArray();
                         })
                         ->live()
-                        ->label('Ward'),
+                        ->label(__('Ward')),
                 ]),
         ];
     }
@@ -88,8 +86,12 @@ class AddressForm extends Forms\Components\Field
             $component->state($address ? $address->toArray() : [
                 'country' => null,
                 'street' => null,
-                'city' => null,
-                'state' => null,
+                'ward' => null,
+                'district' => null,
+                'province' => null,
+                'ward_code' => null,
+                'district_code' => null,
+                'province_code' => null,
                 'zip' => null,
             ]);
         });

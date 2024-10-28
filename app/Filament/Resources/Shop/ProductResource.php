@@ -281,8 +281,7 @@ class ProductResource extends Resource
                                     ->enableBranchNode()
                                     ->emptyLabel(__('Oops, no results have been found!'))
                                     ->withCount()
-                                    ->searchable()
-                                    ->required(),
+                                    ->searchable(),
                                 Forms\Components\Select::make('collections')
                                     ->label(__('Collections'))
                                     ->relationship('collections', 'name')
