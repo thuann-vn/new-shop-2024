@@ -14,6 +14,11 @@ class ProductsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function getLabel(): ?string
+    {
+        return __('Product');
+    }
+
     public function form(Form $form): Form
     {
         return ProductResource::form($form);
@@ -24,7 +29,7 @@ class ProductsRelationManager extends RelationManager
         return ProductResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-                Tables\Actions\AttachAction::make()
+                Tables\Actions\AttachAction::make(),
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make(),
