@@ -36,11 +36,11 @@ class Page extends Model implements HasContentBlocks, HasHeroImageAttributes, Ha
 
     public function getViewUrl(?string $locale = null): string
     {
-        return route('page.detail', ['page' => $this->slug], false);
+        return route('page.detail', ['page' => $this->slug], true);
     }
 
     public function getPreviewUrl(?string $locale = null): string
     {
-        return $this->getViewUrl($locale);
+        return route('filament.admin.resources.system.pages.edit', ['record' => $this->id], false);
     }
 }

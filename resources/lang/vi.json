@@ -94,5 +94,17 @@
     "Stripe": "Stripe",
     "Post": "Bài viết",
     "Pages": "Trang",
-    "Blog Category": "Danh mục bài viết"
+    "Blog Category": "Danh mục bài viết",
+    "General Settings": "Cài đặt chung",
+    "Manage your general settings": "Quản lý cài đặt chung",
+    "Settings": "Hệ thống",
+    "Page": "Trang",
+    "Title": "Tiêu đề",
+    "Published": "Đã xuất bản",
+    "General": "Chung",
+    "Code": "Mã trang",
+    "Content Blocks": "Các khối nội dung",
+    "Shop Settings": "Cài đặt cửa hàng",
+    "Manage your shop settings": "Quản lý cài đặt cửa hàng bao gồm: Đơn vị tiền, Định dạng ngày tháng, Ngôn ngữ, ...",
+    "Banners": "Slider Ảnh"
 }

@@ -41,7 +41,17 @@ return [
      |
      */
     'ignore_groups' => [
-        // 'auth',
+        'auth',
+        'pagination',
+        'passwords',
+        'validation',
+        'filament-translation-manager::messages',
+        'filament-spatie-roles-permissions::filament-spatie',
+        'filament-authentication::filament-authentication',
+        'filament-translation-manager::filament-translation-manager',
+        'filament-authentication-log::filament-authentication-log',
+        'filament-shield::filament-shield',
+        'filament-shield::filament-shield_pt_PT',
     ],
 
     /*

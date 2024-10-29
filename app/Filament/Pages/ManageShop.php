@@ -14,9 +14,27 @@ class ManageShop extends SettingsPage
 
     protected static string $settings = ShopSettings::class;
 
-    protected static ?string $navigationGroup = 'Settings';
-
     protected static ?int $navigationSort = 1;
+
+    public function getSubheading(): string
+    {
+        return __('Manage your shop settings');
+    }
+
+    public function getTitle(): string
+    {
+        return __('Shop Settings');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Settings');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Shop Settings');
+    }
 
     public function form(Form $form): Form
     {
@@ -92,8 +110,8 @@ class ManageShop extends SettingsPage
                     Forms\Components\Tabs\Tab::make('Shipping Methods')
                         ->icon('heroicon-o-truck')
                         ->schema([
-                        //Shipping method
-                        Forms\Components\Repeater::make('shipping_methods')
+                            //Shipping method
+                            Forms\Components\Repeater::make('shipping_methods')
                                 ->label('Shipping methods')
                                 ->hiddenLabel(true)
                                 ->addActionLabel('Add shipping method')
@@ -116,12 +134,12 @@ class ManageShop extends SettingsPage
                                         ->label('Enabled')
                                         ->required(),
                                 ]),
-                    ]),
+                        ]),
                     Forms\Components\Tabs\Tab::make('Payment Methods')
                         ->icon('heroicon-o-credit-card')
                         ->schema([
-                        //Payment method
-                        Forms\Components\Repeater::make('payment_methods')
+                            //Payment method
+                            Forms\Components\Repeater::make('payment_methods')
                                 ->label('Payment methods')
                                 ->hiddenLabel(true)
                                 ->addActionLabel('Add payment method')
@@ -149,7 +167,7 @@ class ManageShop extends SettingsPage
                                         ->label('Enabled')
                                         ->required(),
                                 ]),
-                    ]),
+                        ]),
                 ]),
             ])->columns(1);
     }

@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Shop;
 
 use App\Filament\Resources\Shop\CollectionResource\RelationManagers\ProductsRelationManager;
-use App\Filament\Resources\Website\SliderResource;
+use App\Filament\Resources\System\SliderResource;
 use App\Models\Shop\Collection;
 use Filament\Forms;
 use Filament\Forms\Form;

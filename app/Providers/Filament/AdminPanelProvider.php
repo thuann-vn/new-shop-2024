@@ -28,9 +28,8 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Phpsa\FilamentAuthentication\FilamentAuthentication;
-use Phpsa\FilamentAuthentication\Widgets\LatestUsersWidget;
-use RyanChandler\FilamentNavigation\Filament\Resources\NavigationResource;
 use RyanChandler\FilamentNavigation\FilamentNavigation;
+use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -72,86 +71,87 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])->plugins([
+                FilamentTranslateFieldPlugin::make()
+                    ->defaultLocales(['vi', 'en']),
                 \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
                 SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'vi']),
                 QuickCreatePlugin::make()->includes([
                     ProductResource::class,
                     PostResource::class,
                 ]),
-                FilamentNavigation::make()->withExtraFields([
-                    TextInput::make('classes'),
-                    FileUpload::make('icon')->image()->imageEditor()->avatar(),
-                ])->itemType('Internal Link', [
-                    TextInput::make('url')->placeholder('/slug')->required(),
-                ])->itemType('Page', [
-                    Select::make('url')
-                        ->options(function () {
-                            $allPages = Page::orderBy('title')->get();
-                            $options = [];
-                            foreach ($allPages as $page) {
-                                $options[$page->getViewUrl()] = $page->title;
-                            }
+                FilamentNavigation::make()
+                    ->usingResource(\App\Filament\Resources\System\NavigationResource::class)
+                    ->usingModel(\App\Models\Navigation::class)
+                    ->withExtraFields([
+                        TextInput::make('classes'),
+                        FileUpload::make('icon')->image()->imageEditor()->avatar(),
+                    ])->itemType('Internal Link', [
+                        TextInput::make('url')->placeholder('/slug')->required(),
+                    ])->itemType('Page', [
+                        Select::make('url')
+                            ->options(function () {
+                                $allPages = Page::orderBy('title')->get();
+                                $options = [];
+                                foreach ($allPages as $page) {
+                                    $options[$page->getViewUrl()] = $page->title;
+                                }
 
-                            return $options;
-                        })
-                        ->required(),
-                ])->itemType('Category', [
-                    Select::make('url')
-                        ->options(function () {
-                            $categories = Category::orderBy('name')->get();
-                            $options = [];
-                            foreach ($categories as $category) {
-                                $options[$category->getViewUrl()] = $category->name;
-                            }
+                                return $options;
+                            })
+                            ->required(),
+                    ])->itemType('Category', [
+                        Select::make('url')
+                            ->options(function () {
+                                $categories = Category::orderBy('name')->get();
+                                $options = [];
+                                foreach ($categories as $category) {
+                                    $options[$category->getViewUrl()] = $category->name;
+                                }
 
-                            return $options;
-                        })
-                        ->required(),
-                ])->itemType('Collection', [
-                    Select::make('url')
-                        ->options(function () {
-                            $collections = Collection::orderBy('name')->get();
-                            $options = [];
-                            foreach ($collections as $collection) {
-                                $options[$collection->getViewUrl()] = $collection->name;
-                            }
+                                return $options;
+                            })
+                            ->required(),
+                    ])->itemType('Collection', [
+                        Select::make('url')
+                            ->options(function () {
+                                $collections = Collection::orderBy('name')->get();
+                                $options = [];
+                                foreach ($collections as $collection) {
+                                    $options[$collection->getViewUrl()] = $collection->name;
+                                }
 
-                            return $options;
-                        })
-                        ->required(),
-                ])->itemType('Route', [
-                    Select::make('url')
-                        ->options(function () {
-                            $routes = collect(app('router')
-                                ->getRoutes()
-                                ->getRoutesByName())
-                                ->reject(function ($route) {
-                                    $routeName = $route->getName();
-                                    $method = @$route->methods()[0];
+                                return $options;
+                            })
+                            ->required(),
+                    ])->itemType('Route', [
+                        Select::make('url')
+                            ->options(function () {
+                                $routes = collect(app('router')
+                                    ->getRoutes()
+                                    ->getRoutesByName())
+                                    ->reject(function ($route) {
+                                        $routeName = $route->getName();
+                                        $method = @$route->methods()[0];
 
-                                    return
-                                        $method != 'GET'
-                                        || (\Str::is('debugbar.*', $routeName)
-                                            || \Str::is('filament.*', $routeName)
-                                            || \Str::is('sanctum.*', $routeName)
-                                            || \Str::is('livewire.*', $routeName)
-                                            || \Str::is('filament-authentication.*', $routeName)
-                                            || \Str::is('ignition.*', $routeName));
-                                })
-                                ->mapWithKeys(function ($route, $name) {
-                                    return [$name => $name];
-                                })->toArray();
+                                        return
+                                            $method != 'GET'
+                                            || (\Str::is('debugbar.*', $routeName)
+                                                || \Str::is('filament.*', $routeName)
+                                                || \Str::is('sanctum.*', $routeName)
+                                                || \Str::is('livewire.*', $routeName)
+                                                || \Str::is('filament-authentication.*', $routeName)
+                                                || \Str::is('ignition.*', $routeName));
+                                    })
+                                    ->mapWithKeys(function ($route, $name) {
+                                        return [$name => $name];
+                                    })->toArray();
 
-                            return $routes;
-                        })
-                        ->required(),
-                ]),
+                                return $routes;
+                            })
+                            ->required(),
+                    ]),
             ])->resources(
                 FilamentAuthentication::resources()
             );
     }
 }
-
-NavigationResource::navigationGroup('Settings');
-NavigationResource::navigationIcon('heroicon-o-queue-list');
-NavigationResource::navigationSort(3);

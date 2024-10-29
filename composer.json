@@ -15,6 +15,7 @@
         "ariaieboy/filament-currency": "^1.2",
         "artesaos/seotools": "^1.2",
         "awcodes/filament-quick-create": "^3.2",
+        "awcodes/filament-tiptap-editor": "^3.4",
         "aymanalhattami/filament-page-with-sidebar": "^2.4",
         "bezhansalleh/filament-google-analytics": "^2.0",
         "blade-ui-kit/blade-heroicons": "^2.1",
@@ -38,6 +39,7 @@
         "phpsa/filament-authentication": "^3.1",
         "rickdbcn/filament-email": "^1.0",
         "ryangjchandler/filament-navigation": "^1.0@beta",
+        "solution-forest/filament-translate-field": "*",
         "squirephp/countries-en": "^3.3",
         "squirephp/currencies-en": "^3.3",
         "statikbe/laravel-filament-chained-translation-manager": "^3.1",
@@ -66,7 +68,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
