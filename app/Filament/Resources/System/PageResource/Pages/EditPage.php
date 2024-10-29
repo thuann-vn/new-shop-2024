@@ -16,9 +16,15 @@ class EditPage extends EditRecord
 
     protected function getActions(): array
     {
+        if (count(getAvailableLanguages()) > 1) {
+            return [
+                CopyContentBlocksToLocalesAction::make(),
+                LocaleSwitcher::make(),
+                DeleteAction::make(),
+            ];
+        }
+
         return [
-            CopyContentBlocksToLocalesAction::make(),
-            LocaleSwitcher::make(),
             DeleteAction::make(),
         ];
     }

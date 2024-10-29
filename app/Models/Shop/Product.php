@@ -10,18 +10,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Translatable\HasTranslations;
 
-class Product extends Model implements HasMedia, Buyable
+class Product extends Model implements Buyable, HasMedia
 {
+    use CanBeBought;
     use HasFactory;
     use InteractsWithMedia;
-    use CanBeBought;
+    use HasTranslations;
 
     /**
      * @var string
@@ -39,21 +40,36 @@ class Product extends Model implements HasMedia, Buyable
         'published_at' => 'date',
         'price' => 'float',
         'old_price' => 'float',
-      'specifications' => 'array',
+        'specifications' => 'array',
     ];
 
     protected $appends = [
         'featured_image_url',
-        'has_variants'
+        'has_variants',
     ];
 
-    public function getBuyableIdentifier($options = null) {
+    public array $translatable = [
+        'name',
+        'slug',
+        'description',
+        'content',
+        'specifications',
+        'seo_title',
+        'seo_description',
+    ];
+
+    public function getBuyableIdentifier($options = null)
+    {
         return $this->id;
     }
-    public function getBuyableDescription($options = null) {
+
+    public function getBuyableDescription($options = null)
+    {
         return $this->name;
     }
-    public function getBuyablePrice($options = null) {
+
+    public function getBuyablePrice($options = null)
+    {
         return $this->price;
     }
 
@@ -92,7 +108,7 @@ class Product extends Model implements HasMedia, Buyable
         return $this->getFirstMediaUrl('product-images', 'preview');
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this
             ->addMediaConversion('preview')

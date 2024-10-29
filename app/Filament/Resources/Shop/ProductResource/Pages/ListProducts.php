@@ -6,6 +6,7 @@ use App\Filament\Resources\Shop\ProductResource;
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Actions\LocaleSwitcher;
 
 class ListProducts extends ListRecords
 {
