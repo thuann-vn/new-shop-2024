@@ -22,11 +22,17 @@ class EditProduct extends EditRecord
             return [
                 LocaleSwitcher::make(),
                 DeleteAction::make(),
+                $this->getSaveFormAction()
+                    ->submit(null)
+                    ->action('save'),
             ];
         }
 
         return [
             Actions\DeleteAction::make(),
+            $this->getSaveFormAction()
+                ->submit(null)
+                ->action('save'),
         ];
     }
 

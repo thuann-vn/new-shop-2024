@@ -8,19 +8,22 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditCategory extends EditRecord
 {
+    use EditRecord\Concerns\Translatable;
     protected static string $resource = CategoryResource::class;
-//    use EditRecord\Concerns\Translatable;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-//            Actions\LocaleSwitcher::make(),
-            // ...
-        ];
-    }
 
     protected function getActions(): array
     {
+
+        if (count(getAvailableLanguages()) > 1) {
+            return [
+                Actions\LocaleSwitcher::make(),
+                Actions\DeleteAction::make(),
+                $this->getSaveFormAction()
+                    ->submit(null)
+                    ->action('save'),
+            ];
+        }
         return [
             Actions\DeleteAction::make(),
         ];

@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Translatable\HasTranslations;
 
 class Brand extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use HasTranslations;
 
     /**
      * @var string
@@ -25,6 +27,14 @@ class Brand extends Model implements HasMedia
      */
     protected $casts = [
         'is_visible' => 'boolean',
+    ];
+
+    public array $translatable = [
+        'name',
+        'slug',
+        'description',
+        'seo_title',
+        'seo_description',
     ];
 
     public function addresses(): MorphToMany

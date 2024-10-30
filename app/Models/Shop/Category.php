@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Translatable\HasTranslations;
 
 class Category extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use HasTranslations;
 
     /**
      * @var string
@@ -29,7 +31,11 @@ class Category extends Model implements HasMedia
     ];
 
     public $translatable = [
+        'name',
+        'slug',
         'description',
+        'seo_title',
+        'seo_description',
     ];
 
     public function children(): HasMany
