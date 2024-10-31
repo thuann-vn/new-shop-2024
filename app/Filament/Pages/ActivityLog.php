@@ -16,7 +16,7 @@ class ActivityLog extends ListActivities
     // }
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check();
+        return false;
     }
 
      public static function getNavigationLabel(): string

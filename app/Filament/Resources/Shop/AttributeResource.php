@@ -6,12 +6,15 @@ use App\Filament\Resources\Shop;
 use App\Models\Shop\Attribute;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class AttributeResource extends Resource
 {
+    use Translatable;
     protected static ?string $model = Attribute::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -45,11 +48,15 @@ class AttributeResource extends Resource
     {
         return $form
             ->schema([
-                //
-                TextInput::make('name')
-                    ->label(__('Name'))
-                    ->required()
-                    ->maxLength(255),
+                Translate::make([
+                    TextInput::make('name')
+                        ->label(__('Name'))
+                        ->required()
+                        ->maxLength(255),
+                ])
+                    ->locales(getAvailableLanguages())
+                    ->contained()
+                    ->columnSpanFull()
             ]);
     }
 
