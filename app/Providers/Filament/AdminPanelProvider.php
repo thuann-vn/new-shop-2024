@@ -6,7 +6,9 @@ use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Dashboard;
 use App\Filament\Resources\Blog\PostResource;
 use App\Filament\Resources\Shop\ProductResource;
+use App\Filament\Resources\System\NavigationResource;
 use App\Http\Middleware\Authenticate;
+use App\Models\Navigation;
 use App\Models\Page;
 use App\Models\Shop\Category;
 use App\Models\Shop\Collection;
@@ -30,11 +32,13 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Phpsa\FilamentAuthentication\FilamentAuthentication;
 use RyanChandler\FilamentNavigation\FilamentNavigation;
 use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
+use Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        $languages = getAvailableLanguages();
         return $panel
             ->default()
             ->id('admin')
@@ -72,16 +76,16 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])->plugins([
                 FilamentTranslateFieldPlugin::make()
-                    ->defaultLocales(['vi', 'en']),
-                \Statikbe\FilamentTranslationManager\FilamentChainedTranslationManagerPlugin::make(),
-                SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'vi']),
+                    ->defaultLocales($languages),
+                FilamentChainedTranslationManagerPlugin::make(),
+                SpatieLaravelTranslatablePlugin::make()->defaultLocales($languages),
                 QuickCreatePlugin::make()->includes([
                     ProductResource::class,
                     PostResource::class,
                 ]),
                 FilamentNavigation::make()
-                    ->usingResource(\App\Filament\Resources\System\NavigationResource::class)
-                    ->usingModel(\App\Models\Navigation::class)
+                    ->usingResource(NavigationResource::class)
+                    ->usingModel(Navigation::class)
                     ->withExtraFields([
                         TextInput::make('classes'),
                         FileUpload::make('icon')->image()->imageEditor()->avatar(),

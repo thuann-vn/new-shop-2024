@@ -2,18 +2,23 @@ import {Link} from "@inertiajs/react";
 import Container from "@/Components/Layout/Container";
 import {CollectionBlock} from "@/types/blocks";
 import ProductSlider from "@/Components/Products/ProductSlider";
+import {useTranslation} from "react-i18next";
 
 export default function Collection({block}: { block: CollectionBlock }) {
+    const {i18n} = useTranslation();
+    if(!block.collection){
+        return null;
+    }
     return (
         <Container>
             <div className="flex items-center justify-between mb-3 mt-10">
                 <div>
                     <h3 className="font-semibold text-4xl capitalize">
-                        <a href={block.collection.slug}>
-                            {block.collection.name.toLowerCase()}
+                        <a href={block.collection.slug[i18n.language]}>
+                            {block.collection.name[i18n.language].toLowerCase()}
                         </a>
                     </h3>
-                    <p className="text-sm text-gray-900">{block.collection.description}</p>
+                    <p className="text-sm text-gray-900">{block.collection.description[i18n.language]}</p>
                 </div>
                 <Link href={route('shop.index', {collection: block.collection.id})} className="border border-gray-150 px-5 py-2 rounded-full text-sm">
                     View all

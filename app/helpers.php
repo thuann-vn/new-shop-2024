@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 function getAvailableLanguages(): array
 {
-    return Language::whereIsVisible(true)->orderBy('code')->get()->pluck('code')->toArray();
+    return Language::whereIsVisible(true)->orderBy('id')->get()->pluck('code')->toArray();
 }
 
 function getGeneralSettings($key)

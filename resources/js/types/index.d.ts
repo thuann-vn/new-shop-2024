@@ -6,6 +6,10 @@ export interface User {
     photo: string;
 }
 
+export interface Localized{
+    [key: string]: string;
+}
+
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;
@@ -211,9 +215,9 @@ export interface ProductCategory{
 
 export interface Collection{
     id: number;
-    name: string;
-    slug: string;
-    description: string,
+    name: Localized;
+    slug: Localized;
+    description: Localized,
     image: string,
     items : Product[],
     home_products: Product[],
