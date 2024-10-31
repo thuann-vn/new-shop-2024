@@ -2,6 +2,7 @@ import {Card as CardType} from "@/types/blocks";
 import CallToAction from "@/Components/PageBlocks/CallToAction";
 
 export default function Card({ card }: { card: CardType }) {
+    console.log(card)
     return (
         <div
             className="relative transition-all duration-300 ease-out bg-white group card @if($isFullyClickable()) hover:shadow-md @endif">

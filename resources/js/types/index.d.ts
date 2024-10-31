@@ -215,9 +215,9 @@ export interface ProductCategory{
 
 export interface Collection{
     id: number;
-    name: Localized;
-    slug: Localized;
-    description: Localized,
+    name: string;
+    slug: string;
+    description: string,
     image: string,
     items : Product[],
     home_products: Product[],

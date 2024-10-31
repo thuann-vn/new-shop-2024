@@ -2,6 +2,7 @@
 
 namespace App\Filament\ContentBlocks;
 
+use App\Http\Resources\CollectionResource;
 use Filament\Forms\Components\Select;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
@@ -16,7 +17,7 @@ class ProductCollectionBlock extends AbstractContentBlock
 
     public ?string $collectionId;
 
-    public ?\App\Models\Shop\Collection $collection;
+    public ?CollectionResource $collection;
 
     /**
      * Create a new component instance.
@@ -25,7 +26,7 @@ class ProductCollectionBlock extends AbstractContentBlock
     {
         parent::__construct($record, $blockData);
         $this->collectionId = $blockData['collection_id'] ?? null;
-        $this->collection = \App\Models\Shop\Collection::where('id', $this->collectionId)->first();
+        $this->collection = new CollectionResource(\App\Models\Shop\Collection::where('id', $this->collectionId)->first());
         $this->setBlockStyle($blockData);
     }
 

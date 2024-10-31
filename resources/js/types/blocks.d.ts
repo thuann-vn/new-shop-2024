@@ -27,6 +27,7 @@ export interface ContactFormBlock extends Block {
 }
 
 export interface CategoriesBlock extends Block {
+    title?: string;
     categoryIds: number[];
     categories: ProductCategory[];
 }

@@ -3,9 +3,11 @@
 namespace App\Filament\ContentBlocks;
 
 use App\Filament\ContentBlocks\Concerns\HasBlockOption;
+use App\Http\Resources\CategoryResource;
 use App\Models\Shop\Category;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
 use Statikbe\FilamentFlexibleContentBlocks\Models\Contracts\HasContentBlocks;
@@ -18,7 +20,7 @@ class CategoriesBlock extends AbstractContentBlock
 
     public ?array $categoryIds;
 
-    public ?array $categories;
+    public ?ResourceCollection $categories;
 
     /**
      * Create a new component instance.
@@ -29,7 +31,7 @@ class CategoriesBlock extends AbstractContentBlock
 
         $this->title = $blockData['title'] ?? null;
         $this->categoryIds = $blockData['category_ids'] ?? null;
-        $this->categories = Category::whereIn('id', $this->categoryIds)->get()->toArray();
+        $this->categories = CategoryResource::collection(Category::whereIn('id', $this->categoryIds)->get());
         $this->setBlockOption($blockData);
     }
 
