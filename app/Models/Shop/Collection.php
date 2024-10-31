@@ -5,9 +5,12 @@ namespace App\Models\Shop;
 use App\Models\Slider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Translatable\HasTranslations;
 
 class Collection extends Model
 {
+    use HasTranslations;
+
     public $table = 'shop_collections';
 
     /**
@@ -19,6 +22,12 @@ class Collection extends Model
 
     protected $appends = [
         'home_products',
+    ];
+
+    public $translatable = [
+        'name',
+        'slug',
+        'description',
     ];
 
     public function products(): BelongsToMany

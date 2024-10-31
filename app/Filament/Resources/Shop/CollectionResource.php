@@ -7,6 +7,7 @@ use App\Filament\Resources\System\SliderResource;
 use App\Models\Shop\Collection;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
 
 class CollectionResource extends Resource
 {
+    use Translatable;
     protected static ?string $slug = 'shop/collections';
 
     protected static ?string $recordTitleAttribute = 'name';
