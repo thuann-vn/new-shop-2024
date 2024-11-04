@@ -9,8 +9,9 @@ import {HeartIcon} from "@heroicons/react/24/solid";
 import {HeartIcon as OutlineHeartIcon, ShoppingBagIcon} from "@heroicons/react/24/outline";
 import {PageProps, Product} from "@/types";
 import Stars from "@/Components/Common/Stars";
-
-export default function ProductCard({product, className = '', onRemoveFromWishList, showCartButton = false}: { product: Product, className?: string, onRemoveFromWishList?: any, showCartButton?: boolean }) {
+type ProductCardProps = { product: Product, className?: string, onRemoveFromWishList?: any, showCartButton?: boolean }
+export default function ProductCard({product, className = '', onRemoveFromWishList, showCartButton = false}: ProductCardProps) {
+    console.log(product)
     const {openCart} = useContext(CartContext);
     const {auth, wishlist = []} = usePage<PageProps>().props;
     const addProductToCart = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -90,7 +91,7 @@ export default function ProductCard({product, className = '', onRemoveFromWishLi
                 <Link href={route('products.detail', {slug: product.slug})} className={"block p-[20px] pt-0"}>
                     {renderProductBadge()}
                     <h3 className="mt-4 font-bold line-clamp-2 min-h-[48px]">{product.name}</h3>
-                    <Stars rating={product.av} className={"my-2"}/>
+                    <Stars rating={2} className={"my-2"}/>
                     <p className="text-gray-400 inline-flex items-center my-2">
                         <svg className="mr-1" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path

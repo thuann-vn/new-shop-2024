@@ -113,6 +113,7 @@ class Product extends Model implements Buyable, HasMedia
         $this
             ->addMediaConversion('preview')
             ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->format(Manipulations::FORMAT_WEBP)
             ->nonQueued();
     }
 

@@ -15,6 +15,7 @@ export default function ProductDetail({product, productVariants, productOptions,
     let breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
     ]
+    console.log(firstCategory)
     if (firstCategory) {
         breadcrumbs.push({id: 2, name: firstCategory.name, href: route('shop.category', {slug: firstCategory.slug})})
     }

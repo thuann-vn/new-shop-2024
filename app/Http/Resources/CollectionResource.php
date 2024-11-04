@@ -19,7 +19,7 @@ class CollectionResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'is_visible' => $this->is_visible,
-            'home_products' => $this->home_products,
+            'home_products' => ProductResource::collection($this->homeProducts),
         ];
     }
 }

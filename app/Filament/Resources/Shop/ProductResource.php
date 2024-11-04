@@ -7,13 +7,11 @@ use App\Filament\Resources\Shop\BrandResource\RelationManagers\ProductsRelationM
 use App\Filament\Resources\Shop\ProductResource\Pages;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Widgets\ProductStats;
-use App\Models\Language;
 use App\Models\Shop\Attribute;
 use App\Models\Shop\Brand;
 use App\Models\Shop\Product;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
@@ -32,11 +30,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class ProductResource extends Resource
 {
     use Translatable;
+
     protected static ?string $model = Product::class;
 
     protected static ?string $slug = 'shop/products';
@@ -46,7 +44,6 @@ class ProductResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
 
     protected static ?string $navigationIcon = 'heroicon-o-bolt';
-
 
     protected static ?int $navigationSort = 0;
 
@@ -172,8 +169,8 @@ class ProductResource extends Resource
                                             ->image()
                                             ->collection('product-images')
                                             ->multiple()
-                                            ->maxFiles(5)
                                             ->reorderable()
+                                            ->preserveFilenames()
                                             ->hiddenLabel(),
                                     ]),
                                 Tabs\Tab::make(__('Variants'))
@@ -262,22 +259,8 @@ class ProductResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->hiddenOn(ProductsRelationManager::class)
-                                    ->createOptionForm([
-                                        Forms\Components\TextInput::make('name')
-                                            ->label(__('Name'))
-                                            ->required()
-                                            ->maxLength(255)
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                                $set('slug', Str::slug($state));
-                                            }),
-                                        Forms\Components\TextInput::make('slug')
-                                            ->label(__('Slug'))
-                                            ->dehydrated()
-                                            ->required()
-                                            ->maxLength(255)
-                                            ->unique(Brand::class, 'slug', ignoreRecord: true),
-                                    ]),
+                                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->getTranslation('name', app()->getLocale()))
+                                    ->createOptionForm(fn(Form $form) => BrandResource::form($form)),
 
                                 SelectTree::make('categories')
                                     ->label(__('Categories'))
@@ -290,13 +273,11 @@ class ProductResource extends Resource
                                 Forms\Components\Select::make('collections')
                                     ->label(__('Collections'))
                                     ->relationship('collections', 'name')
+                                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->getTranslation('name', app()->getLocale()))
                                     ->preload()
                                     ->searchable()
                                     ->multiple()
-                                    ->createOptionForm([
-                                        Forms\Components\TextInput::make('name')
-                                            ->required(),
-                                    ]),
+                                    ->createOptionForm(fn(Form $form) => CollectionResource::form($form)),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -311,7 +292,6 @@ class ProductResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('product-image')
                     ->label(__('Image'))
                     ->collection('product-images'),
-
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable()

@@ -170,6 +170,7 @@ export interface Product{
     brand: Brand,
     has_variants: boolean;
     qty: number;
+    featured: boolean;
 }
 
 export interface ProductVariant{

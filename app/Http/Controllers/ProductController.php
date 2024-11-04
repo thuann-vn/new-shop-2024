@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Shop\Category;
-use App\Models\Shop\ProductVariant;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,13 +14,13 @@ class ProductController extends Controller
     {
         $slug = $request->slug;
         $category = null;
-        if (!empty($slug)) {
+        if (! empty($slug)) {
             $category = Category::where('slug', $slug)->first();
         }
         $products = \App\Models\Shop\Product::with(['brand']);
         $allCategories = Category::whereIsVisible(true)->whereParentId(null)->get();
 
-        if (!empty($category)) {
+        if (! empty($category)) {
             $products = $products->whereHas('categories', function ($query) use ($category) {
                 $query->where('shop_category_id', $category->id);
             });
@@ -41,7 +42,7 @@ class ProductController extends Controller
         $filters = [];
 
         $selectedCollections = $request->get('collection', '');
-        if (!empty($selectedCollections)) {
+        if (! empty($selectedCollections)) {
             $selectedCollections = explode(',', $selectedCollections);
             $products = $products->whereHas('collections', function ($query) use ($selectedCollections) {
                 $query->whereIn('shop_collection_id', $selectedCollections);
@@ -57,13 +58,13 @@ class ProductController extends Controller
                 return [
                     'value' => $collection['id'],
                     'label' => $collection['name'],
-                    'checked' => in_array($collection['id'], $selectedCollections)
+                    'checked' => in_array($collection['id'], $selectedCollections),
                 ];
             }, $collections->toArray()),
         ];
 
         $selectedBrands = $request->get('brand', '');
-        if (!empty($selectedBrands)) {
+        if (! empty($selectedBrands)) {
             $selectedBrands = explode(',', $selectedBrands);
             $products = $products->whereIn('shop_brand_id', $selectedBrands);
         } else {
@@ -77,41 +78,53 @@ class ProductController extends Controller
                 return [
                     'value' => $brand['id'],
                     'label' => $brand['name'],
-                    'checked' => in_array($brand['id'], $selectedBrands)
+                    'checked' => in_array($brand['id'], $selectedBrands),
                 ];
             }, $brands->toArray()),
         ];
 
         //Sort
         $sort = $request->get('sort', 'newest');
-        if (!empty($sort)) {
+        if (! empty($sort)) {
             switch ($sort) {
                 case 'price_asc':
                     $products = $products->orderBy('price', 'asc');
+
                     break;
                 case 'price_desc':
                     $products = $products->orderBy('price', 'desc');
+
                     break;
                 case 'name_asc':
                     $products = $products->orderBy('name', 'asc');
+
                     break;
                 case 'name_desc':
                     $products = $products->orderBy('name', 'desc');
+
                     break;
                 default:
                     $products = $products->orderBy('created_at', 'desc');
+
                     break;
             }
         }
 
         $products = $products->paginate(12)->appends($request->all());
+
         return Inertia::render('Product/Category', compact('products', 'category', 'allCategories', 'collections', 'filters', 'sort'));
     }
 
     public function detail($slug)
     {
-        $product = \App\Models\Shop\Product::with(['brand', 'productAttributes', 'variants', 'variants.attributeOptions'])->where('slug', $slug)->firstOrFail();
+        $locale = app()->getLocale();
+        $product = \App\Models\Shop\Product::with(['brand', 'productAttributes', 'variants', 'variants.attributeOptions'])
+            ->where('slug->' . $locale, $slug)
+            ->firstOrFail();
         $firstCategory = $product->categories()->first();
+        if (! empty($firstCategory)) {
+            $firstCategory = new CategoryResource($firstCategory);
+        }
         $images = $product->media()->get();
 
         //Get product attributes
@@ -122,13 +135,18 @@ class ProductController extends Controller
             foreach ($productVariant->attributeOptions as $attributeOption) {
                 $productOptions[$attributeOption->shop_attribute_id][$attributeOption->shop_attribute_option_id] = [
                     'name' => $attributeOption->option->value,
-                    'in_stock' => $productVariant->qty
+                    'in_stock' => $productVariant->qty,
                 ];
             }
         }
 
         //Related products
-        $relatedProducts = \App\Models\Shop\Product::where('shop_brand_id', $product->shop_brand_id)->where('id', '!=', $product->id)->limit(4)->get();
+        $relatedProducts = \App\Models\Shop\Product::where('shop_brand_id', $product->shop_brand_id)
+            ->where('id', '!=', $product->id)->limit(4)
+            ->get();
+        $relatedProducts = ProductResource::collection($relatedProducts);
+        $product = new ProductResource($product);
+
         return Inertia::render('Product/Detail', compact('product', 'images', 'relatedProducts', 'firstCategory', 'productAttributes', 'productVariants', 'productOptions'));
     }
 
@@ -136,7 +154,7 @@ class ProductController extends Controller
      * Get available option when user select attribute option
      * Eg: User select color: red
      * Then we will get all available options for size attribute that have red color
-     * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAvailableProductVariants(Request $request)
@@ -152,6 +170,7 @@ class ProductController extends Controller
             foreach ($productVariant->attributeOptions as $attributeOption) {
                 if (in_array($attributeOption->shop_attribute_option_id, $selectedOptions)) {
                     $isAvailable = true;
+
                     break;
                 }
             }
@@ -160,7 +179,7 @@ class ProductController extends Controller
                     if ($attributeOption->shop_attribute_id != $attributeId) {
                         $productOptions[$attributeOption->shop_attribute_id][$attributeOption->shop_attribute_option_id] = [
                             'name' => $attributeOption->option->value,
-                            'in_stock' => $productVariant->qty
+                            'in_stock' => $productVariant->qty,
                         ];
                     }
                 }
@@ -173,13 +192,15 @@ class ProductController extends Controller
             foreach ($productVariants as $key => $productVariant) {
                 $isAvailable = true;
                 foreach ($productVariant->attributeOptions as $attributeOption) {
-                    if (!in_array($attributeOption->shop_attribute_option_id, $selectedOptions)) {
+                    if (! in_array($attributeOption->shop_attribute_option_id, $selectedOptions)) {
                         $isAvailable = false;
+
                         break;
                     }
                 }
                 if ($isAvailable) {
                     $selectedVariant = $productVariant;
+
                     break;
                 }
             }
@@ -187,15 +208,16 @@ class ProductController extends Controller
 
         return response()->json([
             'product_options' => $productOptions,
-            'selected_variant' => $selectedVariant
+            'selected_variant' => $selectedVariant,
         ]);
     }
 
     public function search()
     {
-        if (request()->has('q') && !empty(request()->get('q'))) {
+        if (request()->has('q') && ! empty(request()->get('q'))) {
             $products = \App\Models\Shop\Product::with(['brand']);
             $products = $products->where('name', 'like', '%' . request()->get('q') . '%');
+
             return response()->json($products->get());
         } else {
             return response()->json([]);

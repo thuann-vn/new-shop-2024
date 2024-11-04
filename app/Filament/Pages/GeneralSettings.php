@@ -49,10 +49,6 @@ class GeneralSettings extends SettingsPage
                                 ->previewable()
                                 ->image()
                                 ->imageEditor()
-                                ->imageEditorAspectRatios([
-                                    null,
-                                    '1:1',
-                                ])
                                 ->preserveFilenames()
                                 ->required(),
                             Forms\Components\FileUpload::make('site_favicon')
