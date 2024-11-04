@@ -3,12 +3,12 @@
 namespace App\Filament\Resources\Shop;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use App\Filament\Form\Fields\PriceField;
 use App\Filament\Resources\Shop\BrandResource\RelationManagers\ProductsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Pages;
 use App\Filament\Resources\Shop\ProductResource\RelationManagers\CommentsRelationManager;
 use App\Filament\Resources\Shop\ProductResource\Widgets\ProductStats;
 use App\Models\Shop\Attribute;
-use App\Models\Shop\Brand;
 use App\Models\Shop\Product;
 use CodeWithDennis\FilamentSelectTree\SelectTree;
 use Filament\Forms;
@@ -120,23 +120,17 @@ class ProductResource extends Resource
                                 Tabs\Tab::make(__('Price & Stock'))
                                     ->icon('heroicon-o-banknotes')
                                     ->schema([
-                                        Forms\Components\TextInput::make('price')
+                                        PriceField::make('price')
                                             ->label(__('Price'))
-                                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
-                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                             ->required(),
 
-                                        Forms\Components\TextInput::make('old_price')
+                                        PriceField::make('old_price')
                                             ->label(__('Compare at price'))
-                                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
-                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                             ->required(),
 
-                                        Forms\Components\TextInput::make('cost')
+                                        PriceField::make('cost')
                                             ->label(__('Cost per item'))
                                             ->helperText(__('Customers won\'t see this price.'))
-                                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
-                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                             ->required(),
                                         Forms\Components\TextInput::make('sku')
                                             ->label(__('SKU (Stock Keeping Unit)'))
@@ -260,7 +254,7 @@ class ProductResource extends Resource
                                     ->preload()
                                     ->hiddenOn(ProductsRelationManager::class)
                                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->getTranslation('name', app()->getLocale()))
-                                    ->createOptionForm(fn(Form $form) => BrandResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => BrandResource::form($form)),
 
                                 SelectTree::make('categories')
                                     ->label(__('Categories'))
@@ -277,7 +271,7 @@ class ProductResource extends Resource
                                     ->preload()
                                     ->searchable()
                                     ->multiple()
-                                    ->createOptionForm(fn(Form $form) => CollectionResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => CollectionResource::form($form)),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -310,6 +304,7 @@ class ProductResource extends Resource
 
                 Tables\Columns\TextColumn::make('price')
                     ->label(__('Price'))
+                    ->money(getCurrency())
                     ->searchable()
                     ->sortable(),
 

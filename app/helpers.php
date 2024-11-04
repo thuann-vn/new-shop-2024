@@ -49,11 +49,21 @@ function getAllGeneralSettings()
     return $settingArr;
 }
 
-function getShopSettings()
+function getShopSettings($key = null)
 {
+    if ($key) {
+        $key = 'shop_' . $key;
+        return app(ShopSettings::class)->$key;
+    }
+
     return Cache::remember('shop_settings', 24 * 60 * 60, function () {
         return app(ShopSettings::class)->toArray();
     });
+}
+
+function getCurrency()
+{
+    return getShopSettings('currency');
 }
 
 function t($key, $replace = [], $locale = null): \Illuminate\Foundation\Application | array | string | \Illuminate\Contracts\Translation\Translator | \Illuminate\Contracts\Foundation\Application | null

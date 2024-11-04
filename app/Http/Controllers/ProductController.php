@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AttributeResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Shop\Category;
@@ -128,7 +129,7 @@ class ProductController extends Controller
         $images = $product->media()->get();
 
         //Get product attributes
-        $productAttributes = $product->productAttributes()->get();
+        $productAttributes = AttributeResource::collection($product->productAttributes()->get());
         $productVariants = $product->variants()->get();
         $productOptions = [];
         foreach ($productVariants as $key => $productVariant) {

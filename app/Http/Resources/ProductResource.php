@@ -29,6 +29,7 @@ class ProductResource extends JsonResource
             'barcode' => $this->barcode,
             'featured_image_url' => $this->featured_image_url,
             'specifications' => $this->specifications,
+            'has_variants' => $this->has_variants,
         ];
     }
 }

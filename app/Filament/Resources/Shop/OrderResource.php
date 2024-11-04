@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Shop;
 
 use App\Enums\OrderStatus;
+use App\Filament\Form\Fields\PriceField;
 use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Filament\Resources\Shop\OrderResource\RelationManagers;
 use App\Filament\Resources\Shop\OrderResource\Widgets\OrderStats;
@@ -39,6 +40,7 @@ class OrderResource extends Resource
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationLabel = 'Order';
+
     public static function getNavigationLabel(): string
     {
         return __(self::$navigationLabel);
@@ -53,6 +55,7 @@ class OrderResource extends Resource
     {
         return __(self::$navigationLabel);
     }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -312,8 +315,7 @@ class OrderResource extends Resource
                     })
                     ->required(),
 
-                Forms\Components\TextInput::make('unit_price')
-                    ->currencyMask(precision: 0)
+                PriceField::make('unit_price')
                     ->label(__('Unit Price'))
                     ->dehydrated()
                     ->numeric()
@@ -327,8 +329,7 @@ class OrderResource extends Resource
                         'md' => 2,
                     ]),
 
-                Forms\Components\TextInput::make('subtotal')
-                    ->currencyMask(precision: 0)
+                PriceField::make('subtotal')
                     ->label(__('Subtotal'))
                     ->dehydrated()
                     ->numeric()
@@ -378,15 +379,15 @@ class OrderResource extends Resource
         $set('../../subtotal', $totalPrice);
         $set('../../total_price', $totalPrice + $shippingPrice - $discount);
     }
+
     public static function getTotalPriceInputs()
     {
         return Forms\Components\Grid::make(2)
             ->schema([
-                Forms\Components\TextInput::make('subtotal')
-                    ->currencyMask(precision: 0)
+                PriceField::make('subtotal')
                     ->numeric()
                     ->label(__('Subtotal')),
-                Forms\Components\TextInput::make('shipping_price')
+                PriceField::make('shipping_price')
                     ->default(0)
                     ->live(onBlur: true)
                     ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
@@ -395,10 +396,9 @@ class OrderResource extends Resource
                         $discount = $get('discount') ?? 0;
                         $set('total_price', $subtotal + $shippingPrice - $discount);
                     })
-                    ->currencyMask(precision: 0)
                     ->numeric()
                     ->label(__('Shipping price')),
-                Forms\Components\TextInput::make('discount')
+                PriceField::make('discount')
                     ->default(0)
                     ->live(onBlur: true)
                     ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
@@ -407,11 +407,9 @@ class OrderResource extends Resource
                         $discount = $state ?? 0;
                         $set('total_price', $subtotal + $shippingPrice - $discount);
                     })
-                    ->currencyMask(precision: 0)
                     ->numeric()
                     ->label(__('Discount')),
-                Forms\Components\TextInput::make('total_price')
-                    ->currencyMask(precision: 0)
+                PriceField::make('total_price')
                     ->numeric()
                     ->label(__('Total price')),
             ]);
