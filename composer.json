@@ -44,6 +44,8 @@
         "squirephp/currencies-en": "^3.3",
         "statikbe/laravel-filament-chained-translation-manager": "^3.1",
         "statikbe/laravel-filament-flexible-content-blocks": "^0.2.9",
+        "symfony/browser-kit": "^7.1",
+        "symfony/http-client": "^7.1",
         "tapp/filament-auditing": "3.0",
         "tapp/filament-authentication-log": "3.0",
         "thuann-vn/shoppingcart": "^1.0",
