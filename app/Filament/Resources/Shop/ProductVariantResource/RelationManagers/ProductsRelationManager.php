@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Shop\ProductVariantResource\RelationManagers;
 
 use App\Filament\Form\Fields\PriceField;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -55,11 +56,11 @@ class ProductsRelationManager extends RelationManager
         }
 
         $schema[] = PriceField::make('price')
-            ->label('Price')
+            ->label(__('Price'))
             ->required();
 
         $schema[] = PriceField::make('old_price')
-            ->label('Old Price')
+            ->label(__('Compare at price'))
             ->required();
 
         $schema[] = Forms\Components\TextInput::make('sku')
@@ -69,12 +70,21 @@ class ProductsRelationManager extends RelationManager
         $schema[] = Forms\Components\TextInput::make('qty')
             ->type('number')
             ->numeric()
-            ->label('Stock')
+            ->label(__('Stock'))
             ->required();
 
         $schema[] = Forms\Components\Checkbox::make('is_visible')
-            ->label('Is Visible')
+            ->label(__('Visible'))
             ->required();
+
+        $schema[] = SpatieMediaLibraryFileUpload::make('media')
+            ->label(__('Images'))
+            ->image()
+            ->collection('product-variant-images')
+            ->multiple()
+            ->reorderable()
+            ->preserveFilenames()
+            ->columnSpanFull();
 
         return $form
             ->schema($schema);
@@ -138,13 +148,13 @@ class ProductsRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 }

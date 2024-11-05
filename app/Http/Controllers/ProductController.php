@@ -7,7 +7,10 @@ use App\Http\Resources\BrandResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\CollectionResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductVariantResource;
 use App\Models\Shop\Category;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,6 +28,7 @@ class ProductController extends Controller
         $allCategories = CategoryResource::collection($allCategories);
 
         if (! empty($category)) {
+            var_dump($category);die();
             $products = $products->whereHas('categories', function ($query) use ($category) {
                 $query->where('shop_category_id', $category->id);
             });
@@ -115,9 +119,19 @@ class ProductController extends Controller
                     break;
             }
         }
-        $products = $products->paginate(1)->appends($request->all());
+        $products = $products->paginate(12)->appends($request->all());
         $links = $products->linkCollection();
         $products = ProductResource::collection($products);
+
+
+        //Seo information
+        SEOMeta::setTitleDefault('');
+        SEOMeta::setTitle($seoTitle ?? getGeneralSettings('site_name'));
+        SEOMeta::setKeywords($seoDescription ?? strip_tags(getGeneralSettings('site_description')));
+        SEOMeta::setDescription($seoDescription ?? strip_tags(getGeneralSettings('site_description')));
+        $seoImage = $productType->image ?? $brand->image ?? null;
+        SEOTools::addImages($seoImage ? '/storage/' . $seoImage : getGeneralSettings('site_logo'));
+
         return Inertia::render('Product/Category', compact('products', 'links', 'category', 'allCategories', 'collections', 'filters', 'sort'));
     }
 
@@ -138,6 +152,7 @@ class ProductController extends Controller
         $productVariants = $product->variants()->get();
         $productOptions = [];
         foreach ($productVariants as $key => $productVariant) {
+            $productVariant->media;
             foreach ($productVariant->attributeOptions as $attributeOption) {
                 $productOptions[$attributeOption->shop_attribute_id][$attributeOption->shop_attribute_option_id] = [
                     'name' => $attributeOption->option->value,
@@ -145,6 +160,7 @@ class ProductController extends Controller
                 ];
             }
         }
+        $productVariants = ProductVariantResource::collection($productVariants);
 
         //Related products
         $relatedProducts = \App\Models\Shop\Product::where('shop_brand_id', $product->shop_brand_id)
@@ -214,7 +230,7 @@ class ProductController extends Controller
 
         return response()->json([
             'product_options' => $productOptions,
-            'selected_variant' => $selectedVariant,
+            'selected_variant' => $selectedVariant ? new ProductVariantResource($selectedVariant) : null,
         ]);
     }
 

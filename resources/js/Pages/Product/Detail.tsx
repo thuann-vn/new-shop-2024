@@ -10,6 +10,7 @@ import ProductCartForm from "@/Components/Products/ProductCartForm";
 import ProductSlider from "@/Components/Products/ProductSlider";
 import Breadcrumb from "@/Components/Other/Breadcrumb";
 import AppHead from "@/Components/Layout/AppHead";
+import {useTranslation} from "react-i18next";
 
 export default function ProductDetail({product, productVariants, productOptions, productAttributes, images, relatedProducts, firstCategory}: { product: Product, productOptions:any, productVariants: any, productAttributes:any, images: any, relatedProducts: any, firstCategory: ProductCategory }) {
     let breadcrumbs = [
@@ -20,7 +21,8 @@ export default function ProductDetail({product, productVariants, productOptions,
     }
     breadcrumbs.push({id: 3, name: product.name, href: ''})
     const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null)
-
+    console.log(selectedVariant)
+    const {t} = useTranslation();
     return (
         <>
             <AppHead title={product.name}/>
@@ -35,18 +37,21 @@ export default function ProductDetail({product, productVariants, productOptions,
 
                             {/* Product extra info */}
                             <div className={"flex items-center text-sm leading-4 mt-3"}>
-                                <div className="text-gray-500 border-r border-r-gray-200 pr-3 mr-3">Brands: <span className={"text-black"}>{product.brand?.name}</span></div>
-                                <div className="flex items-center border-r border-r-gray-200 pr-3 mr-3">
-                                    <StarRating value={4}/> <span className={"text-gray-500"}>(117)</span>
-                                </div>
-                                <div className="text-gray-500">SKU: <span className={"text-black"}>{product.sku}</span></div>
+                                <div className="text-gray-500 border-r border-r-gray-200 pr-3 mr-3">{t('Brand')}: <span className={"text-black"}>{product.brand?.name}</span></div>
+                                {/*<div className="flex items-center border-r border-r-gray-200 pr-3 mr-3">*/}
+                                {/*    <StarRating value={4}/> <span className={"text-gray-500"}>(117)</span>*/}
+                                {/*</div>*/}
+                                {
+                                    (selectedVariant?.sku || product.sku) && <div className="text-gray-500">{t('SKU')}: <span
+                                        className={"text-black"}>{selectedVariant?.sku || product.sku}</span></div>
+                                }
                             </div>
 
                             {/* Product info */}
                             <div
                                 className="lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
                                 {/* Product gallery */}
-                                <ProductGallery images={images}/>
+                                <ProductGallery images={selectedVariant?.media || images}/>
 
                                 {/* Options */}
                                 <div className="mt-4 lg:row-span-3 lg:mt-0">

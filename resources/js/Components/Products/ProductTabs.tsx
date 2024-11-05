@@ -15,8 +15,8 @@ export default function ProductTabs({product}: {product: Product}) {
                     <Tab
                         className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 1 ? 'text-gray-400' : '')}>Additional
                         Information</Tab>
-                    <Tab
-                        className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 2 ? 'text-gray-400' : '')}>Reviews</Tab>
+                    {/*<Tab*/}
+                    {/*    className={classNames("px-5 py-5 font-bold text-md uppercase outline-0", activeTab != 2 ? 'text-gray-400' : '')}>Reviews</Tab>*/}
                 </Tab.List>
                 <Tab.Panels>
                     <Tab.Panel className={"px-5 py-5"}>
@@ -34,9 +34,9 @@ export default function ProductTabs({product}: {product: Product}) {
                             })
                         }
                     </Tab.Panel>
-                    <Tab.Panel className={"px-5 py-5"}>
-                        <ProductReviews/>
-                    </Tab.Panel>
+                    {/*<Tab.Panel className={"px-5 py-5"}>*/}
+                    {/*    <ProductReviews/>*/}
+                    {/*</Tab.Panel>*/}
                 </Tab.Panels>
             </Tab.Group>
         </div>
