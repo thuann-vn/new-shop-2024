@@ -35,9 +35,9 @@ export default function CategoryDropdown() {
                     >
                         <Menu.Items
                             className="origin-top-left absolute left-0 mt-4 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
-                            {Object.keys(category_navigation.items).map((key, index) => {
-                                const item = category_navigation.items[key];
-                                const isLastItem = index === Object.keys(category_navigation.items).length - 1;
+                            {Object.keys(category_navigation).map((key, index) => {
+                                const item = category_navigation[key];
+                                const isLastItem = index === Object.keys(category_navigation).length - 1;
                                 return (
                                     <Menu.Item key={item.label}>
                                         {({active}) => (

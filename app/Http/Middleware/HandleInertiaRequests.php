@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Navigation;
 use App\Settings\GeneralSettings;
 use App\Settings\ShopSettings;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use RyanChandler\FilamentNavigation\Models\Navigation;
 use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -37,23 +37,6 @@ class HandleInertiaRequests extends Middleware
         $generalSettings = $this->getGeneralSettings();
         $shopSettings = $this->getShopSettings();
 
-        //Main navigation
-        $navigation = Navigation::whereHandle('main')->first();
-        $navigation->items = array_values($navigation->items);
-
-        //Category navigation
-        $categoryNavigation = Navigation::whereHandle('category')->first();
-        if (! empty($categoryNavigation)) {
-            $categoryNavigation->items = ! empty($categoryNavigation->items) ? array_values($categoryNavigation->items) : [];
-        }
-
-        //Footer navigation
-        $footerLinks = Navigation::whereHandle('footer-links')->first();
-        if (! empty($footerLinks)) {
-            $footerLinks->items = array_values($footerLinks->items);
-            $footerLinks = $footerLinks->toArray();
-        }
-
         return [
             ...parent::share($request),
             'flash' => [
@@ -74,11 +57,21 @@ class HandleInertiaRequests extends Middleware
                 'total' => fn () => Cart::subtotalFloat(),
                 'count' => fn () => Cart::count(),
             ],
-            'navigation' => $navigation->toArray(),
-            'category_navigation' => ! empty($categoryNavigation) ? $categoryNavigation->toArray() : [],
-            'footer_links' => $footerLinks,
+            'navigation' => $this->getNavigationItems('main'),
+            'category_navigation' => $this->getNavigationItems('category'),
+            'footer_links' => $this->getNavigationItems('footer-links'),
             'wishlist' => fn () => $request->user() ? $request->user()->wishlist()->pluck('shop_product_id')->toArray() : [],
         ];
+    }
+
+    private function getNavigationItems($name)
+    {
+        $navigation = Navigation::whereHandle($name)->first();
+        if (! empty($navigation)) {
+            return $navigation->translate('items', app()->getLocale());
+        }
+
+        return [];
     }
 
     public function getGeneralSettings()

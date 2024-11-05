@@ -151,8 +151,8 @@ export default function Header() {
                     <Popover.Group className="hidden lg:block">
                         <div className="flex items-center space-x-2 bg-white rounded-full px-2 py-1 -mb-8 shadow">
                             <CategoryDropdown/>
-                            {Object.keys(navigation.items).map((key) => {
-                                var page = navigation.items[key];
+                            {Object.keys(navigation).map((key) => {
+                                var page = navigation[key];
                                 if (page.children && Object.keys(page.children).length > 0) {
                                     return (
                                         <NavDropdown

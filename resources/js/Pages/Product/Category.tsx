@@ -19,12 +19,13 @@ const sortOptions = [
     {name: 'Name: Z-A', code: 'name_desc', current: false},
 ]
 
-export default function Category({category, allCategories, products, filters, sort}: { category: ProductCategory, allCategories: ProductCategory[], products: ProductCollection, filters: any[], sort: string }) {
+export default function Category({category, allCategories, products, filters, sort, links}: { category: ProductCategory, allCategories: ProductCategory[], products: ProductCollection, filters: any[], sort: string, links: any}) {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const breadcrumbs = [
         {id: 1, name: 'Home', href: '/'},
         {id: 2, name: 'Shop'},
     ]
+    console.log(products)
     const onSortClick = (sortOption: any) => {
         //Generate url
         let url = new URL(window.location.href);
@@ -136,7 +137,7 @@ export default function Category({category, allCategories, products, filters, so
                                         products.data.length > 0 ? (
                                             <>
                                                 <ProductList products={products}/>
-                                                <Pagination data={products}/>
+                                                <Pagination data={links} meta={products.meta}/>
                                             </>
                                         ) : (
                                             <div className={"text-center text-gray-500"}>

@@ -106,8 +106,8 @@ export default () => {
                     <div className="pb-8 xl:grid xl:grid-cols-5 xl:gap-8">
                         <div className="grid grid-cols-4 gap-8 xl:col-span-4">
                             {
-                                Object.keys(footer_links.items).map((key: string, index: number) => {
-                                    const column = footer_links.items[key];
+                                Object.keys(footer_links).map((key: string, index: number) => {
+                                    const column = footer_links[key];
                                     return (
                                         <div key={index}>
                                             <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">{column.label}</h3>

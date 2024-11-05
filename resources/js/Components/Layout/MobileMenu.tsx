@@ -1,10 +1,10 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import {classNames, imageStorageUrl} from "@/Utils/Helper";
-import {Link} from "@inertiajs/react";
+import { Fragment } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import {imageStorageUrl} from "@/Utils/Helper";
+import {MenuItems} from "@/types";
 
-export default function MobileMenu({open, setOpen, navigation} : {open: boolean, setOpen: any, navigation:any}) {
+export default function MobileMenu({open, setOpen, navigation} : {open: boolean, setOpen: any, navigation:MenuItems}) {
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -43,10 +43,10 @@ export default function MobileMenu({open, setOpen, navigation} : {open: boolean,
                                 </button>
                             </div>
                             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                                {Object.keys(navigation.items).map((key) => {
-                                    var page = navigation.items[key];
+                                {Object.keys(navigation).map((key) => {
+                                    var page = navigation[key];
                                     return (
-                                        <div key={page.name} className="flow-root">
+                                        <div key={'mobile_'  + key} className="flow-root">
                                             <a href={page.data.url} className="-m-2 block p-2 font-medium text-gray-900 flex items-center">
                                                 {
                                                     page.data.icon ? (

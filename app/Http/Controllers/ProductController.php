@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AttributeResource;
+use App\Http\Resources\BrandResource;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CollectionResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Shop\Category;
 use Illuminate\Http\Request;
@@ -20,6 +22,7 @@ class ProductController extends Controller
         }
         $products = \App\Models\Shop\Product::with(['brand']);
         $allCategories = Category::whereIsVisible(true)->whereParentId(null)->get();
+        $allCategories = CategoryResource::collection($allCategories);
 
         if (! empty($category)) {
             $products = $products->whereHas('categories', function ($query) use ($category) {
@@ -34,10 +37,12 @@ class ProductController extends Controller
         $collections = \App\Models\Shop\Collection::whereIsVisible(true)->whereHas('products', function ($query) use ($productIds) {
             $query->whereIn('shop_product_id', $productIds);
         })->get(['id', 'name']);
+        $collections = CollectionResource::collection($collections);
 
         //Brands
         $brandIds = $products->pluck('shop_brand_id')->toArray();
         $brands = \App\Models\Shop\Brand::whereIsVisible(true)->whereIn('id', $brandIds)->get(['id', 'name']);
+        $brands = BrandResource::collection($brands);
 
         //Generate filters
         $filters = [];
@@ -61,7 +66,7 @@ class ProductController extends Controller
                     'label' => $collection['name'],
                     'checked' => in_array($collection['id'], $selectedCollections),
                 ];
-            }, $collections->toArray()),
+            }, $collections->toArray($request)),
         ];
 
         $selectedBrands = $request->get('brand', '');
@@ -81,7 +86,7 @@ class ProductController extends Controller
                     'label' => $brand['name'],
                     'checked' => in_array($brand['id'], $selectedBrands),
                 ];
-            }, $brands->toArray()),
+            }, $brands->toArray($request)),
         ];
 
         //Sort
@@ -110,10 +115,10 @@ class ProductController extends Controller
                     break;
             }
         }
-
-        $products = $products->paginate(12)->appends($request->all());
-
-        return Inertia::render('Product/Category', compact('products', 'category', 'allCategories', 'collections', 'filters', 'sort'));
+        $products = $products->paginate(1)->appends($request->all());
+        $links = $products->linkCollection();
+        $products = ProductResource::collection($products);
+        return Inertia::render('Product/Category', compact('products', 'links', 'category', 'allCategories', 'collections', 'filters', 'sort'));
     }
 
     public function detail($slug)

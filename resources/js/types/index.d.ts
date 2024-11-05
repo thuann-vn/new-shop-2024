@@ -17,9 +17,9 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     cart: Cart;
     general_settings: GeneralSettings;
     wishlist: number[],
-    navigation: Navigation,
-    category_navigation: Navigation,
-    footer_links: Navigation,
+    navigation: MenuItems,
+    category_navigation: MenuItems,
+    footer_links: MenuItems,
     shop: ShopSettings,
     flash: {
         success: string;
@@ -202,6 +202,7 @@ export interface ProductSpecification{
 
 export interface ProductCollection{
     data: Product[];
+    meta: any;
 }
 
 export interface ProductCategory{

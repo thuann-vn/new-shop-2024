@@ -7,21 +7,21 @@ const items = [
     {id: 3, title: 'User Interface Designer', department: 'Design', type: 'Full-time', location: 'Remote'},
 ]
 
-export default function Pagination({data}: { data: any }) {
+export default function Pagination({data, meta}: { data: any, meta: any}) {
     return (
         <div className="bg-white px-4 py-3 sm:px-6">
             <div className="flex flex-col content-center items-center">
                 <div className={"mt-3 mb-3"}>
                     <p className="text-sm text-gray-500">
-                        Showing <span className="font-medium">{(data.current_page - 1) * data.per_page + 1}</span> to <span
-                        className="font-medium">{Math.min(data.current_page * data.per_page + data.per_page, data.total)}</span> of{' '}
-                        <span className="font-medium">{data.total}</span> results
+                        Showing <span className="font-medium">{(meta.current_page - 1) * meta.per_page + 1}</span> to <span
+                        className="font-medium">{Math.min(meta.current_page * meta.per_page + meta.per_page, meta.total)}</span> of{' '}
+                        <span className="font-medium">{meta.total}</span> results
                     </p>
                 </div>
                 <div>
                     <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
                         {
-                            data.links.map((link: any) => {
+                            data.map((link: any) => {
                                 if (link.active) {
                                     return (
                                         <a
