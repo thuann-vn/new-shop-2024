@@ -56,6 +56,7 @@ export default function ProductGallery({images}: ProductSliderProps) {
                 onSwiper={setThumbsSwiper}
                 onActiveIndexChange={(swiper) => setIndex(swiper.activeIndex)}
                 slidesPerView={5}
+                className={"mt-3"}
             >
                 {images.map((image, idx) => {
                     return (
