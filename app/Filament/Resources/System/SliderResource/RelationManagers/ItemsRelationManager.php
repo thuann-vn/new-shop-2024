@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\System\SliderResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -18,22 +19,29 @@ class ItemsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('image')
+                SpatieMediaLibraryFileUpload::make('media')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->collection('slider-image')
+                    ->reorderable()
+                    ->preserveFilenames()
+                    ->hiddenLabel(),
                 Forms\Components\TextInput::make('title')
+                    ->label(__('Title'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('subtitle')
+                    ->label(__('Subtitle'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
+                    ->label(__('Link'))
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_image_only')
-                    ->label('Display image only')
+                    ->label(__('Display image only'))
                     ->live()
                     ->default(false),
                 Forms\Components\Toggle::make('is_alt_style')
-                    ->label('Alt Style (white text)')
+                    ->label(__('Alt Style (white text)'))
                     ->default(false),
                 Forms\Components\Toggle::make('is_visible')
                     ->default(true),
@@ -45,12 +53,11 @@ class ItemsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('title')
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('subtitle'),
-                Tables\Columns\IconColumn::make('is_image_only'),
-                Tables\Columns\IconColumn::make('is_alt_style'),
-                Tables\Columns\IconColumn::make('is_visible')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('media')
+                    ->collection('slider-image')
+                    ->label(__('Image')),
+                Tables\Columns\TextColumn::make('title')->label(__('Title')),
+                Tables\Columns\IconColumn::make('is_visible')->label(__('Visible'))
                     ->boolean(),
             ])
             ->filters([

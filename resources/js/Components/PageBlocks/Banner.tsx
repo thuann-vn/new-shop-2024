@@ -6,7 +6,7 @@ import {SliderItems} from "@/types";
 export default function Banner({slide}: {slide: SliderItems}){
     return (
         <div className={classNames("w-full relative slide-item", slide.is_alt_style ? "slide-item-alt" : "")}>
-            <img src={imageStorageUrl(slide.image)} alt="" className="w-full"/>
+            <img src={slide.image_url} alt="" className="w-full"/>
             {
                 !slide.is_image_only ? (
                     <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center"
