@@ -9,14 +9,17 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
-use Filament\Notifications\Notification;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class CategoryResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Category::class;
 
     protected static ?string $slug = 'blog/categories';
@@ -30,6 +33,7 @@ class CategoryResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationLabel = 'Blog Category';
+
     public static function getNavigationLabel(): string
     {
         return __(self::$navigationLabel);
@@ -48,27 +52,42 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+            ->schema([Translate::make()
+                ->locales(getAvailableLanguages())
+                ->contained(false)
+                ->schema(fn (string $locale) => [
+                    Forms\Components\TextInput::make('name')
+                        ->label(__('Name'))
+                        ->required()
+                        ->maxLength(255)
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get) use ($locale) {
+                            $path = 'slug.' . $locale;
+                            $slug = $get($path);
+                            if ($operation !== 'create' && ! empty($slug)) {
+                                return;
+                            }
+                            $set($path, Str::slug($state));
+                        }),
 
-                Forms\Components\TextInput::make('slug')
-                    ->disabled()
-                    ->dehydrated()
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(Category::class, 'slug', ignoreRecord: true),
+                    Forms\Components\TextInput::make('slug')
+                        ->label(__('Slug'))
+                        ->disabled()
+                        ->dehydrated()
+                        ->required()
+                        ->maxLength(255)
+                        ->unique(Category::class, 'slug', ignoreRecord: true),
 
-                Forms\Components\MarkdownEditor::make('description')
-                    ->columnSpan('full'),
+                    Forms\Components\MarkdownEditor::make('description')
+                        ->label(__('Description'))
+                        ->columnSpan('full'),
+                ]),
 
                 Forms\Components\Toggle::make('is_visible')
-                    ->label('Visible to customers.')
+                    ->label(__('Visible to customers.'))
                     ->default(true),
-            ]);
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -76,15 +95,17 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label(__('Slug'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_visible')
-                    ->label('Visibility'),
+                    ->label(__('Visibility')),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Last Updated')
+                    ->label(__('Last Updated'))
                     ->date(),
             ])
             ->filters([
@@ -94,15 +115,6 @@ class CategoryResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
-            ->groupedBulkActions([
-                Tables\Actions\DeleteBulkAction::make()
-                    ->action(function () {
-                        Notification::make()
-                            ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
-                            ->warning()
-                            ->send();
-                    }),
             ]);
     }
 

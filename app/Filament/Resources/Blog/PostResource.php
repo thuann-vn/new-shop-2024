@@ -3,15 +3,15 @@
 namespace App\Filament\Resources\Blog;
 
 use App\Filament\Resources\Blog\PostResource\Pages;
-use App\Filament\Resources\Blog\PostResource\RelationManagers;
 use App\Models\Blog\Post;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\SpatieTagsInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
-use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,6 +23,8 @@ use Illuminate\Support\Str;
 
 class PostResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Post::class;
 
     protected static ?string $slug = 'blog/posts';
@@ -34,7 +36,9 @@ class PostResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?int $navigationSort = 0;
+
     protected static ?string $navigationLabel = 'Post';
+
     public static function getNavigationLabel(): string
     {
         return __(self::$navigationLabel);
@@ -57,12 +61,14 @@ class PostResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\TextInput::make('title')
+                            ->label(__('Title'))
                             ->required()
                             ->live(onBlur: true)
                             ->maxLength(255)
                             ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
 
                         Forms\Components\TextInput::make('slug')
+                            ->label(__('Slug'))
                             ->disabled()
                             ->dehydrated()
                             ->required()
@@ -70,32 +76,38 @@ class PostResource extends Resource
                             ->unique(Post::class, 'slug', ignoreRecord: true),
 
                         Forms\Components\MarkdownEditor::make('content')
+                            ->label(__('Content'))
                             ->required()
                             ->columnSpan('full'),
 
                         Forms\Components\Select::make('blog_author_id')
+                            ->label(__('Author'))
                             ->relationship('author', 'name')
                             ->searchable()
+                            ->preload()
                             ->required(),
 
                         Forms\Components\Select::make('blog_category_id')
-                            ->relationship('category', 'name')
+                            ->label(__('Category'))
+                            ->relationship('category', 'name->vi')
                             ->searchable()
+                            ->preload()
                             ->required(),
                         Forms\Components\Toggle::make('is_featured')
-                            ->label('Featured')
-                            ->hint('Featured posts will be displayed on the homepage and sidebar.'),
+                            ->label(__('Featured'))
+                            ->hint(__('Featured posts are displayed prominently on the blog.')),
                         Forms\Components\DatePicker::make('published_at')
-                            ->label('Published Date'),
-                        SpatieTagsInput::make('tags'),
+                            ->label(__('Published Date')),
+                        SpatieTagsInput::make('tags')->label(__('Tags')),
                     ])
                     ->columns(2),
 
-                Forms\Components\Section::make('Image')
+                Forms\Components\Section::make(__('Image'))
                     ->schema([
-                        Forms\Components\FileUpload::make('image')
-                            ->label('Image')
+                        SpatieMediaLibraryFileUpload::make('media')
                             ->image()
+                            ->collection('post-images')
+                            ->preserveFilenames()
                             ->hiddenLabel(),
                     ])
                     ->collapsible(),
@@ -107,42 +119,41 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image'),
+                    ->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__('Title'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('slug')
+                    ->label(__('Slug'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('author.name')
+                    ->label(__('Author'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\BadgeColumn::make('status')
+                    ->label(__('Status'))
                     ->getStateUsing(fn (Post $record): string => $record->published_at?->isPast() ? 'Published' : 'Draft')
                     ->colors([
                         'success' => 'Published',
                     ]),
 
                 Tables\Columns\TextColumn::make('category.name')
+                    ->label(__('Category'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('published_at')
-                    ->label('Published Date')
+                    ->label(__('Published Date'))
                     ->date(),
-
-                Tables\Columns\TextColumn::make('comments.customer.name')
-                    ->label('Comment Authors')
-                    ->listWithLineBreaks()
-                    ->limitList(2)
-                    ->expandableLimitedList(),
             ])
             ->filters([
                 Tables\Filters\Filter::make('published_at')
@@ -203,17 +214,18 @@ class PostResource extends Resource
                             Components\Grid::make(2)
                                 ->schema([
                                     Components\Group::make([
-                                        Components\TextEntry::make('title'),
-                                        Components\TextEntry::make('slug'),
+                                        Components\TextEntry::make('title')->label(__('Title')),
+                                        Components\TextEntry::make('slug')->label(__('Slug')),
                                         Components\TextEntry::make('published_at')
+                                            ->label(__('Published Date'))
                                             ->badge()
                                             ->date()
                                             ->color('success'),
                                     ]),
                                     Components\Group::make([
-                                        Components\TextEntry::make('author.name'),
-                                        Components\TextEntry::make('category.name'),
-                                        Components\SpatieTagsEntry::make('tags'),
+                                        Components\TextEntry::make('author.name')->label(__('Author')),
+                                        Components\TextEntry::make('category.name')->label(__('Category')),
+                                        Components\SpatieTagsEntry::make('tags')->label(__('Tags')),
                                     ]),
                                 ]),
                             Components\ImageEntry::make('image')

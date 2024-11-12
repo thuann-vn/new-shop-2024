@@ -27,6 +27,9 @@ class EditCategory extends EditRecord
 
         return [
             Actions\DeleteAction::make(),
+            $this->getSaveFormAction()
+                ->submit(null)
+                ->action('save'),
         ];
     }
 }

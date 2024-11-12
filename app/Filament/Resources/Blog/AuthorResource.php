@@ -24,7 +24,23 @@ class AuthorResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?int $navigationSort = 2;
-    protected static bool $shouldRegisterNavigation = false;
+
+    protected static ?string $navigationLabel = 'Author';
+
+    public static function getNavigationLabel(): string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
 
     public static function form(Form $form): Form
     {
