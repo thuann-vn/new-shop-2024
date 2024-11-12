@@ -4,6 +4,7 @@ import axios from "axios";
 import {useEffect} from "react";
 import InputLabel from "@/Components/Form/InputLabel";
 import TextInput from "@/Components/Form/TextInput";
+import {useTranslation} from "react-i18next";
 
 export default function CheckoutForm({formData, setFormData}: { formData:object, setFormData: any }) {
     const [provinces, setProvinces] = React.useState([])
@@ -14,6 +15,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
 
     const [wards, setWards] = React.useState([])
     const [selectedWard, setSelectedWard] = React.useState<string|null>(null)
+    const {t} = useTranslation();
 
     useEffect(() => {
         loadProvinces()
@@ -84,15 +86,15 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
 
     return (
         <div className="bg-gray-50">
-            <p className="text-xl font-medium">Payment Details</p>
-            <p className="text-gray-400">Complete your order by providing your payment details.</p>
+            <p className="text-xl font-medium">{t('Payment Details')}</p>
+            <p className="text-gray-400">{t('Complete your order by providing your details.')}</p>
             <div className="">
-                <InputLabel htmlFor="full_name" value="Your name" />
+                <InputLabel htmlFor="full_name" value={t("Your name")} />
                 <TextInput
                     id="full_name"
                     name="full_name"
                     onChange={(e)=> _setFormData('full_name', e.target.value)}
-                    placeholder="Your full name"
+                    placeholder={t("Nguyen Van A")}
                     required={true}
                     className="capitalize"
                     left={()=>( <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -100,7 +102,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                     </svg>)}
                 />
 
-                <InputLabel htmlFor="phone" value="Phone number" />
+                <InputLabel htmlFor="phone" value={t("Phone number")} />
                 <TextInput
                     id="phone"
                     name="phone"
@@ -114,12 +116,12 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                 />
 
 
-                <InputLabel htmlFor="email" value="Email" />
+                <InputLabel htmlFor="email" value={t("Email")} />
                 <TextInput
                     id="email"
                     name="email"
                     onChange={(e)=> _setFormData('email', e.target.value)}
-                    placeholder="your.email@gmail.com"
+                    placeholder={t("your.email@gmail.com")}
                     type="email"
                     required={true}
                     left={()=>(<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -127,13 +129,15 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                     </svg>)}
                 />
 
-                <label htmlFor="address" className="mt-4 mb-2 block text-sm font-medium">Billing Address</label>
+                <label htmlFor="address" className="mt-4 mb-2 block text-sm font-medium">
+                    {t('Shipping Address')}
+                </label>
                 <div className="flex flex-col sm:flex-row">
                     <TextInput
                         id="address"
                         name="address"
                         onChange={(e)=> _setFormData('address', e.target.value)}
-                        placeholder="Street address"
+                        placeholder={t("Street address")}
                         containerClassName="w-full me-2"
                         required={true}
                         left={()=>(<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 text-gray-400">
@@ -147,7 +151,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                             }}
                             options={provinces}
                             className={'w-full'}
-                            placeholder={'Select province'}
+                            placeholder={t('Select province')}
                             required={true}
                             name={"province_code"}
                     />
@@ -161,7 +165,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                             }}
                             options={districts}
                             className={'w-full me-2'}
-                            placeholder={'Select district'}
+                            placeholder={t('Select district')}
                             required={true}
                             name={"district_code"}
                     />
@@ -173,7 +177,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
                             }}
                             options={wards}
                             className={'w-full'}
-                            placeholder={'Select ward'}
+                            placeholder={t('Select ward')}
                             required={true}
                             name={"ward_code"}
                     />

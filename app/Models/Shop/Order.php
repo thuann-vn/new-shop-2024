@@ -34,6 +34,7 @@ class Order extends Model
         'shipping_price',
         'shipping_method',
         'notes',
+        'subtotal'
     ];
 
     protected $casts = [

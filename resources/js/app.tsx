@@ -11,7 +11,7 @@ import i18n from "@/i18n";
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title}`,
     resolve: (name) => {
         const pages = import.meta.glob('./Pages/**/*.tsx',  { eager: true })
         let page = pages[`./Pages/${name}.tsx`]
@@ -27,6 +27,7 @@ createInertiaApp({
             const jsonFile = (await import(`../lang/${locale}.json`)).default;
             if (typeof locale === "string") {
                 i18n.addResourceBundle(locale, 'translation', jsonFile, true, true);
+                i18n.changeLanguage(locale)
             }
             // @ts-ignore
             moment.locale(locale == 'no' ? 'nb' : locale);

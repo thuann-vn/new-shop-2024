@@ -2,11 +2,13 @@ import * as React from "react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import CheckoutItems from "@/Components/Checkout/CheckoutItems";
 import {imageStorageUrl} from "@/Utils/Helper";
+import {useTranslation} from "react-i18next";
 
 export default function PaymentMethods({methods, onChange} : {methods:any[], onChange: any}) {
+    const {t} = useTranslation();
     return (
         <div>
-            <p className="mt-8 text-lg font-medium">Payment Methods</p>
+            <p className="mt-8 text-lg font-medium">{t('Payment Method')}</p>
             <div className="mt-5 gap-6">
                 {
                     methods.map((method, index) => (

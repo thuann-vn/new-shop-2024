@@ -1,11 +1,13 @@
 import * as React from "react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import CheckoutItems from "@/Components/Checkout/CheckoutItems";
+import {useTranslation} from "react-i18next";
 
 export default function ShippingMethods({methods, onChange} : {methods:any[], onChange: any}) {
+    const {t} = useTranslation()
     return (
         <div>
-            <p className="mt-8 text-lg font-medium">Shipping Methods</p>
+            <p className="mt-8 text-lg font-medium">{t('Shipping Method')}</p>
             <div className="mt-5 grid grid-cols-2 gap-6">
                 {
                     methods.map((method, index) => (

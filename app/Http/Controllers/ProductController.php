@@ -238,9 +238,11 @@ class ProductController extends Controller
     {
         if (request()->has('q') && ! empty(request()->get('q'))) {
             $products = \App\Models\Shop\Product::with(['brand']);
-            $products = $products->where('name', 'like', '%' . request()->get('q') . '%');
+            $products = $products
+                ->where('is_visible', true)
+                ->where('name', 'like', '%' . request()->get('q') . '%');
 
-            return response()->json($products->get());
+            return response()->json(ProductResource::collection($products->get()));
         } else {
             return response()->json([]);
         }

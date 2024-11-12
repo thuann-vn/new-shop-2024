@@ -1,7 +1,9 @@
 import * as React from "react";
 import {classNames} from "@/Utils/Helper";
+import {useTranslation} from "react-i18next";
 
 export default function CheckoutSteps({step = 2}: { step: number }){
+    const {t} = useTranslation()
     return (
         <div className="relative">
             <ul className="relative flex w-full items-center justify-between space-x-2 sm:space-x-4">
@@ -14,7 +16,9 @@ export default function CheckoutSteps({step = 2}: { step: number }){
                                   d="M5 13l4 4L19 7"/>
                         </svg>
                     </span>
-                    <span className="font-semibold text-gray-900">Shop</span>
+                    <span className="font-semibold text-gray-900">
+                        {t('Shop')}
+                    </span>
                 </li>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400"
                      fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -35,7 +39,7 @@ export default function CheckoutSteps({step = 2}: { step: number }){
                             </svg>
                         }
                     </span>
-                    <span className="font-semibold text-gray-900">Place Order</span>
+                    <span className="font-semibold text-gray-900">{t('Place Order')}</span>
                 </li>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400"
                      fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -47,7 +51,7 @@ export default function CheckoutSteps({step = 2}: { step: number }){
                             step == 3 ? 'bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2' : '',
                             )
                     }>3</span>
-                    <span className="font-semibold text-gray-500">Summary</span>
+                    <span className="font-semibold text-gray-500">{t('Summary')}</span>
                 </li>
             </ul>
         </div>

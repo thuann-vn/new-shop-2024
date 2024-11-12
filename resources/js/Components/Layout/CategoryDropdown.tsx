@@ -6,9 +6,11 @@ import {Menu, Transition} from "@headlessui/react";
 import {
     ChevronUpIcon, ChevronDownIcon, ListBulletIcon,
 } from '@heroicons/react/24/outline'
+import {useTranslation} from "react-i18next";
 
 export default function CategoryDropdown() {
     const {category_navigation} = usePage<PageProps>().props;
+    const {t} = useTranslation()
     return (
         <Menu as="div" className="flex-shrink-0 relative me-4">
             {({open}) => (
@@ -21,7 +23,7 @@ export default function CategoryDropdown() {
                             }>
 
                             <ListBulletIcon className={"w-6 h-6 me-2"}/>
-                            Categories
+                            {t('Categories')}
                         </Menu.Button>
                     </div>
                     <Transition

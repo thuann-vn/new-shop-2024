@@ -6,12 +6,13 @@ import axios from "axios";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import {Link, router} from "@inertiajs/react";
 import {Product} from "@/types";
+import {useTranslation} from "react-i18next";
 
 export default function SearchForm() {
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [query, setQuery] = useState('all')
     const [dropdownOptions, setDropdownOptions] = useState<Product[]>([])
-
+    const {t} = useTranslation()
 
     useEffect(() => {
         //Call API to search for products
@@ -37,8 +38,8 @@ export default function SearchForm() {
                 <Combobox value={selectedProduct}
                           onChange={onSelectProduct}>
                     <Combobox.Input id="search" name="search"
-                                    className="block w-full bg-white py-3 pr-10 pl-3 border border-transparent rounded-full leading-5 text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-transparent focus:ring-0 sm:text-sm"
-                                    placeholder="Search for your products..."
+                                    className="block w-full bg-white py-3 pl-12 pr-3 border border-transparent rounded-full leading-5 text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-transparent focus:ring-0 sm:text-sm"
+                                    placeholder={t("Search for your products...")}
                                     type="search"
                                     onChange={(event) => setQuery(event.target.value)}
                     />
@@ -47,7 +48,7 @@ export default function SearchForm() {
                         {
                             dropdownOptions.length === 0 ? (
                                 <div className="px-4 py-2 text-sm text-gray-700">
-                                    {query !== '' ? 'No results found' : 'Start typing to search'}
+                                    {query !== '' ? t('No results found') : 'Start typing to search'}
                                 </div>
                             ) : null
                         }
@@ -83,7 +84,7 @@ export default function SearchForm() {
                     </Combobox.Options>
                 </Combobox>
 
-                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                     <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true"/>
                 </div>
             </div>

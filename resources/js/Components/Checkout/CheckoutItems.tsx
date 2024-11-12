@@ -1,11 +1,15 @@
 import * as React from "react";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
+import {useTranslation} from "react-i18next";
 
 export default function CheckoutItems({items} : {items:any[]}) {
+    const {t} = useTranslation();
     return (
         <>
-            <p className="text-xl font-medium">Order Summary</p>
-            <p className="text-gray-400">Check your items. And select a suitable shipping method.</p>
+            <p className="text-xl font-medium">{t('Order Summary')}</p>
+            <p className="text-gray-400">
+                {t('Review items in your cart.')}
+            </p>
             <div className="mt-3 space-y-2 bg-white">
                 {
                     items.map((item, index) => {

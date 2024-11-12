@@ -60,6 +60,7 @@ class HandleInertiaRequests extends Middleware
             'navigation' => $this->getNavigationItems('main'),
             'category_navigation' => $this->getNavigationItems('category'),
             'footer_links' => $this->getNavigationItems('footer-links'),
+            'locale' => app()->getLocale(),
             'wishlist' => fn () => $request->user() ? $request->user()->wishlist()->pluck('shop_product_id')->toArray() : [],
         ];
     }
@@ -70,7 +71,6 @@ class HandleInertiaRequests extends Middleware
         if (! empty($navigation)) {
             return $navigation->translate('items', app()->getLocale());
         }
-
         return [];
     }
 

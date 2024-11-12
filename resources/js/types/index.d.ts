@@ -50,6 +50,7 @@ export interface MenuItem{
     label: string;
     children: MenuItems;
     data: MenuItemOptions;
+    type: string;
 }
 
 export interface MenuItemOptions{

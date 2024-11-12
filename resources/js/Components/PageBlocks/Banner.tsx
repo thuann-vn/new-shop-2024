@@ -2,8 +2,10 @@ import {classNames, imageStorageUrl} from "@/Utils/Helper";
 import {Link} from "@inertiajs/react";
 import * as React from "react";
 import {SliderItems} from "@/types";
+import {useTranslation} from "react-i18next";
 
 export default function Banner({slide}: {slide: SliderItems}){
+    const {t} = useTranslation();
     return (
         <div className={classNames("w-full relative slide-item", slide.is_alt_style ? "slide-item-alt" : "")}>
             <img src={slide.image_url} alt="" className="w-full"/>
@@ -19,7 +21,7 @@ export default function Banner({slide}: {slide: SliderItems}){
                                    dangerouslySetInnerHTML={{__html: slide.subtitle}}></p>
                                 <Link href={slide.link}
                                       className={"slide-button shadow rounded-full px-3 bg-white text-black py-2 inline-block"}>
-                                    Shop now
+                                    {t('Shop now')}
                                 </Link>
                             </div>
                         </div>

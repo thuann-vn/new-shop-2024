@@ -39,6 +39,7 @@ export default function Header() {
         {name: 'Sign out', href: route('logout')},
     ]
 
+    console.log(navigation)
     return (
         <div className="bg-main-600 relative z-20">
             {/* Mobile menu */}
@@ -151,7 +152,7 @@ export default function Header() {
                     <Popover.Group className="hidden lg:block">
                         <div className="flex items-center space-x-2 bg-white rounded-full px-2 py-1 -mb-8 shadow">
                             <CategoryDropdown/>
-                            {Object.keys(navigation).map((key) => {
+                            {Object.keys(navigation).map((key, index) => {
                                 var page = navigation[key];
                                 if (page.children && Object.keys(page.children).length > 0) {
                                     return (
@@ -163,10 +164,14 @@ export default function Header() {
                                     )
                                 } else {
                                     return (
-                                        <NavLink key={key}
-                                                 href={page.data.url} active={isCurrentPage(page.data.url)}
+                                        <NavLink key={'main_menu_' + index}
+                                                 href={page.type == 'route' ? route(page.data.url) : page.data.url}
+                                                 isExternalLink={page.type == 'external-link'}
+                                                 target={page.data.target ?? '_self'}
+                                                 active={isCurrentPage(page.data.url)}
                                                  icon={page.data.icon ? imageStorageUrl(page.data.icon) : null}
-                                                 label={page.label} className={page.data.classes ?? ''}></NavLink>
+                                                 label={page.label}
+                                                 className={page.data.classes ?? ''}></NavLink>
                                     )
                                 }
                             })}
