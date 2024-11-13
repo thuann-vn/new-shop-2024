@@ -22,7 +22,7 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-        $qty = $request->input('quantity', 1);
+        $qty = $request->input('qty', 1);
         $product = Product::findOrFail($request->id);
 
         //Check if product is in stock

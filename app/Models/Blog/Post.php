@@ -33,10 +33,6 @@ class Post extends Model implements HasMedia
         'published_at' => 'date',
     ];
 
-    protected $appends = [
-        'featured_image_url',
-    ];
-
     public array $translatable = [
         'title',
         'slug',
@@ -63,6 +59,11 @@ class Post extends Model implements HasMedia
     public function getFeaturedImageUrlAttribute(): string
     {
         return $this->getFirstMediaUrl('post-images', 'preview');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->getFirstMediaUrl('post-images');
     }
 
     public function registerMediaConversions(?Media $media = null): void

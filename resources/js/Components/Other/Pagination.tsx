@@ -31,7 +31,7 @@ export default function Pagination({data, meta}: { data: any, meta: any}) {
                                             href="#"
                                             aria-current="page"
                                             className="relative rounded-full z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                            dangerouslySetInnerHTML={{__html: link.label}}
+                                            dangerouslySetInnerHTML={{__html: t(link.label)}}
                                         >
                                         </a>
                                     )
@@ -41,7 +41,7 @@ export default function Pagination({data, meta}: { data: any, meta: any}) {
                                             key={t(link.label)}
                                             href={link.url}
                                             className="relative rounded-full inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                                            dangerouslySetInnerHTML={{__html: link.label}}
+                                            dangerouslySetInnerHTML={{__html: t(link.label)}}
                                         >
                                         </Link>
                                     )

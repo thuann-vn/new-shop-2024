@@ -1,8 +1,6 @@
-import {useContext, useEffect, useState} from 'react'
-import Layout from "@/Layouts/Layout";
-import {PageProps, Product, ProductCategory, ProductVariant} from "@/types";
+import {useState} from 'react'
+import {Product, ProductCategory, ProductVariant} from "@/types";
 import ProductGallery from "@/Components/Products/ProductGallery";
-import StarRating from "@/Components/Other/StarRating";
 import ProductTabs from "@/Components/Products/ProductTabs";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
@@ -13,16 +11,16 @@ import AppHead from "@/Components/Layout/AppHead";
 import {useTranslation} from "react-i18next";
 
 export default function ProductDetail({product, productVariants, productOptions, productAttributes, images, relatedProducts, firstCategory}: { product: Product, productOptions:any, productVariants: any, productAttributes:any, images: any, relatedProducts: any, firstCategory: ProductCategory }) {
+    const {t} = useTranslation();
     let breadcrumbs = [
-        {id: 1, name: 'Home', href: '/'},
+        {id: 1, name: t('Home'), href: '/'},
     ]
     if (firstCategory) {
         breadcrumbs.push({id: 2, name: firstCategory.name, href: route('shop.category', {slug: firstCategory.slug})})
     }
     breadcrumbs.push({id: 3, name: product.name, href: ''})
     const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null)
-    console.log(selectedVariant)
-    const {t} = useTranslation();
+
     return (
         <>
             <AppHead title={product.name}/>
@@ -55,7 +53,9 @@ export default function ProductDetail({product, productVariants, productOptions,
 
                                 {/* Options */}
                                 <div className="mt-4 lg:row-span-3 lg:mt-0">
-                                    <h2 className="sr-only">Product information</h2>
+                                    <h2 className="sr-only">{
+                                        t('Product information')
+                                    }</h2>
                                     <p className="text-3xl tracking-tight text-red-600">
                                         {
                                             product.old_price > product.price &&
@@ -68,9 +68,9 @@ export default function ProductDetail({product, productVariants, productOptions,
                                     {
                                         (product.has_variants && selectedVariant) || (!product.has_variants && product.qty) ?
                                             <p className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-green-100 px-2 py-0 text-green-600 leading-6">
-                                                In stock
+                                                {t('In stock')}
                                             </p> :  <p className="inline-flex mt-3 items-center text-xs uppercase rounded-full bg-red-100 px-2 py-0 text-red-600 leading-6">
-                                            Out of stock
+                                                {t('Out of stock')}
                                         </p>
                                     }
 

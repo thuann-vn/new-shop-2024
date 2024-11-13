@@ -3,8 +3,10 @@ import AppHead from "@/Components/Layout/AppHead";
 import {formatDate, imageStorageUrl} from "@/Utils/Helper";
 import BlogCard from "@/Components/Blog/BlogCard";
 import BlogSidebar from "@/Components/Blog/BlogSidebar";
+import {useTranslation} from "react-i18next";
 
 export default function BlogSingle({post, relatedPosts, tags, categories, featuredPosts }: PageProps<{ post: BlogPost, relatedPosts: BlogPost[], tags: string[],categories: BlogCategory[], featuredPosts: BlogPost[] }>) {
+    const {t} = useTranslation()
     return (
         <>
             <AppHead title={post.title}/>
@@ -12,10 +14,10 @@ export default function BlogSingle({post, relatedPosts, tags, categories, featur
                 <div className={"grid grid-cols-1 md:grid-cols-3 gap-4 mt-12"}>
                     <div className={"col-span-2"}>
                         <article>
-                            <header className="mx-auto text-center">
-                                <p className="text-gray-500">Published {formatDate(post.created_at)}</p>
+                            <header className="mx-auto text-center md:px-20">
                                 <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-4xl">{post.title}</h1>
-                                <img className="sm:h-[34rem] mt-10 w-full object-cover" src={imageStorageUrl(post.image)}
+                                <p className="text-gray-500 text-sm">{t('Published')} {formatDate(post.created_at)}</p>
+                                <img className="mt-10 w-full object-cover" src={post.image_url}
                                      alt="Featured Image"/>
                             </header>
 

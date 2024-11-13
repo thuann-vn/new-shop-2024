@@ -6,7 +6,7 @@ export default function WideBlogCard({post, key} : {post: BlogPost, key: number}
     return (
     <article className="mx-auto my-6">
         <Link href={route('blog.detail', {slug: post.slug})} className="">
-            <img className="rounded-2xl w-full h-[200px]  lg:h-[400px] object-cover" src={imageStorageUrl(post.image)} alt={post.title} />
+            <img className="rounded-2xl w-full h-[200px]  lg:h-[400px] object-cover" src={post.featured_image_url} alt={post.title} />
         </Link>
         <div className="py-4 sm:py-8">
             <div className="flex items-center mb-3">

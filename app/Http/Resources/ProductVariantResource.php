@@ -22,6 +22,7 @@ class ProductVariantResource extends JsonResource
             'is_visible' => $this->is_visible,
             'old_price' => $this->old_price,
             'sku' => $this->sku,
+            'qty' => $this->qty,
             'media' => $this->getMedia('product-variant-images')->toArray(),
         ];
     }

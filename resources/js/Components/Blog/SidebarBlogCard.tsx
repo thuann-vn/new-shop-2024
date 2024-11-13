@@ -7,7 +7,7 @@ export default function SidebarBlogCard({post, key} : {post: BlogPost, key: numb
         <div className="overflow-hidden rounded-lg bg-white group flex items-start py-2" key={key}>
             <Link href={route('blog.detail', {slug: post.slug})} className={"mr-4 flex-shrink-0 block relative w-[56px] h-[56px]  overflow-hidden rounded-full"}>
                 <img
-                    src={imageStorageUrl(post.image)}
+                    src={post.featured_image_url}
                     className="object-center h-full w-full group-hover:scale-110 transition-all duration-500 ease-in-out"
                     alt={post.title}
                 />

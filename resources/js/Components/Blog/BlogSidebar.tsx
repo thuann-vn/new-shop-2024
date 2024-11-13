@@ -13,24 +13,8 @@ export default function BlogSidebar({featuredPosts, categories, tags}: { feature
     return (
         <div>
             {
-                featuredPosts.length && (
-                    <div className="bg-white rounded-lg p-6">
-                        <h3 className="text-xl font-bold text-gray-900">{t('Featured Posts')}</h3>
-                        <div className="mt-3">
-                            {
-                                featuredPosts.map((post, key) => (
-                                    <SidebarBlogCard post={post} key={key}/>
-                                ))
-                            }
-                        </div>
-                    </div>
-                )
-            }
-
-
-            {
                 categories.length > 0 && (
-                    <div className="bg-white rounded-lg p-6 mt-3">
+                    <div className="bg-white rounded-lg p-6 pt-0">
                         <h3 className="text-xl font-bold text-gray-900">{t('Categories')}</h3>
                         <div className="mt-3  bg-gray-100 rounded-lg">
                             {
@@ -41,6 +25,20 @@ export default function BlogSidebar({featuredPosts, categories, tags}: { feature
                                             className="block rounded-lg px-4 py-3 font-medium text-gray-600 hover:bg-gray-200">{category.name}
                                         </Link>
                                     </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                )
+            }
+            {
+                featuredPosts.length && (
+                    <div className="bg-white rounded-lg p-6 mt-3">
+                        <h3 className="text-xl font-bold text-gray-900">{t('Featured Posts')}</h3>
+                        <div className="mt-3">
+                            {
+                                featuredPosts.map((post, key) => (
+                                    <SidebarBlogCard post={post} key={key}/>
                                 ))
                             }
                         </div>

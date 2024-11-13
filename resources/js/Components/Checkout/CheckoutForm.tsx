@@ -85,7 +85,7 @@ export default function CheckoutForm({formData, setFormData}: { formData:object,
     }
 
     return (
-        <div className="bg-gray-50">
+        <div>
             <p className="text-xl font-medium">{t('Payment Details')}</p>
             <p className="text-gray-400">{t('Complete your order by providing your details.')}</p>
             <div className="">

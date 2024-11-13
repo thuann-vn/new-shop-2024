@@ -14,7 +14,7 @@ export default function CounterInput({value, onValueChange, size="md", max = 0} 
     }
     return (
         <div className="flex items-center relative">
-            <button onClick={_onMinusClick} className={
+            <button type={'button'} onClick={_onMinusClick} className={
                 classNames(
                     size == "sm" ? "w-[32px] h-[32px]" : "w-[44px] h-[44px]",
                     " bg-gray-100 hover:bg-secondary-400 flex items-center justify-center rounded-full")
@@ -24,7 +24,7 @@ export default function CounterInput({value, onValueChange, size="md", max = 0} 
                 </svg>
             </button>
             <input type={"tel"} className="border-0 w-[50px] text-center" value={value} onChange={(e)=> onValueChange(e.target.value)}/>
-            <button onClick={_onPlusClick} className={
+            <button type={'button'} onClick={_onPlusClick} className={
                 classNames(
                     size == "sm" ? "w-[32px] h-[32px]" : "w-[44px] h-[44px]",
                     " bg-gray-100 hover:bg-secondary-400 flex items-center justify-center rounded-full")

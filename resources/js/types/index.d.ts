@@ -126,7 +126,8 @@ export interface BlogPost{
     title: string;
     slug: string;
     content: string;
-    image: string;
+    image_url:string;
+    featured_image_url: string;
     created_at: string;
     updated_at: string;
     author: User;
@@ -184,6 +185,7 @@ export interface ProductVariant{
     created_at: string;
     updated_at: string;
     specifications: ProductSpecification[];
+    media: Media[];
 }
 
 export interface Brand{

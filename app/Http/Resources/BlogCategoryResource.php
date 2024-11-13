@@ -4,8 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class BlogCategoryResource extends JsonResource
 {
+
     public function __construct($resource)
     {
         self::withoutWrapping();
@@ -15,23 +16,18 @@ class PostResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
+            'name' => $this->name,
             'slug' => $this->slug,
-            'content' => $this->content,
+            'description' => $this->description,
             'is_visible' => $this->is_visible,
-            'seo_title' => $this->seo_title,
-            'seo_description' => $this->seo_description,
             'featured_image_url' => $this->featured_image_url,
-            'image_url' => $this->image_url,
-            'is_featured' => $this->is_featured,
-            'category_id' => $this->category,
+            'posts_count' => $this->posts_count,
         ];
     }
 }

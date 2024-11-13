@@ -23,7 +23,7 @@ export default function ProductGallery({images}: ProductSliderProps) {
     const [index, setIndex] = useState(0);
 
     return (
-        <div className={"relative product-gallery"}>
+        <div className={"relative product-gallery mt-3"}>
             <LightGallery
                 speed={500}
                 plugins={[lgThumbnail, lgZoom]}
