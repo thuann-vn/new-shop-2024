@@ -147,7 +147,7 @@ export interface SliderItems{
     id: number;
     title: string;
     subtitle: string;
-    image: string;
+    image_url: string;
     link: string;
     is_image_only: boolean;
     is_alt_style: boolean;

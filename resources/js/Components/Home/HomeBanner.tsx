@@ -35,7 +35,7 @@ export default function HomeBanner({slides} : {slides: SliderItems[]}) {
                     return (
                         <SwiperSlide key={index}>
                             <div className={classNames("w-full relative slide-item", slide.is_alt_style ? "slide-item-alt" : "")}>
-                                <img src={imageStorageUrl(slide.image)} alt="" className="w-full"/>
+                                <img src={imageStorageUrl(slide.image_url)} alt="" className="w-full"/>
                                 <div className="absolute top-0 left-0 h-full w-full flex items-center justify-center"  data-swiper-parallax="-1000">
                                     <div className={"container mx-auto px-10"}>
                                         <div className="text-center">
