@@ -31,7 +31,7 @@ export default function Orders({orders}: { orders: OrderCollection }) {
                                 </div>
 
                                 <div className={"mt-3"}>
-                                    <Pagination data={orders}/>
+                                    <Pagination data={orders} meta={orders.meta}/>
                                 </div>
                             </div>
                         </div>

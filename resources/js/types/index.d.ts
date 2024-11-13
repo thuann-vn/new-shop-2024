@@ -147,7 +147,7 @@ export interface SliderItems{
     id: number;
     title: string;
     subtitle: string;
-    image_url: string;
+    image: string;
     link: string;
     is_image_only: boolean;
     is_alt_style: boolean;
@@ -283,7 +283,7 @@ export interface OrderItem{
 
 export interface OrderCollection{
     data: Order[];
-    links: any[]
+    meta: any;
 }
 
 export interface WishListItem{
@@ -293,7 +293,8 @@ export interface WishListItem{
 
 export interface WishList{
     data: WishListItem[];
-    links: any[]
+    links: any[];
+    meta: any;
 }
 
 export interface Media{

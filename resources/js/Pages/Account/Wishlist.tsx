@@ -55,7 +55,7 @@ export default function Dashboard({myWishList}: { myWishList: WishList }) {
                                             ))}
                                         </div>
 
-                                        <Pagination data={myWishList}/>
+                                        <Pagination data={myWishList} meta={myWishList.meta}/>
                                     </div>
                                 )
                         }

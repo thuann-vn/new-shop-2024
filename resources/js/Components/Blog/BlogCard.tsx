@@ -7,7 +7,7 @@ export default function BlogCard({post} : {post: BlogPost}) {
         <div className="overflow-hidden rounded-lg bg-white group" key={post.id}>
             <Link href={route('blog.detail', {slug: post.slug})} className={"block relative overflow-hidden w-full h-52 rounded-lg"}>
                 <img
-                    src={imageStorageUrl(post.image)}
+                    src={post.image_url}
                     className="w-full h-52 object-cover group-hover:scale-110 transition-all duration-500 ease-in-out"
                     alt={post.title}
                 />
