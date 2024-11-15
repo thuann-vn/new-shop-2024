@@ -4,11 +4,9 @@ import './i18n';
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import Layout from "@/Layouts/Layout";
 import i18n from "@/i18n";
-
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+import 'moment/dist/locale/vi';
 
 createInertiaApp({
     title: (title) => `${title}`,
@@ -23,14 +21,14 @@ createInertiaApp({
     async setup({ el, App, props }) {
         const root = createRoot(el);
         try{
-            const locale = props.initialPage.props?.locale || 'en';
+            const locale = props.initialPage.props?.locale || 'vi';
             const jsonFile = (await import(`../lang/${locale}.json`)).default;
             if (typeof locale === "string") {
                 i18n.addResourceBundle(locale, 'translation', jsonFile, true, true);
-                i18n.changeLanguage(locale)
+                await i18n.changeLanguage(locale)
             }
             // @ts-ignore
-            moment.locale(locale == 'no' ? 'nb' : locale);
+            moment.locale(locale);
         }catch (e){
             console.log(e)
         }

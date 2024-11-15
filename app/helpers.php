@@ -53,6 +53,7 @@ function getShopSettings($key = null)
 {
     if ($key) {
         $key = 'shop_' . $key;
+
         return app(ShopSettings::class)->$key;
     }
 
@@ -123,4 +124,16 @@ function getAllAdminEmails(): array
     $superAdmins = getSuperAdmins()->pluck('email')->toArray();
 
     return $superAdmins;
+}
+
+//return the first value in array that is not null
+function firstNotEmpty(...$values)
+{
+    foreach ($values as $value) {
+        if (! empty($value)) {
+            return $value;
+        }
+    }
+
+    return '';
 }

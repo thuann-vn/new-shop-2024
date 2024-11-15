@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
@@ -31,5 +32,7 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        SEOMeta::setTitleDefault(getGeneralSettings('site_name'));
     }
 }

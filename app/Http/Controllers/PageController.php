@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
 use Statikbe\FilamentFlexibleContentBlocks\ContentBlocks\AbstractContentBlock;
@@ -23,6 +25,12 @@ class PageController extends Controller
 
         $blocks = $this->createBlocks($page);
         $pageTitle = $page->title;
+
+        SEOTools::setTitle($page->getSEOTitle() ?? getGeneralSettings('site_name'));
+        SEOTools::setDescription($page->getSEODescription());
+        SEOMeta::setTitle($page->getSEOTitle() ?? getGeneralSettings('site_name'));
+        SEOMeta::setKeywords($page->seo_keywords);
+        SEOTools::addImages($page->getSEOImageUrl());
 
         return Inertia::render('Page/Show', compact('page', 'blocks', 'pageTitle'));
     }

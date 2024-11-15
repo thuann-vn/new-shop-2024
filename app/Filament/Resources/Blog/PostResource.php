@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Blog;
 
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\Blog\PostResource\Pages;
+use App\Forms\Components\SEOFields;
 use App\Models\Blog\Post;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -11,6 +13,7 @@ use Filament\Forms\Form;
 use Filament\Infolists\Components;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
@@ -60,6 +63,12 @@ class PostResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->schema([
+                        SpatieMediaLibraryFileUpload::make('media')
+                            ->image()
+                            ->collection('post-images')
+                            ->preserveFilenames()
+                            ->hiddenLabel()
+                            ->columnSpanFull(),
                         Forms\Components\TextInput::make('title')
                             ->label(__('Title'))
                             ->required()
@@ -75,7 +84,7 @@ class PostResource extends Resource
                             ->maxLength(255)
                             ->unique(Post::class, 'slug', ignoreRecord: true),
 
-                        Forms\Components\MarkdownEditor::make('content')
+                        TinyEditor::make('content')
                             ->label(__('Content'))
                             ->required()
                             ->columnSpan('full'),
@@ -101,16 +110,6 @@ class PostResource extends Resource
                         SpatieTagsInput::make('tags')->label(__('Tags')),
                     ])
                     ->columns(2),
-
-                Forms\Components\Section::make(__('Image'))
-                    ->schema([
-                        SpatieMediaLibraryFileUpload::make('media')
-                            ->image()
-                            ->collection('post-images')
-                            ->preserveFilenames()
-                            ->hiddenLabel(),
-                    ])
-                    ->collapsible(),
             ]);
     }
 
@@ -118,7 +117,8 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
+                    ->collection('post-images')
                     ->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('title')
@@ -251,6 +251,11 @@ class PostResource extends Resource
             Pages\EditPost::class,
             Pages\ManagePostComments::class,
         ]);
+    }
+
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        return SubNavigationPosition::Top;
     }
 
     public static function getRelations(): array

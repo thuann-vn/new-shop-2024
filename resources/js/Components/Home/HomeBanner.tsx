@@ -5,9 +5,11 @@ import {Autoplay, Navigation, Pagination, Parallax} from 'swiper/modules';
 import {classNames, imageStorageUrl} from "@/Utils/Helper";
 import {Link} from "@inertiajs/react";
 import {SliderItems} from "@/types";
+import {useTranslation} from "react-i18next";
 
 export default function HomeBanner({slides} : {slides: SliderItems[]}) {
     if(!slides.length) return (<></>);
+    const {t} = useTranslation();
     return (
         <section className="bg-white">
             <Swiper
@@ -42,7 +44,7 @@ export default function HomeBanner({slides} : {slides: SliderItems[]}) {
                                             <h2 className="text-6xl font-bold slide-title mb-3" dangerouslySetInnerHTML={{__html: slide.title}}></h2>
                                             <p className="text-lg mt-3  mb-3 slide-subtitle" dangerouslySetInnerHTML={{__html: slide.subtitle}}></p>
                                             <Link href={slide.link} className={"slide-button shadow rounded-full px-3 bg-white text-black py-2 inline-block"}>
-                                                Shop now
+                                                {t('Shop now')}
                                             </Link>
                                         </div>
                                     </div>
