@@ -13,7 +13,6 @@
         "althinect/filament-spatie-roles-permissions": "^2.2",
         "amidesfahani/filament-tinyeditor": "^1.1",
         "ariaieboy/filament-currency": "^1.2",
-        "artesaos/seotools": "^1.2",
         "awcodes/filament-quick-create": "^3.2",
         "awcodes/filament-tiptap-editor": "^3.4",
         "aymanalhattami/filament-page-with-sidebar": "^2.4",
@@ -46,6 +45,7 @@
         "statikbe/laravel-filament-flexible-content-blocks": "^0.2.9",
         "tapp/filament-auditing": "3.0",
         "tapp/filament-authentication-log": "3.0",
+        "thuann-vn/seotools": "dev-master",
         "thuann-vn/shoppingcart": "^1.0",
         "tightenco/ziggy": "^1.0",
         "torann/geoip": "^3.0",
@@ -78,6 +78,12 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/thuann-vn/seotools.git"
+        }
+    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

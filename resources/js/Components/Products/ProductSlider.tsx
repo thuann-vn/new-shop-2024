@@ -4,22 +4,30 @@ import {imageStorageUrl} from "@/Utils/Helper";
 import * as React from "react";
 import ProductCard from "@/Components/Products/ProductCard";
 import {Product} from "@/types";
+import {useTranslation} from "react-i18next";
 
 interface ProductSliderProps {
     products: Product[],
     title?: string,
-    className?: string
+    className?: string,
+    viewMoreUrl?: string
 }
 
-export default function ProductSlider({products, title, className = ''}: ProductSliderProps) {
+export default function ProductSlider({products, title, className = '', viewMoreUrl = ''}: ProductSliderProps) {
     const randomId = Math.floor(Math.random() * 1000);
+    const {t} = useTranslation();
     return (
         <div className={"relative product-slider " + className}>
             {
                 title ? (
                     <div className={"flex items-center justify-between mb-3"}>
                         <h2 className={"text-2xl font-bold uppercase"}>{title}</h2>
-                        <a href={"#"} className={"text-sm text-gray-500"}>See all</a>
+                        {
+                            viewMoreUrl && (
+                                <a href={viewMoreUrl} className={"text-sm text-gray-500"}>{t('See all')}</a>
+                            )
+                        }
+
                     </div>
                 ) : ''
             }

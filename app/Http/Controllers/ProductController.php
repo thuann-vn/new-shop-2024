@@ -9,7 +9,7 @@ use App\Http\Resources\CollectionResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductVariantResource;
 use App\Models\Shop\Category;
-use Artesaos\SEOTools\Facades\SEOMeta;
+use App\Models\Shop\Product;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,7 +28,6 @@ class ProductController extends Controller
         $allCategories = CategoryResource::collection($allCategories);
 
         if (! empty($category)) {
-            var_dump($category);die();
             $products = $products->whereHas('categories', function ($query) use ($category) {
                 $query->where('shop_category_id', $category->id);
             });
@@ -123,12 +122,9 @@ class ProductController extends Controller
         $links = $products->linkCollection();
         $products = ProductResource::collection($products);
 
-
         //Seo information
-        SEOMeta::setTitleDefault('');
-        SEOMeta::setTitle($seoTitle ?? getGeneralSettings('site_name'));
-        SEOMeta::setKeywords($seoDescription ?? strip_tags(getGeneralSettings('site_description')));
-        SEOMeta::setDescription($seoDescription ?? strip_tags(getGeneralSettings('site_description')));
+        SEOTools::setTitle($seoTitle ?? getGeneralSettings('site_name'));
+        SEOTools::setDescription($seoDescription ?? strip_tags(getGeneralSettings('site_description')));
         $seoImage = $productType->image ?? $brand->image ?? null;
         SEOTools::addImages($seoImage ? '/storage/' . $seoImage : getGeneralSettings('site_logo'));
 
@@ -167,6 +163,13 @@ class ProductController extends Controller
             ->where('id', '!=', $product->id)->limit(4)
             ->get();
         $relatedProducts = ProductResource::collection($relatedProducts);
+
+        //Seo information
+        SEOTools::setTitle(firstNotEmpty($product->seo_title, $product->name, getGeneralSettings('site_name')));
+        SEOTools::setDescription(firstNotEmpty($product->seo_description, $product->description, strip_tags(getGeneralSettings('site_description'))));
+        SEOTools::addImages($product->image ? $product->image : getGeneralSettings('site_logo'));
+
+        //Return resource
         $product = new ProductResource($product);
 
         return Inertia::render('Product/Detail', compact('product', 'images', 'relatedProducts', 'firstCategory', 'productAttributes', 'productVariants', 'productOptions'));
@@ -237,7 +240,7 @@ class ProductController extends Controller
     public function search()
     {
         if (request()->has('q') && ! empty(request()->get('q'))) {
-            $products = \App\Models\Shop\Product::with(['brand']);
+            $products = Product::with(['brand']);
             $products = $products
                 ->where('is_visible', true)
                 ->where('name', 'like', '%' . request()->get('q') . '%');

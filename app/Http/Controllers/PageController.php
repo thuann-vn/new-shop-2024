@@ -26,10 +26,8 @@ class PageController extends Controller
         $blocks = $this->createBlocks($page);
         $pageTitle = $page->title;
 
-        SEOTools::setTitle($page->getSEOTitle() ?? getGeneralSettings('site_name'));
+        SEOTools::setTitle(firstNotEmpty($page->title, $page->getSEOTitle(), getGeneralSettings('site_name')));
         SEOTools::setDescription($page->getSEODescription());
-        SEOMeta::setTitle($page->getSEOTitle() ?? getGeneralSettings('site_name'));
-        SEOMeta::setKeywords($page->seo_keywords);
         SEOTools::addImages($page->getSEOImageUrl());
 
         return Inertia::render('Page/Show', compact('page', 'blocks', 'pageTitle'));

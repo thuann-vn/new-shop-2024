@@ -8,9 +8,11 @@ import {Menu, Transition} from "@headlessui/react";
 import {EllipsisVerticalIcon, ClockIcon} from "@heroicons/react/24/outline";
 import {CheckCircleIcon, } from "@heroicons/react/24/solid";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
+import {useTranslation} from "react-i18next";
 
 export default function OrderItem({order, ...props}: { order:Order }) {
     const {openCart} = useContext(CartContext);
+    const {t} = useTranslation();
     const _addToCart = (event: React.MouseEvent<HTMLButtonElement>, product: Product) => {
         event.preventDefault();
         axios.post(route('cart.add-to-cart', {id: product.id, qty: 1})).then((response) => {
@@ -43,24 +45,24 @@ export default function OrderItem({order, ...props}: { order:Order }) {
         switch (order.status) {
             case 'pending':
                 return <p className="ml-2 text-sm font-medium text-gray-500">
-                    Pending
+                    {t('Pending')}
                 </p>
             case 'processing':
                 return <span className="ml-2 text-sm font-medium text-gray-500">
-                    Processing
+                     {t('Processing')}
                 </span>
             case 'completed':
                 return <p className="ml-2 text-sm font-medium text-gray-500">
-                    Delivered on <time
+                    {t('Delivered on')} <time
                     dateTime={order.created_at}>{formatDate(order.created_at)}</time>
                 </p>
             case 'cancelled':
                 return <p className="ml-2 text-sm font-medium text-red-500">
-                   Cancelled
+                    {t('Cancelled')}
                 </p>
             default:
                 return <p className="ml-2 text-sm font-medium text-gray-500">
-                    Pending
+                    {t('Pending')}
                 </p>
         }
     }
@@ -72,7 +74,7 @@ export default function OrderItem({order, ...props}: { order:Order }) {
             {...props}
         >
             <h3 className="sr-only">
-                Order placed on <time
+                {t('Order placed on')} <time
                 dateTime={order.created_at}>{order.created_at}</time>
             </h3>
 
@@ -80,18 +82,18 @@ export default function OrderItem({order, ...props}: { order:Order }) {
                 className="flex items-center p-4 border-b border-gray-200 sm:p-6 sm:grid sm:grid-cols-4 sm:gap-x-6">
                 <dl className="flex-1 grid grid-cols-2 gap-x-6 text-sm sm:col-span-3 sm:grid-cols-3 lg:col-span-2">
                     <div>
-                        <dt className="font-medium text-gray-900">Order number</dt>
+                        <dt className="font-medium text-gray-900">{t('Order number')}</dt>
                         <dd className="mt-1 text-gray-500">{order.number}</dd>
                     </div>
                     <div className="hidden sm:block">
-                        <dt className="font-medium text-gray-900">Date placed</dt>
+                        <dt className="font-medium text-gray-900">{t('Date placed')}</dt>
                         <dd className="mt-1 text-gray-500">
                             <time
                                 dateTime={order.created_at}>{formatDate(order.created_at)}</time>
                         </dd>
                     </div>
                     <div>
-                        <dt className="font-medium text-gray-900">Total amount</dt>
+                        <dt className="font-medium text-gray-900">{t('Total amount')}</dt>
                         <dd className="mt-1 font-medium text-gray-900">
                             <CustomCurrencyFormat value={order.total_price}/>
                         </dd>
@@ -103,7 +105,7 @@ export default function OrderItem({order, ...props}: { order:Order }) {
                         <Menu.Button
                             className="-m-2 p-2 flex items-center text-gray-400 hover:text-gray-500">
                             <span
-                                className="sr-only">Options for order {order.number}</span>
+                                className="sr-only">{t('Options for order')} {order.number}</span>
                             <EllipsisVerticalIcon className="w-6 h-6"
                                                   aria-hidden="true"/>
                         </Menu.Button>
@@ -130,7 +132,7 @@ export default function OrderItem({order, ...props}: { order:Order }) {
                                                 'block px-4 py-2 text-sm'
                                             )}
                                         >
-                                            View
+                                            {t('View')}
                                         </Link>
                                     )}
                                 </Menu.Item>
@@ -145,14 +147,16 @@ export default function OrderItem({order, ...props}: { order:Order }) {
                         href={route('profile.order-detail', {id: order.id})}
                         className="flex items-center justify-center bg-white py-2 px-2.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                        <span>View Order</span>
+                        <span>
+                            {t('View Order')}
+                        </span>
                         <span className="sr-only">{order.number}</span>
                     </Link>
                 </div>
             </div>
 
             {/* Products */}
-            <h4 className="sr-only">Items</h4>
+            <h4 className="sr-only">{t('Items')}</h4>
             <ul role="list" className="divide-y divide-gray-200">
                 {order.items.map((item) => (
                     <li key={item.id} className="p-4 sm:p-6">
@@ -201,14 +205,14 @@ export default function OrderItem({order, ...props}: { order:Order }) {
                                         className="text-indigo-600 whitespace-nowrap hover:text-indigo-500"
                                         target="_blank"
                                     >
-                                        View product
+                                        {t('View product')}
                                     </Link>
                                 </div>
                                 <div className="flex-1 pl-4 flex justify-center">
                                     <button type="button"
                                             onClick={(e) => _addToCart(e, item.product)}
                                             className="text-indigo-600 whitespace-nowrap hover:text-indigo-500">
-                                        Buy again
+                                        {t('Buy again')}
                                     </button>
                                 </div>
                             </div>

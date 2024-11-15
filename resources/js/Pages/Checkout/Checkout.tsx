@@ -135,13 +135,13 @@ export default function Checkout({items, subtotal, total, tax, shippingMethods, 
                         </form>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center justify-center py-[250px] min-h-full">
+                    <div className="flex flex-col items-center justify-center py-[100px] min-h-full">
                         <div
-                            className={"bg-gray-200 rounded-full w-[148px] h-[148px] inline-flex items-end overflow-hidden"}>
-                            <img src={"@images/empty-cart.svg"} alt={"Empty cart"}/>
+                            className={"bg-gray-200 rounded-full w-[148px] h-[148px] p-[20px] inline-flex items-end overflow-hidden"}>
+                            <img src={"/svg/empty-cart.svg"} alt={"Empty cart"} className={"w-full h-full"}/>
                         </div>
-                        <h1 className="font-bold text-main-600 mt-5">{t('YOUR CART IS CURRENTLY EMPTY.')}</h1>
-                        <Link href={"/"} className="mt-4 px-8 py-3 bg-main-900 text-white rounded-full">{t('Return to shop')}</Link>
+                        <h1 className="font-bold text-main-500 mt-5">{t('YOUR CART IS CURRENTLY EMPTY.')}</h1>
+                        <Link href={"/"} className="mt-4 px-8 py-3 bg-main-500 text-white rounded-full">{t('Return to shop')}</Link>
                     </div>
                 )
             }

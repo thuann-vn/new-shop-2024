@@ -6,11 +6,15 @@ import {ArrowLeftIcon,  } from "@heroicons/react/24/solid";
 import CustomCurrencyFormat from "@/Components/CurrencyFormat";
 import * as React from "react";
 import AppHead from "@/Components/Layout/AppHead";
+import {useTranslation} from "react-i18next";
 
 export default function OrderDetail({order}: {order:Order}) {
+    const {t} = useTranslation();
     return (
         <>
-            <AppHead title="Dashboard"/>
+            <AppHead title={
+                t('Order #{{order.number}', {order: order})
+            }/>
 
             <div className="py-12">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,20 +22,24 @@ export default function OrderDetail({order}: {order:Order}) {
                         <AccountNav activeTab={'orders'}/>
                         <div className="mt-6">
                             <Link href={route('profile.orders')} className="text-sm font-semibold tracking-wide text-main-600 inline-flex items-center">
-                               <ArrowLeftIcon className={"w-5 me-2"}/>  Back to list
+                               <ArrowLeftIcon className={"w-5 me-2"}/>  {t('Back to list')}
                             </Link>
-                            <p className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">Your order is placed!</p>
-                            <p className="mt-2 text-base text-gray-500">Your order #{order.number} has been placed and will be processed as soon as possible.</p>
+                            <p className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
+                                {t('Your order is placed!')}
+                            </p>
+                            <p className="mt-2 text-base text-gray-500">
+                                {t('Your order #{{order.number}} has been placed and will be processed as soon as possible.', {order})}
+                            </p>
 
                             <dl className="mt-12 text-sm font-medium">
-                                <dt className="text-gray-900">Tracking number</dt>
+                                <dt className="text-gray-900">{t('Tracking number')}</dt>
                                 <dd className="text-main-600 mt-2">{order.number}</dd>
                             </dl>
                         </div>
 
-                        <section aria-labelledby="order-heading" className="mt-10 border-t border-gray-200">
+                        <section aria-labelledby="order-heading" className="mt-10 border-t border-gray-200 px-5 py-5">
                             <h2 id="order-heading" className="sr-only">
-                                Your order
+                                {t('Your order')}
                             </h2>
 
                             <h3 className="sr-only">Items</h3>
@@ -68,12 +76,14 @@ export default function OrderDetail({order}: {order:Order}) {
                             ))}
 
                             <div className="sm:ml-40 sm:pl-6">
-                                <h3 className="sr-only">Your information</h3>
+                                <h3 className="sr-only">{t('Your information')}</h3>
 
-                                <h4 className="sr-only">Addresses</h4>
+                                <h4 className="sr-only">{t('Addresses')}</h4>
                                 <dl className="grid grid-cols-2 gap-x-6 text-sm py-10">
                                     <div>
-                                        <dt className="font-medium text-gray-900">Shipping address</dt>
+                                        <dt className="font-medium text-gray-900">
+                                            {t('Shipping address')}
+                                        </dt>
                                         <dd className="mt-2 text-gray-700">
                                             <address className="not-italic">
                                                 <span className="block">{order.address[0]?.name}</span>
@@ -84,17 +94,17 @@ export default function OrderDetail({order}: {order:Order}) {
                                     </div>
                                 </dl>
 
-                                <h4 className="sr-only">Payment</h4>
+                                <h4 className="sr-only">{t('Payment')}</h4>
                                 <dl className="grid grid-cols-2 gap-x-6 border-t border-gray-200 text-sm py-10">
                                     <div>
-                                        <dt className="font-medium text-gray-900">Payment method</dt>
+                                        <dt className="font-medium text-gray-900">{t('Payment method')}</dt>
                                         <dd className="mt-2 text-gray-700">
                                             <p>{order.payment_method_detail?.name}</p>
                                             <p>{order.payment_method_detail?.description}</p>
                                         </dd>
                                     </div>
                                     <div>
-                                        <dt className="font-medium text-gray-900">Shipping method</dt>
+                                        <dt className="font-medium text-gray-900">{t('Shipping method')}</dt>
                                         <dd className="mt-2 text-gray-700">
                                             <p>{order.shipping_method_detail?.name}</p>
                                             <p>{order.shipping_method_detail?.description}</p>
@@ -106,7 +116,7 @@ export default function OrderDetail({order}: {order:Order}) {
 
                                 <dl className="space-y-6 border-t border-gray-200 text-sm pt-10">
                                     <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Subtotal</dt>
+                                        <dt className="font-medium text-gray-900">{t('Subtotal')}</dt>
                                         <dd className="text-gray-700">
                                             <CustomCurrencyFormat value={order.total_price}/>
                                         </dd>
@@ -115,7 +125,7 @@ export default function OrderDetail({order}: {order:Order}) {
                                         order.discount > 0 && (
                                             <div className="flex justify-between">
                                                 <dt className="flex font-medium text-gray-900">
-                                                    Discount
+                                                    {t('Discount')}
                                                     <span className="rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 ml-2">STUDENT50</span>
                                                 </dt>
                                                 <dd className="text-gray-700">-$18.00 (50%)</dd>
@@ -124,20 +134,20 @@ export default function OrderDetail({order}: {order:Order}) {
                                     }
 
                                     <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Shipping</dt>
+                                        <dt className="font-medium text-gray-900">{t('Shipping')}</dt>
                                         <dd className="text-gray-700">
                                             <CustomCurrencyFormat value={order.shipping_price}/>
                                         </dd>
                                     </div>
 
                                     <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Tax</dt>
+                                        <dt className="font-medium text-gray-900">{t('Tax')}</dt>
                                         <dd className="text-gray-700">
                                             <CustomCurrencyFormat value={order.tax}/>
                                         </dd>
                                     </div>
                                     <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Total</dt>
+                                        <dt className="font-medium text-gray-900">{t('Total')}</dt>
                                         <dd className="text-gray-900">
                                             <CustomCurrencyFormat value={parseFloat(String(order.tax)) + parseFloat(String(order.shipping_price)) + parseFloat(String(order.total_price))}/>
                                         </dd>

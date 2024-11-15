@@ -6,6 +6,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderResource extends JsonResource
 {
+    public function __construct($resource)
+    {
+        self::withoutWrapping();
+        parent::__construct($resource);
+    }
     /**
      * Transform the resource into an array.
      *
@@ -27,6 +32,8 @@ class OrderResource extends JsonResource
             'shipping_method' => $this->shipping_method,
             'payment_method' => $this->payment_method,
             'payment_status' => $this->payment_status,
+            'payment_method_detail' => $this->payment_method_detail,
+            'shipping_method_detail' => $this->shipping_method_detail,
             'notes' => $this->notes,
             'address' => $this->address,
             'items' => OrderItemResource::collection($this->items),

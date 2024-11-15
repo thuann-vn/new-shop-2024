@@ -1,8 +1,10 @@
 import {formatDate, imageStorageUrl} from "@/Utils/Helper";
 import {BlogPost} from "@/types";
 import {Link} from "@inertiajs/react";
+import {useTranslation} from "react-i18next";
 
 export default function WideBlogCard({post, key} : {post: BlogPost, key: number}) {
+    const {t} = useTranslation();
     return (
     <article className="mx-auto my-6">
         <Link href={route('blog.detail', {slug: post.slug})} className="">
@@ -17,7 +19,9 @@ export default function WideBlogCard({post, key} : {post: BlogPost, key: number}
             </div>
             <Link href={route('blog.detail', {slug: post.slug})} className="mb-3 block text-2xl font-medium text-gray-700">{post.title}</Link>
             <p className="mb-6 text-gray-500 line-clamp-3">{post.content}</p>
-            <Link href={route('blog.detail', {slug: post.slug})} className="px-6 py-2 bg-main-900 text-white hover:bg-main-950 rounded-lg">Read more</Link>
+            <Link href={route('blog.detail', {slug: post.slug})} className="px-6 py-2 bg-main-900 text-white hover:bg-main-950 rounded-lg">
+                {t('Read more')}
+            </Link>
         </div>
     </article>
     )

@@ -19,11 +19,13 @@ import NavLink from "@/Components/Layout/NavLink";
 import NavDropdown from "@/Components/Layout/NavDropdown";
 import CategoryDropdown from "@/Components/Layout/CategoryDropdown";
 import SearchForm from "@/Components/Layout/SearchForm";
+import {useTranslation} from "react-i18next";
 
 export default function Header() {
     const [open, setOpen] = useState(false)
     const {general_settings, cart, navigation, auth} = usePage<PageProps>().props;
     const {openCart} = useContext(CartContext);
+    const {t} = useTranslation();
 
     const isCurrentPage = (url: string) => {
         return false;
@@ -33,10 +35,10 @@ export default function Header() {
     }
 
     const userNavigation = [
-        {name: 'Your Profile', href: route('profile.edit')},
-        {name: 'Orders', href: route('profile.orders')},
-        {name: 'Wish List', href: route('profile.wishlist')},
-        {name: 'Sign out', href: route('logout')},
+        {name: t('Your Profile'), href: route('profile.edit')},
+        {name: t('Orders'), href: route('profile.orders')},
+        {name: t('Wish List'), href: route('profile.wishlist')},
+        {name: t('Sign out'), href: route('logout')},
     ]
 
     console.log(navigation)
@@ -67,19 +69,25 @@ export default function Header() {
                         <SearchForm/>
 
                         {/*Hotline*/}
-                        <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
-                            <div className="hidden sm:block sm:ml-6">
-                                <div className="flex space-x-2">
-                                    <Link href={"tel:" + general_settings.site_phone} className="flex items-center text-sm font-medium text-white hover:text-gray-100 px-4 py-3 rounded-full">
-                                        <PhoneIcon className="h-8 w-8 me-3" aria-hidden="true"/>
-                                        <div className="leading-5">
-                                            Need help? <br/>
-                                            Call us at {general_settings.site_phone}
+                        {
+                            general_settings.site_phone && (
+                                <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
+                                    <div className="hidden sm:block sm:ml-6">
+                                        <div className="flex space-x-2">
+                                            <Link href={"tel:" + general_settings.site_phone}
+                                                  className="flex items-center text-sm font-medium text-white hover:text-gray-100 px-4 py-3 rounded-full">
+                                                <PhoneIcon className="h-8 w-8 me-3" aria-hidden="true"/>
+                                                <div className="leading-5">
+                                                    {t('Hotline')} <br/>
+                                                    {general_settings.site_phone}
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </Link>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            )
+                        }
+
 
                         {/* Right buttons */}
                         <div className="ml-auto flex items-center">
@@ -105,7 +113,7 @@ export default function Header() {
                                             leaveTo="transform opacity-0 scale-95"
                                         >
                                             <Menu.Items
-                                                className="origin-top-right absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
+                                                className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 focus:outline-none">
                                                 {userNavigation.map((item) => (
                                                     <Menu.Item key={item.name}>
                                                         {({active}) => (

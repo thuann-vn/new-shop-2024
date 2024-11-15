@@ -95,7 +95,7 @@ export default function ProductDetail({product, productVariants, productOptions,
                         <ProductTabs product={product}/>
 
                         {/* Related products */}
-                        <ProductSlider products={relatedProducts} title={"Related Products"} className={"mt-7"}/>
+                        <ProductSlider products={relatedProducts} title={t("Related Products")} className={"mt-7"}/>
                     </div>
                 </div>
             </div>

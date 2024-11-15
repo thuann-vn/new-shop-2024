@@ -6,16 +6,17 @@ import Pagination from "@/Components/Other/Pagination";
 import EmptyState from "@/Components/Other/EmptyState";
 import {HeartIcon} from "@heroicons/react/24/solid";
 import AppHead from "@/Components/Layout/AppHead";
+import {useTranslation} from "react-i18next";
 
-export default function Dashboard({myWishList}: { myWishList: WishList }) {
+export default function Dashboard({myWishList, links}: { myWishList: WishList, links:any }) {
     const [items, setItems] = useState<WishListItem[]>([])
-
+    const {t} = useTranslation();
     useEffect(() => {
         setItems(myWishList.data);
     }, []);
     return (
         <>
-            <AppHead title="Your Wishlist"/>
+            <AppHead title={t("Your Wishlist")}/>
             <div className="py-12">
                 <div className="container mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -28,8 +29,8 @@ export default function Dashboard({myWishList}: { myWishList: WishList }) {
                                 </EmptyState> :
                                 (
                                     <div className="mt-6">
-                                        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Your
-                                            Wishlist</h1>
+                                        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                                            {t('Your Wishlist')}</h1>
                                         <div className="mt-3
                                                         grid
                                                         grid-cols-1
@@ -55,7 +56,7 @@ export default function Dashboard({myWishList}: { myWishList: WishList }) {
                                             ))}
                                         </div>
 
-                                        <Pagination data={myWishList} meta={myWishList.meta}/>
+                                        <Pagination data={links} meta={myWishList.meta}/>
                                     </div>
                                 )
                         }
