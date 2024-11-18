@@ -45,6 +45,7 @@ return [
         'pagination',
         'passwords',
         'validation',
+        'filament-navigation::filament-navigation',
         'filament-translation-manager::messages',
         'filament-spatie-roles-permissions::filament-spatie',
         'filament-authentication::filament-authentication',
@@ -52,6 +53,7 @@ return [
         'filament-authentication-log::filament-authentication-log',
         'filament-shield::filament-shield',
         'filament-shield::filament-shield_pt_PT',
+        'email-templates',
     ],
 
     /*
@@ -64,7 +66,7 @@ return [
      | (visit: https://filamentphp.com/docs/3.x/panels/navigation#sorting-navigation-items)
      |
      */
-    'navigation_sort' => 6,
+    'navigation_sort' => 20,
 
     /*
      |--------------------------------------------------------------------------

@@ -41,10 +41,10 @@ class GeneralSettings extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\Tabs::make('Tabs')->tabs([
-                    Forms\Components\Tabs\Tab::make('Website Settings')
+                    Forms\Components\Tabs\Tab::make(__('Website Settings'))
                         ->schema([
                             Forms\Components\FileUpload::make('site_logo')
-                                ->label('Site logo (min height 56px)')
+                                ->label(__('Site logo (min height 56px)'))
                                 ->required()
                                 ->previewable()
                                 ->image()
@@ -52,7 +52,7 @@ class GeneralSettings extends SettingsPage
                                 ->preserveFilenames()
                                 ->required(),
                             Forms\Components\FileUpload::make('site_favicon')
-                                ->label('Site favicon (56x56)')
+                                ->label(__('Site favicon (56x56)'))
                                 ->required()
                                 ->previewable()
                                 ->imagePreviewHeight('76')
@@ -60,49 +60,49 @@ class GeneralSettings extends SettingsPage
                                 ->preserveFilenames()
                                 ->required(),
                             Forms\Components\TextInput::make('site_name')
-                                ->label('Site name')
+                                ->label(__('Site name'))
                                 ->required(),
                             Forms\Components\TextInput::make('site_description')
-                                ->label('Site description')
+                                ->label(__('Site description'))
                                 ->required(),
                             Forms\Components\TextInput::make('site_keywords')
-                                ->label('Site keywords'),
+                                ->label(__('Site keywords')),
                             Forms\Components\TextInput::make('site_phone')
-                                ->label('Site phone'),
+                                ->label(__('Site phone')),
                             Forms\Components\TextInput::make('site_email')
-                                ->label('Site email'),
+                                ->label(__('Site email')),
                             Forms\Components\TextInput::make('site_address')
-                                ->label('Site address'),
+                                ->label(__('Site address')),
                             Forms\Components\TextInput::make('site_copyright')
-                                ->label('Copyright notice'),
+                                ->label(__('Copyright notice')),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Social Media')
+                    Forms\Components\Tabs\Tab::make(__('Social Media'))
                         ->schema([
                             Forms\Components\TextInput::make('site_facebook')
-                                ->label('Site facebook')
+                                ->label(__('Site facebook'))
                                 ->prefixIcon('heroicon-o-link'),
                             Forms\Components\TextInput::make('site_twitter')
-                                ->label('Site twitter')
+                                ->label(__('Site twitter'))
                                 ->prefixIcon('heroicon-o-link'),
                             Forms\Components\TextInput::make('site_instagram')
-                                ->label('Site instagram')
+                                ->label(__('Site instagram'))
                                 ->prefixIcon('heroicon-o-link'),
                             Forms\Components\TextInput::make('site_youtube')
-                                ->label('Site youtube')
+                                ->label(__('Site youtube'))
                                 ->prefixIcon('heroicon-o-link'),
                             Forms\Components\TextInput::make('site_linkedin')
-                                ->label('Site linkedin')
+                                ->label(__('Site linkedin'))
                                 ->prefixIcon('heroicon-o-link'),
                             Forms\Components\TextInput::make('site_google')
-                                ->label('Site google')
+                                ->label(__('Site google'))
                                 ->prefixIcon('heroicon-o-link'),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Footer')
+                    Forms\Components\Tabs\Tab::make(__('Footer'))
                         ->schema([
                             Forms\Components\Repeater::make('site_footer')
                                 ->schema([
                                     Forms\Components\FileUpload::make('image')
-                                        ->label('Image')
+                                        ->label(__('Image'))
                                         ->previewable()
                                         ->avatar()
                                         ->image()
@@ -114,11 +114,11 @@ class GeneralSettings extends SettingsPage
                                         ->preserveFilenames()
                                         ->required(),
                                     Forms\Components\TextInput::make('text')
-                                        ->label('Text'),
+                                        ->label(__('Text')),
                                 ])
                                 ->grid(4),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Custom JS/CSS')
+                    Forms\Components\Tabs\Tab::make(__('Custom JS/CSS'))
                         ->schema([
                             CodeEditor::make('custom_css'),
                             CodeEditor::make('custom_js'),

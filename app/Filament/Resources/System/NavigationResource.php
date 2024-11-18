@@ -45,10 +45,12 @@ class NavigationResource extends Resource
     private static ?string $workPluralLabel = null;
 
     private static ?string $workLabel = null;
+
     public static function getNavigationGroup(): string
     {
         return trans('Settings');
     }
+
 
     public static function disableTimestamps(bool $condition = true): void
     {
@@ -122,7 +124,7 @@ class NavigationResource extends Resource
 
     public static function navigationLabel(?string $string): void
     {
-        self::$workNavigationLabel = $string;
+        self::$workNavigationLabel = __($string);
     }
 
     public static function pluralLabel(?string $string): void
@@ -137,17 +139,17 @@ class NavigationResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return self::$workNavigationLabel ?? parent::getNavigationLabel();
+        return __('Navigation');
     }
 
     public static function getModelLabel(): string
     {
-        return self::$workLabel ?? parent::getModelLabel();
+        return __('Navigation');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return self::$workPluralLabel ?? parent::getPluralModelLabel();
+        return __('Navigations');
     }
 
     public static function table(Table $table): Table
@@ -184,9 +186,9 @@ class NavigationResource extends Resource
                     }),
             ])
             ->filters([
-//                SelectFilter::make('language_id')
-//                    ->label('Language')
-//                    ->options(Language::whereIsVisible(true)->get()->pluck('name', 'id')->toArray()),
+                //                SelectFilter::make('language_id')
+                //                    ->label('Language')
+                //                    ->options(Language::whereIsVisible(true)->get()->pluck('name', 'id')->toArray()),
             ]);
     }
 

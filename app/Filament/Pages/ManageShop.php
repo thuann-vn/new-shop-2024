@@ -41,22 +41,16 @@ class ManageShop extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\Tabs::make('Tabs')->tabs([
-                    Forms\Components\Tabs\Tab::make('Shop Settings')
+                    Forms\Components\Tabs\Tab::make(__('Shop Settings'))
                         ->icon('heroicon-o-building-storefront')
                         ->schema([
-                            //Shop tax &
                             Forms\Components\TextInput::make('shop_tax')
-                                ->label('Tax rate (%)')
+                                ->label(__('Tax rate (%)'))
                                 ->required(),
-                            //Shop default shipping fee
-                            //                        Forms\Components\TextInput::make('shop_default_shipping_fee')
-                            //                            ->label('Default shipping fee')
-                            //                            ->required(),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Format')
+                    Forms\Components\Tabs\Tab::make(__('Format'))
                         ->icon('heroicon-o-currency-dollar')
                         ->schema([
-                            //Shop currency
                             Forms\Components\Select::make('shop_currency')
                                 ->options(function () {
                                     $options = [];
@@ -80,72 +74,65 @@ class ManageShop extends SettingsPage
                                 })
                                 ->searchable()
                                 ->default('USD')
-                                ->label('Currency')
+                                ->label(__('Currency'))
                                 ->required(),
-                            //Shop currency symbol
                             Forms\Components\TextInput::make('shop_currency_symbol')
-                                ->label('Currency symbol')
+                                ->label(__('Currency symbol'))
                                 ->required(),
-                            //Shop currency symbol position
                             Forms\Components\Select::make('shop_currency_symbol_position')
                                 ->options([
-                                    'left' => 'Left',
-                                    'right' => 'Right',
+                                    'left' => __('Left'),
+                                    'right' => __('Right'),
                                 ])
-                                ->label('Currency symbol position')
+                                ->label(__('Currency symbol position'))
                                 ->required(),
-                            //Shop currency thousand separator
                             Forms\Components\TextInput::make('shop_currency_thousand_separator')
-                                ->label('Currency thousand separator')
+                                ->label(__('Currency thousand separator'))
                                 ->required(),
-                            //Shop currency decimal separator
                             Forms\Components\TextInput::make('shop_currency_decimal_separator')
-                                ->label('Currency decimal separator')
+                                ->label(__('Currency decimal separator'))
                                 ->required(),
-                            //Shop currency decimal number
                             Forms\Components\TextInput::make('shop_currency_decimal_number')
-                                ->label('Currency decimal number')
+                                ->label(__('Currency decimal number'))
                                 ->required(),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Shipping Methods')
+                    Forms\Components\Tabs\Tab::make(__('Shipping Methods'))
                         ->icon('heroicon-o-truck')
                         ->schema([
-                            //Shipping method
                             Forms\Components\Repeater::make('shipping_methods')
-                                ->label('Shipping methods')
+                                ->label(__('Shipping methods'))
                                 ->hiddenLabel(true)
-                                ->addActionLabel('Add shipping method')
+                                ->addActionLabel(__('Add shipping method'))
                                 ->schema([
                                     Forms\Components\TextInput::make('code')
-                                        ->label('Code')
+                                        ->label(__('Code'))
                                         ->required(),
                                     Forms\Components\TextInput::make('name')
-                                        ->label('Name')
+                                        ->label(__('Name'))
                                         ->required(),
                                     Forms\Components\TextInput::make('price')
-                                        ->label('Price')
+                                        ->label(__('Price'))
                                         ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
                                         ->numeric()
                                         ->required(),
                                     Forms\Components\TextInput::make('description')
-                                        ->label('Description')
+                                        ->label(__('Description'))
                                         ->required(),
                                     Forms\Components\Toggle::make('enabled')
-                                        ->label('Enabled')
+                                        ->label(__('Enabled'))
                                         ->required(),
                                 ]),
                         ]),
-                    Forms\Components\Tabs\Tab::make('Payment Methods')
+                    Forms\Components\Tabs\Tab::make(__('Payment Methods'))
                         ->icon('heroicon-o-credit-card')
                         ->schema([
-                            //Payment method
                             Forms\Components\Repeater::make('payment_methods')
-                                ->label('Payment methods')
+                                ->label(__('Payment methods'))
                                 ->hiddenLabel(true)
-                                ->addActionLabel('Add payment method')
+                                ->addActionLabel(__('Add payment method'))
                                 ->schema([
                                     Forms\Components\FileUpload::make('image')
-                                        ->label('Image')
+                                        ->label(__('Image'))
                                         ->previewable()
                                         ->image()
                                         ->imageEditor()
@@ -155,16 +142,16 @@ class ManageShop extends SettingsPage
                                         ])
                                         ->preserveFilenames(),
                                     Forms\Components\TextInput::make('code')
-                                        ->label('Code')
+                                        ->label(__('Code'))
                                         ->required(),
                                     Forms\Components\TextInput::make('name')
-                                        ->label('Name')
+                                        ->label(__('Name'))
                                         ->required(),
                                     Forms\Components\TextInput::make('description')
-                                        ->label('Description')
+                                        ->label(__('Description'))
                                         ->required(),
                                     Forms\Components\Toggle::make('enabled')
-                                        ->label('Enabled')
+                                        ->label(__('Enabled'))
                                         ->required(),
                                 ]),
                         ]),

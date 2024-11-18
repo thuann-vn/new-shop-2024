@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources\System;
 
-use App\Filament\Resources\LanguageResource\Pages;
-use App\Filament\Resources\LanguageResource\RelationManagers;
 use App\Filament\Resources\System;
 use App\Models\Language;
 use Filament\Forms;
@@ -17,12 +15,32 @@ class LanguageResource extends Resource
     protected static ?string $model = Language::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-language';
+
     protected static ?int $navigationSort = 6;
+
+
+    protected static ?string $navigationLabel = 'Language';
+
+    public static function getNavigationLabel(): string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __(self::$navigationLabel);
+    }
 
     public static function getNavigationGroup(): string
     {
         return trans('Settings');
     }
+
     public static function form(Form $form): Form
     {
         return $form

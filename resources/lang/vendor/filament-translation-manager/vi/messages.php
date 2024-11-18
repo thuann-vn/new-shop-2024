@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Dịch thuật',
-    'navigation_group' => 'Hệ thống',
+    'navigation_group' => 'Cài đặt',
     'search_term_placeholder' => 'Tìm kiếm bản dịch',
     'selected_groups_placeholder' => 'Chọn nhóm',
     'selected_languages_placeholder' => 'Chọn ngôn ngữ',
